@@ -47,6 +47,11 @@ class Project
         $this->platforms = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->name . ' - ' . $this->local->__toString();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -26,6 +26,11 @@ class Politic
     #[ORM\JoinColumn(nullable: false)]
     private ?Local $local = null;
 
+    public function __toString(): string
+    {
+        return $this->title . ' - ' . $this->local->__toString();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

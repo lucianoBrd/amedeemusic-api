@@ -56,6 +56,14 @@ class Artist
     #[ORM\JoinColumn(nullable: false)]
     private ?Local $local = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    public function __toString(): string
+    {
+        return $this->name . ' - ' . $this->local->__toString();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -213,6 +221,18 @@ class Artist
     public function setLocal(?Local $local): self
     {
         $this->local = $local;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

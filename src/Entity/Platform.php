@@ -27,6 +27,11 @@ class Platform
     #[ORM\ManyToOne(inversedBy: 'platforms')]
     private ?Project $project = null;
 
+    public function __toString(): string
+    {
+        return $this->link;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -32,6 +32,11 @@ class Event
     #[ORM\JoinColumn(nullable: false)]
     private ?Local $local = null;
 
+    public function __toString(): string
+    {
+        return $this->name . ' - ' . $this->local->__toString();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
