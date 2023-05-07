@@ -26,12 +26,15 @@ class PoliticCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('title');
-        yield TextEditorField::new('document')->setTrixEditorConfig([
-            'blockAttributes' => [
-                'default' => ['tagName' => 'p'],
-            ],
-        ]);
-        yield AssociationField::new('local');
+        yield TextField::new('title')->setColumns(6);
+        yield AssociationField::new('local')->setColumns(6);
+        yield TextEditorField::new('document')
+            ->setTrixEditorConfig([
+                'blockAttributes' => [
+                    'default' => ['tagName' => 'p'],
+                ],
+            ])
+            ->setColumns(12)
+        ;
     }
 }

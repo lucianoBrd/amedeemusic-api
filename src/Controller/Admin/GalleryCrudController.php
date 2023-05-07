@@ -26,6 +26,8 @@ class GalleryCrudController extends AbstractCrudController
             ->setBasePath($this->params->get('images_base_directory') . 'gallery/')
             ->setUploadDir($this->params->get('images_directory') . 'gallery/')
             ->setUploadedFileNamePattern('[year]-[month]-[day]-[slug]-[randomhash].[extension]')
+            ->setColumns(12)
+            ->setHelp('Recommended 384x309')
         ;
 
     }
