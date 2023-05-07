@@ -3,23 +3,31 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Gallery;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class GalleryCrudController extends AbstractCrudController
 {
+    public function __construct(
+        private ContainerBagInterface $params,
+    ) {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Gallery::class;
     }
 
-    /*
+    
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        yield ImageField::new('image')
+            ->setBasePath($this->params->get('images_base_directory') . 'gallery/')
+            ->setUploadDir($this->params->get('images_directory') . 'gallery/')
+            ->setUploadedFileNamePattern('[year]-[month]-[day]-[slug]-[randomhash].[extension]')
+        ;
+
     }
-    */
+    
 }
