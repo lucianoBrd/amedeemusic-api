@@ -59,19 +59,26 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linktoRoute('Back to the website', 'fas fa-window-maximize', 'homepage');
+        yield MenuItem::linkToUrl('Back to the website', 'fas fa-window-maximize', 'https://amedeemusic.fr');
+        //yield MenuItem::linkToLogout('Logout', 'fa fa-exit');
+
+        yield MenuItem::section('Project');
+        yield MenuItem::linkToCrud('Project', 'fas fa-headphones', Project::class);
+        yield MenuItem::linkToCrud('Title', 'fas fa-music', Title::class);
+        yield MenuItem::linkToCrud('Platform', 'fa fa-play-circle-o', Platform::class);
+        yield MenuItem::linkToCrud('Type', 'fa fa-file-o', Type::class);
+
+        yield MenuItem::section('Site');
         yield MenuItem::linkToCrud('Artist', 'fa fa-user-circle-o', Artist::class);
         yield MenuItem::linkToCrud('Event', 'fas fa-calendar', Event::class);
         yield MenuItem::linkToCrud('Gallery', 'fa fa-picture-o', Gallery::class);
-        yield MenuItem::linkToCrud('Local', 'fas fa-language', Local::class);
-        yield MenuItem::linkToCrud('Platform', 'fa fa-play-circle-o', Platform::class);
-        yield MenuItem::linkToCrud('Politic', 'fas fa-laptop', Politic::class);
-        yield MenuItem::linkToCrud('Project', 'fas fa-headphones', Project::class);
         yield MenuItem::linkToCrud('Social', 'fas fa-link', Social::class);
         yield MenuItem::linkToCrud('Testimonial', 'fa fa-comments-o', Testimonial::class);
-        yield MenuItem::linkToCrud('Title', 'fas fa-music', Title::class);
-        yield MenuItem::linkToCrud('Type', 'fa fa-file-o', Type::class);
-        yield MenuItem::linkToCrud('User', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Video', 'fas fa-film', Video::class);
+
+        yield MenuItem::section('General');
+        yield MenuItem::linkToCrud('Local', 'fas fa-language', Local::class);
+        yield MenuItem::linkToCrud('Politic', 'fas fa-laptop', Politic::class);
+        yield MenuItem::linkToCrud('User', 'fas fa-users', User::class);
     }
 }
