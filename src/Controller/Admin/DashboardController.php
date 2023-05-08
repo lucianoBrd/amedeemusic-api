@@ -48,33 +48,33 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToUrl('Back to the website', 'fas fa-window-maximize', 'https://amedeemusic.fr');
 
         yield MenuItem::section('Project');
-        yield MenuItem::subMenu('Project', 'fas fa-headphones')->setSubItems([
-            MenuItem::linkToCrud('Project', 'fas fa-headphones', Project::class),
-            MenuItem::linkToCrud('ProjectPlatform', 'fa fa-play-circle-o', ProjectPlatform::class),
+        yield MenuItem::subMenu('Project', 'fa-solid fa-radio')->setSubItems([
+            MenuItem::linkToCrud('Project', 'fas fa-record-vinyl', Project::class),
+            MenuItem::linkToCrud('ProjectPlatform', 'fa-solid fa-icons', ProjectPlatform::class),
         ]);
-        yield MenuItem::subMenu('Title', 'fas fa-music')->setSubItems([
-            MenuItem::linkToCrud('Title', 'fas fa-music', Title::class),
-            MenuItem::linkToCrud('TitlePlatform', 'fa fa-play-circle-o', TitlePlatform::class),
+        yield MenuItem::subMenu('Title', 'fa-solid fa-radio')->setSubItems([
+            MenuItem::linkToCrud('Title', 'fa-solid fa-music', Title::class),
+            MenuItem::linkToCrud('TitlePlatform', 'fa-solid fa-icons', TitlePlatform::class),
         ]);
-        yield MenuItem::linkToCrud('Type', 'fa fa-file-o', Type::class);
+        yield MenuItem::linkToCrud('Type', 'fa-solid fa-compact-disc', Type::class);
 
         yield MenuItem::section('Site');
-        yield MenuItem::subMenu('Artist', 'fa fa-user-circle-o')->setSubItems([
-            MenuItem::linkToCrud('Artist', 'fa fa-user-circle-o', Artist::class),
-            MenuItem::linkToCrud('About', 'fa fa-keyboard', ArtistAbout::class),
+        yield MenuItem::subMenu('Artist', 'fa-solid fa-microphone-lines')->setSubItems([
+            MenuItem::linkToCrud('Artist', 'fa-solid fa-file-audio', Artist::class),
+            MenuItem::linkToCrud('About', 'fa-solid fa-file-signature', ArtistAbout::class),
         ]);
-        yield MenuItem::linkToCrud('Event', 'fas fa-calendar', Event::class);
-        yield MenuItem::linkToCrud('Gallery', 'fa fa-picture-o', Gallery::class);
-        yield MenuItem::linkToCrud('Social', 'fas fa-link', Social::class);
-        yield MenuItem::linkToCrud('Testimonial', 'fa fa-comments-o', Testimonial::class);
-        yield MenuItem::subMenu('Video', 'fas fa-film')->setSubItems([
-            MenuItem::linkToCrud('Video', 'fas fa-film', Video::class),
-            MenuItem::linkToCrud('Description', 'fa fa-keyboard', VideoDescription::class),
+        yield MenuItem::linkToCrud('Event', 'fa-regular fa-calendar-days', Event::class);
+        yield MenuItem::linkToCrud('Gallery', 'fa-solid fa-images', Gallery::class);
+        yield MenuItem::linkToCrud('Social', 'fa-solid fa-icons', Social::class);
+        yield MenuItem::linkToCrud('Testimonial', 'fa-solid fa-comments', Testimonial::class);
+        yield MenuItem::subMenu('Video', 'fa-solid fa-camera-retro')->setSubItems([
+            MenuItem::linkToCrud('Video', 'fa-solid fa-clapperboard', Video::class),
+            MenuItem::linkToCrud('Description', 'fa-solid fa-file-signature', VideoDescription::class),
         ]);
 
         yield MenuItem::section('General');
-        yield MenuItem::linkToCrud('Local', 'fas fa-language', Local::class);
-        yield MenuItem::linkToCrud('Politic', 'fas fa-laptop', Politic::class);
-        yield MenuItem::linkToCrud('User', 'fas fa-users', User::class);
+        yield MenuItem::linkToCrud('Local', 'fa-solid fa-language', Local::class);
+        yield MenuItem::linkToCrud('Politic', 'fa-solid fa-cookie-bite', Politic::class);
+        yield MenuItem::linkToCrud('User', 'fa-solid fa-users', User::class);
     }
 }
