@@ -6,6 +6,7 @@ use App\Entity\Local;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\LocaleField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class LocalCrudController extends AbstractCrudController
@@ -25,6 +26,6 @@ class LocalCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('name')->setColumns(6);
-        yield TextField::new('local')->setColumns(6);
+        yield LocaleField::new('local')->setColumns(6);
     }
 }
