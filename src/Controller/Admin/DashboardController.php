@@ -13,9 +13,10 @@ use App\Entity\Social;
 use App\Entity\Gallery;
 use App\Entity\Politic;
 use App\Entity\Project;
-use App\Entity\Platform;
 use App\Entity\ArtistAbout;
 use App\Entity\Testimonial;
+use App\Entity\TitlePlatform;
+use App\Entity\ProjectPlatform;
 use App\Entity\VideoDescription;
 use App\Controller\Admin\SocialCrudController;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,9 +65,14 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToUrl('Back to the website', 'fas fa-window-maximize', 'https://amedeemusic.fr');
 
         yield MenuItem::section('Project');
-        yield MenuItem::linkToCrud('Project', 'fas fa-headphones', Project::class);
-        yield MenuItem::linkToCrud('Title', 'fas fa-music', Title::class);
-        yield MenuItem::linkToCrud('Platform', 'fa fa-play-circle-o', Platform::class);
+        yield MenuItem::subMenu('Project', 'fas fa-headphones')->setSubItems([
+            MenuItem::linkToCrud('Project', 'fas fa-headphones', Project::class),
+            MenuItem::linkToCrud('ProjectPlatform', 'fa fa-play-circle-o', ProjectPlatform::class),
+        ]);
+        yield MenuItem::subMenu('Title', 'fas fa-music')->setSubItems([
+            MenuItem::linkToCrud('Title', 'fas fa-music', Title::class),
+            MenuItem::linkToCrud('TitlePlatform', 'fa fa-play-circle-o', TitlePlatform::class),
+        ]);
         yield MenuItem::linkToCrud('Type', 'fa fa-file-o', Type::class);
 
         yield MenuItem::section('Site');

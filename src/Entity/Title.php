@@ -28,12 +28,12 @@ class Title
     #[ORM\JoinColumn(nullable: false)]
     private ?Project $project = null;
 
-    #[ORM\OneToMany(mappedBy: 'title', targetEntity: Platform::class)]
-    private Collection $platforms;
+    #[ORM\OneToMany(mappedBy: 'title', targetEntity: TitlePlatform::class, cascade: ['persist', 'remove'])]
+    private Collection $titlePlatforms;
 
     public function __construct()
     {
-        $this->platforms = new ArrayCollection();
+        $this->titlePlatforms = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -83,29 +83,29 @@ class Title
     }
 
     /**
-     * @return Collection<int, Platform>
+     * @return Collection<int, TitlePlatform>
      */
-    public function getPlatforms(): Collection
+    public function getTitlePlatforms(): Collection
     {
-        return $this->platforms;
+        return $this->titlePlatforms;
     }
 
-    public function addPlatform(Platform $platform): self
+    public function addTitlePlatform(TitlePlatform $titlePlatform): self
     {
-        if (!$this->platforms->contains($platform)) {
-            $this->platforms->add($platform);
-            $platform->setTitle($this);
+        if (!$this->titlePlatforms->contains($titlePlatform)) {
+            $this->titlePlatforms->add($titlePlatform);
+            $titlePlatform->setTitle($this);
         }
 
         return $this;
     }
 
-    public function removePlatform(Platform $platform): self
+    public function removeTitlePlatform(TitlePlatform $titlePlatform): self
     {
-        if ($this->platforms->removeElement($platform)) {
+        if ($this->titlePlatforms->removeElement($titlePlatform)) {
             // set the owning side to null (unless already changed)
-            if ($platform->getTitle() === $this) {
-                $platform->setTitle(null);
+            if ($titlePlatform->getTitle() === $this) {
+                $titlePlatform->setTitle(null);
             }
         }
 

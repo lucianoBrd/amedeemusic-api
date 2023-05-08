@@ -54,7 +54,7 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: ArtistAbout::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: ArtistAbout::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $artistAbouts;
 
     public function __construct()

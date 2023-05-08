@@ -20,7 +20,7 @@ class Type
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Project::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Project::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $projects;
 
     public function __construct()

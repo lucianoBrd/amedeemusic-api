@@ -27,6 +27,6 @@ class TitleCrudController extends AbstractCrudController
             ])
             ->setColumns(12)
         ;
-        yield AssociationField::new('platforms')->hideOnForm();
+        yield AssociationField::new('titlePlatforms')->hideOnForm();
     }
 }

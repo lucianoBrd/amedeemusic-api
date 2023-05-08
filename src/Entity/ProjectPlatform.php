@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\PlatformRepository;
+use App\Repository\ProjectPlatformRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PlatformRepository::class)]
+#[ORM\Entity(repositoryClass: ProjectPlatformRepository::class)]
 #[ApiResource]
-class Platform
+class ProjectPlatform
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,10 +21,7 @@ class Platform
     #[ORM\Column(length: 255)]
     private ?string $fa = null;
 
-    #[ORM\ManyToOne(inversedBy: 'platforms')]
-    private ?Title $title = null;
-
-    #[ORM\ManyToOne(inversedBy: 'platforms')]
+    #[ORM\ManyToOne(inversedBy: 'projectPlatforms')]
     private ?Project $project = null;
 
     public function __toString(): string
@@ -57,18 +54,6 @@ class Platform
     public function setFa(string $fa): self
     {
         $this->fa = $fa;
-
-        return $this;
-    }
-
-    public function getTitle(): ?Title
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?Title $title): self
-    {
-        $this->title = $title;
 
         return $this;
     }

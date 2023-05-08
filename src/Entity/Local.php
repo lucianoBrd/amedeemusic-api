@@ -23,28 +23,19 @@ class Local
     #[ORM\Column(length: 255)]
     private ?string $local = null;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Testimonial::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Testimonial::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $testimonials;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Politic::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Politic::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $politics;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Event::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Event::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $events;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Project::class, orphanRemoval: true)]
-    private Collection $projects;
-
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Type::class, orphanRemoval: true)]
-    private Collection $types;
-
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Title::class, orphanRemoval: true)]
-    private Collection $titles;
-
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: ArtistAbout::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: ArtistAbout::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $artistAbouts;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: VideoDescription::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: VideoDescription::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $videoDescriptions;
 
     public function __construct()
@@ -52,9 +43,6 @@ class Local
         $this->testimonials = new ArrayCollection();
         $this->politics = new ArrayCollection();
         $this->events = new ArrayCollection();
-        $this->projects = new ArrayCollection();
-        $this->types = new ArrayCollection();
-        $this->titles = new ArrayCollection();
         $this->artistAbouts = new ArrayCollection();
         $this->videoDescriptions = new ArrayCollection();
     }
@@ -177,96 +165,6 @@ class Local
             // set the owning side to null (unless already changed)
             if ($event->getLocal() === $this) {
                 $event->setLocal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Project>
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): self
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects->add($project);
-            $project->setLocal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): self
-    {
-        if ($this->projects->removeElement($project)) {
-            // set the owning side to null (unless already changed)
-            if ($project->getLocal() === $this) {
-                $project->setLocal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Type>
-     */
-    public function getTypes(): Collection
-    {
-        return $this->types;
-    }
-
-    public function addType(Type $type): self
-    {
-        if (!$this->types->contains($type)) {
-            $this->types->add($type);
-            $type->setLocal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeType(Type $type): self
-    {
-        if ($this->types->removeElement($type)) {
-            // set the owning side to null (unless already changed)
-            if ($type->getLocal() === $this) {
-                $type->setLocal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Title>
-     */
-    public function getTitles(): Collection
-    {
-        return $this->titles;
-    }
-
-    public function addTitle(Title $title): self
-    {
-        if (!$this->titles->contains($title)) {
-            $this->titles->add($title);
-            $title->setLocal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTitle(Title $title): self
-    {
-        if ($this->titles->removeElement($title)) {
-            // set the owning side to null (unless already changed)
-            if ($title->getLocal() === $this) {
-                $title->setLocal(null);
             }
         }
 

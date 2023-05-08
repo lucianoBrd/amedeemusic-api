@@ -38,5 +38,6 @@ class ProjectCrudController extends AbstractCrudController
             ->setFormTypeOptions($pageName == Crud::PAGE_EDIT ? ['allow_delete' => false] : [])
         ;
         yield AssociationField::new('titles')->hideOnForm();
+        yield AssociationField::new('projectPlatforms')->hideOnForm();
     }
 }

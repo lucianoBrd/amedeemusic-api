@@ -30,7 +30,7 @@ class Video
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\OneToMany(mappedBy: 'video', targetEntity: VideoDescription::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'video', targetEntity: VideoDescription::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $videoDescriptions;
 
     public function __construct()

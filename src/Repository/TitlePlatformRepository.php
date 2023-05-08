@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Platform;
+use App\Entity\TitlePlatform;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Platform>
+ * @extends ServiceEntityRepository<TitlePlatform>
  *
- * @method Platform|null find($id, $lockMode = null, $lockVersion = null)
- * @method Platform|null findOneBy(array $criteria, array $orderBy = null)
- * @method Platform[]    findAll()
- * @method Platform[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TitlePlatform|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TitlePlatform|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TitlePlatform[]    findAll()
+ * @method TitlePlatform[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PlatformRepository extends ServiceEntityRepository
+class TitlePlatformRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Platform::class);
+        parent::__construct($registry, TitlePlatform::class);
     }
 
-    public function save(Platform $entity, bool $flush = false): void
+    public function save(TitlePlatform $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class PlatformRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Platform $entity, bool $flush = false): void
+    public function remove(TitlePlatform $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class PlatformRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Platform[] Returns an array of Platform objects
+//     * @return TitlePlatform[] Returns an array of TitlePlatform objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class PlatformRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Platform
+//    public function findOneBySomeField($value): ?TitlePlatform
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

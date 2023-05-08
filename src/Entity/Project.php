@@ -27,11 +27,11 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Title::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Title::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $titles;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Platform::class)]
-    private Collection $platforms;
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: ProjectPlatform::class, cascade: ['persist', 'remove'])]
+    private Collection $projectPlatforms;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
@@ -40,7 +40,7 @@ class Project
     public function __construct()
     {
         $this->titles = new ArrayCollection();
-        $this->platforms = new ArrayCollection();
+        $this->projectPlatforms = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -120,29 +120,29 @@ class Project
     }
 
     /**
-     * @return Collection<int, Platform>
+     * @return Collection<int, ProjectPlatform>
      */
-    public function getPlatforms(): Collection
+    public function getProjectPlatforms(): Collection
     {
-        return $this->platforms;
+        return $this->projectPlatforms;
     }
 
-    public function addPlatform(Platform $platform): self
+    public function addProjectPlatform(ProjectPlatform $projectPlatform): self
     {
-        if (!$this->platforms->contains($platform)) {
-            $this->platforms->add($platform);
-            $platform->setProject($this);
+        if (!$this->projectPlatforms->contains($projectPlatform)) {
+            $this->projectPlatforms->add($projectPlatform);
+            $projectPlatform->setProject($this);
         }
 
         return $this;
     }
 
-    public function removePlatform(Platform $platform): self
+    public function removeProjectPlatform(ProjectPlatform $projectPlatform): self
     {
-        if ($this->platforms->removeElement($platform)) {
+        if ($this->projectPlatforms->removeElement($projectPlatform)) {
             // set the owning side to null (unless already changed)
-            if ($platform->getProject() === $this) {
-                $platform->setProject(null);
+            if ($projectPlatform->getProject() === $this) {
+                $projectPlatform->setProject(null);
             }
         }
 
