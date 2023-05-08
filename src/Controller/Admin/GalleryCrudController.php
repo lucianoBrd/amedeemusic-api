@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Gallery;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -28,6 +29,8 @@ class GalleryCrudController extends AbstractCrudController
             ->setUploadedFileNamePattern('[year]-[month]-[day]-[slug]-[randomhash].[extension]')
             ->setColumns(12)
             ->setHelp('Recommended 384x309')
+            ->setRequired($pageName !== Crud::PAGE_EDIT)
+            ->setFormTypeOptions($pageName == Crud::PAGE_EDIT ? ['allow_delete' => false] : [])
         ;
 
     }

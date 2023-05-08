@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\VideoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,19 +27,20 @@ class Video
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'videos')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Local $local = null;
+    #[ORM\OneToMany(mappedBy: 'video', targetEntity: VideoDescription::class, orphanRemoval: true)]
+    private Collection $videoDescriptions;
+
+    public function __construct()
+    {
+        $this->videoDescriptions = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
-        return $this->name . ' - ' . $this->local->__toString();
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -81,18 +84,6 @@ class Video
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
@@ -105,14 +96,32 @@ class Video
         return $this;
     }
 
-    public function getLocal(): ?Local
+    /**
+     * @return Collection<int, VideoDescription>
+     */
+    public function getVideoDescriptions(): Collection
     {
-        return $this->local;
+        return $this->videoDescriptions;
     }
 
-    public function setLocal(?Local $local): self
+    public function addVideoDescription(VideoDescription $videoDescription): self
     {
-        $this->local = $local;
+        if (!$this->videoDescriptions->contains($videoDescription)) {
+            $this->videoDescriptions->add($videoDescription);
+            $videoDescription->setVideo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideoDescription(VideoDescription $videoDescription): self
+    {
+        if ($this->videoDescriptions->removeElement($videoDescription)) {
+            // set the owning side to null (unless already changed)
+            if ($videoDescription->getVideo() === $this) {
+                $videoDescription->setVideo(null);
+            }
+        }
 
         return $this;
     }

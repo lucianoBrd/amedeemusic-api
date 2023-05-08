@@ -23,9 +23,6 @@ class Local
     #[ORM\Column(length: 255)]
     private ?string $local = null;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Video::class, orphanRemoval: true)]
-    private Collection $videos;
-
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: Testimonial::class, orphanRemoval: true)]
     private Collection $testimonials;
 
@@ -34,9 +31,6 @@ class Local
 
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: Event::class, orphanRemoval: true)]
     private Collection $events;
-
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Artist::class, orphanRemoval: true)]
-    private Collection $artists;
 
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: Project::class, orphanRemoval: true)]
     private Collection $projects;
@@ -47,16 +41,22 @@ class Local
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: Title::class, orphanRemoval: true)]
     private Collection $titles;
 
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: ArtistAbout::class, orphanRemoval: true)]
+    private Collection $artistAbouts;
+
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: VideoDescription::class, orphanRemoval: true)]
+    private Collection $videoDescriptions;
+
     public function __construct()
     {
-        $this->videos = new ArrayCollection();
         $this->testimonials = new ArrayCollection();
         $this->politics = new ArrayCollection();
         $this->events = new ArrayCollection();
-        $this->artists = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->types = new ArrayCollection();
         $this->titles = new ArrayCollection();
+        $this->artistAbouts = new ArrayCollection();
+        $this->videoDescriptions = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -89,36 +89,6 @@ class Local
     public function setLocal(string $local): self
     {
         $this->local = $local;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Video>
-     */
-    public function getVideos(): Collection
-    {
-        return $this->videos;
-    }
-
-    public function addVideo(Video $video): self
-    {
-        if (!$this->videos->contains($video)) {
-            $this->videos->add($video);
-            $video->setLocal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVideo(Video $video): self
-    {
-        if ($this->videos->removeElement($video)) {
-            // set the owning side to null (unless already changed)
-            if ($video->getLocal() === $this) {
-                $video->setLocal(null);
-            }
-        }
 
         return $this;
     }
@@ -214,36 +184,6 @@ class Local
     }
 
     /**
-     * @return Collection<int, Artist>
-     */
-    public function getArtists(): Collection
-    {
-        return $this->artists;
-    }
-
-    public function addArtist(Artist $artist): self
-    {
-        if (!$this->artists->contains($artist)) {
-            $this->artists->add($artist);
-            $artist->setLocal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArtist(Artist $artist): self
-    {
-        if ($this->artists->removeElement($artist)) {
-            // set the owning side to null (unless already changed)
-            if ($artist->getLocal() === $this) {
-                $artist->setLocal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Project>
      */
     public function getProjects(): Collection
@@ -327,6 +267,66 @@ class Local
             // set the owning side to null (unless already changed)
             if ($title->getLocal() === $this) {
                 $title->setLocal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArtistAbout>
+     */
+    public function getArtistAbouts(): Collection
+    {
+        return $this->artistAbouts;
+    }
+
+    public function addArtistAbout(ArtistAbout $artistAbout): self
+    {
+        if (!$this->artistAbouts->contains($artistAbout)) {
+            $this->artistAbouts->add($artistAbout);
+            $artistAbout->setLocal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtistAbout(ArtistAbout $artistAbout): self
+    {
+        if ($this->artistAbouts->removeElement($artistAbout)) {
+            // set the owning side to null (unless already changed)
+            if ($artistAbout->getLocal() === $this) {
+                $artistAbout->setLocal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VideoDescription>
+     */
+    public function getVideoDescriptions(): Collection
+    {
+        return $this->videoDescriptions;
+    }
+
+    public function addVideoDescription(VideoDescription $videoDescription): self
+    {
+        if (!$this->videoDescriptions->contains($videoDescription)) {
+            $this->videoDescriptions->add($videoDescription);
+            $videoDescription->setLocal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideoDescription(VideoDescription $videoDescription): self
+    {
+        if ($this->videoDescriptions->removeElement($videoDescription)) {
+            // set the owning side to null (unless already changed)
+            if ($videoDescription->getLocal() === $this) {
+                $videoDescription->setLocal(null);
             }
         }
 

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ArtistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,9 +17,6 @@ class Artist
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $about = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
@@ -52,33 +51,25 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $contact = null;
 
-    #[ORM\ManyToOne(inversedBy: 'artists')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Local $local = null;
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: ArtistAbout::class, orphanRemoval: true)]
+    private Collection $artistAbouts;
+
+    public function __construct()
+    {
+        $this->artistAbouts = new ArrayCollection();
+    }
+
     public function __toString(): string
     {
-        return $this->name . ' - ' . $this->local->__toString();
+        return $this->name;
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAbout(): ?string
-    {
-        return $this->about;
-    }
-
-    public function setAbout(?string $about): self
-    {
-        $this->about = $about;
-
-        return $this;
     }
 
     public function getDate(): ?\DateTimeInterface
@@ -213,18 +204,6 @@ class Artist
         return $this;
     }
 
-    public function getLocal(): ?Local
-    {
-        return $this->local;
-    }
-
-    public function setLocal(?Local $local): self
-    {
-        $this->local = $local;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -233,6 +212,36 @@ class Artist
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArtistAbout>
+     */
+    public function getArtistAbouts(): Collection
+    {
+        return $this->artistAbouts;
+    }
+
+    public function addArtistAbout(ArtistAbout $artistAbout): self
+    {
+        if (!$this->artistAbouts->contains($artistAbout)) {
+            $this->artistAbouts->add($artistAbout);
+            $artistAbout->setArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtistAbout(ArtistAbout $artistAbout): self
+    {
+        if ($this->artistAbouts->removeElement($artistAbout)) {
+            // set the owning side to null (unless already changed)
+            if ($artistAbout->getArtist() === $this) {
+                $artistAbout->setArtist(null);
+            }
+        }
 
         return $this;
     }

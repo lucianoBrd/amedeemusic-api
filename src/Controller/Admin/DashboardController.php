@@ -14,7 +14,9 @@ use App\Entity\Gallery;
 use App\Entity\Politic;
 use App\Entity\Project;
 use App\Entity\Platform;
+use App\Entity\ArtistAbout;
 use App\Entity\Testimonial;
+use App\Entity\VideoDescription;
 use App\Controller\Admin\SocialCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,7 +62,6 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToUrl('Back to the website', 'fas fa-window-maximize', 'https://amedeemusic.fr');
-        //yield MenuItem::linkToLogout('Logout', 'fa fa-exit');
 
         yield MenuItem::section('Project');
         yield MenuItem::linkToCrud('Project', 'fas fa-headphones', Project::class);
@@ -69,12 +70,18 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Type', 'fa fa-file-o', Type::class);
 
         yield MenuItem::section('Site');
-        yield MenuItem::linkToCrud('Artist', 'fa fa-user-circle-o', Artist::class);
+        yield MenuItem::subMenu('Artist', 'fa fa-user-circle-o')->setSubItems([
+            MenuItem::linkToCrud('Artist', 'fa fa-user-circle-o', Artist::class),
+            MenuItem::linkToCrud('About', 'fa fa-keyboard', ArtistAbout::class),
+        ]);
         yield MenuItem::linkToCrud('Event', 'fas fa-calendar', Event::class);
         yield MenuItem::linkToCrud('Gallery', 'fa fa-picture-o', Gallery::class);
         yield MenuItem::linkToCrud('Social', 'fas fa-link', Social::class);
         yield MenuItem::linkToCrud('Testimonial', 'fa fa-comments-o', Testimonial::class);
-        yield MenuItem::linkToCrud('Video', 'fas fa-film', Video::class);
+        yield MenuItem::subMenu('Video', 'fas fa-film')->setSubItems([
+            MenuItem::linkToCrud('Video', 'fas fa-film', Video::class),
+            MenuItem::linkToCrud('Description', 'fa fa-keyboard', VideoDescription::class),
+        ]);
 
         yield MenuItem::section('General');
         yield MenuItem::linkToCrud('Local', 'fas fa-language', Local::class);

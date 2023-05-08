@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Video;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -32,11 +33,12 @@ class VideoCrudController extends AbstractCrudController
             ->setUploadedFileNamePattern('[year]-[month]-[day]-[slug]-[randomhash].[extension]')
             ->setColumns(12)
             ->setHelp('Recommended 648x541')
+            ->setRequired($pageName !== Crud::PAGE_EDIT)
+            ->setFormTypeOptions($pageName == Crud::PAGE_EDIT ? ['allow_delete' => false] : [])
         ;
+        yield TextField::new('name')->setColumns(12);
         yield UrlField::new('link')->setColumns(6);
-        yield TextField::new('name')->setColumns(6);
-        yield AssociationField::new('local')->setColumns(6);
         yield DateField::new('date')->setColumns(6);
-        yield TextareaField::new('description')->setColumns(12);
+        yield AssociationField::new('videoDescriptions')->hideOnForm();
     }
 }
