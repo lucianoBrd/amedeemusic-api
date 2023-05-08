@@ -31,10 +31,6 @@ class Title
     #[ORM\OneToMany(mappedBy: 'title', targetEntity: Platform::class)]
     private Collection $platforms;
 
-    #[ORM\ManyToOne(inversedBy: 'titles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Local $local = null;
-
     public function __construct()
     {
         $this->platforms = new ArrayCollection();
@@ -42,7 +38,7 @@ class Title
 
     public function __toString(): string
     {
-        return $this->name . ' - ' . $this->local->__toString();
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -112,18 +108,6 @@ class Title
                 $platform->setTitle(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getLocal(): ?Local
-    {
-        return $this->local;
-    }
-
-    public function setLocal(?Local $local): self
-    {
-        $this->local = $local;
 
         return $this;
     }

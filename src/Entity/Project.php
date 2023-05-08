@@ -37,10 +37,6 @@ class Project
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
 
-    #[ORM\ManyToOne(inversedBy: 'projects')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Local $local = null;
-
     public function __construct()
     {
         $this->titles = new ArrayCollection();
@@ -49,7 +45,7 @@ class Project
 
     public function __toString(): string
     {
-        return $this->name . ' - ' . $this->local->__toString();
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -161,18 +157,6 @@ class Project
     public function setType(?Type $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    public function getLocal(): ?Local
-    {
-        return $this->local;
-    }
-
-    public function setLocal(?Local $local): self
-    {
-        $this->local = $local;
 
         return $this;
     }

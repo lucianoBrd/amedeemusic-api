@@ -23,10 +23,6 @@ class Type
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Project::class, orphanRemoval: true)]
     private Collection $projects;
 
-    #[ORM\ManyToOne(inversedBy: 'types')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Local $local = null;
-
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -34,7 +30,7 @@ class Type
 
     public function __toString(): string
     {
-        return $this->name . ' - ' . $this->local->__toString();
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -80,18 +76,6 @@ class Type
                 $project->setType(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getLocal(): ?Local
-    {
-        return $this->local;
-    }
-
-    public function setLocal(?Local $local): self
-    {
-        $this->local = $local;
 
         return $this;
     }
