@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Testimonial;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -15,6 +16,16 @@ class TestimonialCrudController extends AbstractCrudController
         return Testimonial::class;
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ->add('designation')
+            ->add('local')
+            ->add('citation')
+        ;
+    }
+    
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('name')->setColumns(6);

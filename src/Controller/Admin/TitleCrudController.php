@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Title;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -15,6 +16,16 @@ class TitleCrudController extends AbstractCrudController
         return Title::class;
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ->add('project')
+            ->add('lyrics')
+            ->add('titlePlatforms')
+        ;
+    }
+    
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('name')->setColumns(6);

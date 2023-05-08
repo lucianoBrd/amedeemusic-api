@@ -6,6 +6,7 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -21,6 +22,14 @@ class UserCrudController extends AbstractCrudController
     {
         return $actions
             ->disable(Action::NEW, Action::EDIT)
+        ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('mail')
+            ->add('subscribe')
         ;
     }
 

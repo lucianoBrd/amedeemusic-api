@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Social;
 use App\Admin\Field\FaField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -12,6 +13,14 @@ class SocialCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Social::class;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('link')
+            ->add('fa')
+        ;
     }
 
     public function configureFields(string $pageName): iterable

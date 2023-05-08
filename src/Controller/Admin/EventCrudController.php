@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -14,6 +15,17 @@ class EventCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Event::class;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ->add('place')
+            ->add('local')
+            ->add('date')
+            ->add('link')
+        ;
     }
 
     public function configureFields(string $pageName): iterable

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Local;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\LocaleField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -20,6 +21,14 @@ class LocalCrudController extends AbstractCrudController
     {
         return $actions
             ->disable(Action::DELETE)
+        ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ->add('local')
         ;
     }
 

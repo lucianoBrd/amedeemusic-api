@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Video;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -23,6 +24,16 @@ class VideoCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Video::class;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ->add('link')
+            ->add('date')
+            ->add('videoDescriptions')
+        ;
     }
 
     public function configureFields(string $pageName): iterable
