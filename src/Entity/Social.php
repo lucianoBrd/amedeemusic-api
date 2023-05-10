@@ -7,7 +7,10 @@ use App\Repository\SocialRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SocialRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    order: ['id' => 'ASC'],
+    paginationEnabled: false
+)]
 class Social
 {
     #[ORM\Id]

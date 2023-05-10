@@ -2,15 +2,27 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ArtistRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArtistRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\GetLastArtistController;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(
+            name: 'lastArtist', 
+            uriTemplate: '/artists/last', 
+            controller: GetLastArtistController::class
+        )
+    ],
+    order: ['id' => 'ASC'],
+    paginationEnabled: false
+)]
 class Artist
 {
     #[ORM\Id]
