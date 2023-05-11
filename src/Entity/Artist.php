@@ -21,6 +21,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             controller: GetLastArtistController::class,
             read: false,
             normalizationContext: ['groups' => 'artist:read']
+        ),
+        new Get(
+            name: 'lastArtistLight', 
+            uriTemplate: '/artists/last/light', 
+            controller: GetLastArtistController::class,
+            read: false,
+            normalizationContext: ['groups' => 'artist:read:light']
         )
     ],
     order: ['id' => 'ASC'],
@@ -31,55 +38,55 @@ class Artist
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $man = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $header = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $project = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $gallery = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $video = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $videosLink = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $blog = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $subscribe = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $testimonial = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $contact = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'artist', targetEntity: ArtistAbout::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
