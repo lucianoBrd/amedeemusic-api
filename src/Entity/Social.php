@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\SocialRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SocialRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: SocialRepository::class)]
 #[ApiResource(
+    operations: [
+        new GetCollection(),
+    ],
     order: ['id' => 'ASC'],
     paginationEnabled: false
 )]

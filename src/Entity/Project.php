@@ -2,29 +2,50 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ProjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\ProjectRepository;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\GetLastProjectController;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(
+            name: 'lastProjectLight', 
+            uriTemplate: '/projects/last/light', 
+            controller: GetLastProjectController::class,
+            read: false,
+            normalizationContext: ['groups' => 'project:read:light']
+        )
+    ],
+    order: ['date' => 'ASC'],
+    paginationEnabled: false
+)]
 class Project
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['project:read', 'project:read:light'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['project:read', 'project:read:light'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['project:read', 'project:read:light'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['project:read', 'project:read:light'])]
     private ?string $image = null;
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Title::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
