@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ArtistAboutRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArtistAboutRepository::class)]
 #[ApiResource]
@@ -13,13 +14,16 @@ class ArtistAbout
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['artist:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['artist:read'])]
     private ?string $about = null;
 
     #[ORM\ManyToOne(inversedBy: 'artistAbouts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['artist:read'])]
     private ?Local $local = null;
 
     #[ORM\ManyToOne(inversedBy: 'artistAbouts')]

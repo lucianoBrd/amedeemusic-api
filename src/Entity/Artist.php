@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\GetLastArtistController;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
 #[ApiResource(
@@ -17,7 +18,9 @@ use Doctrine\Common\Collections\ArrayCollection;
         new Get(
             name: 'lastArtist', 
             uriTemplate: '/artists/last', 
-            controller: GetLastArtistController::class
+            controller: GetLastArtistController::class,
+            read: false,
+            normalizationContext: ['groups' => 'artist:read']
         )
     ],
     order: ['id' => 'ASC'],
@@ -28,45 +31,59 @@ class Artist
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['artist:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['artist:read'])]
     private ?string $man = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?string $header = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?string $project = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?string $gallery = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?string $video = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['artist:read'])]
     private ?string $videosLink = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?string $blog = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?string $subscribe = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read'])]
     private ?string $testimonial = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['artist:read'])]
     private ?string $contact = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['artist:read'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'artist', targetEntity: ArtistAbout::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[Groups(['artist:read'])]
     private Collection $artistAbouts;
 
     public function __construct()
