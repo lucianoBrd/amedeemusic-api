@@ -28,9 +28,30 @@ class TestimonialCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name')->setColumns(6);
-        yield TextField::new('designation')->setColumns(6);
+        yield TextField::new('name')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
+        yield TextField::new('designation')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield AssociationField::new('local')->setColumns(12);
-        yield TextareaField::new('citation')->setColumns(12);
+        yield TextareaField::new('citation')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
     }
 }

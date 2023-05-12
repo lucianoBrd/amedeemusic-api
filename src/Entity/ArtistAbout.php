@@ -9,6 +9,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArtistAboutRepository::class)]
 #[ApiResource]
+#[ApiResource(
+    order: ['id' => 'ASC'],
+    paginationEnabled: false
+)]
 class ArtistAbout
 {
     #[ORM\Id]
@@ -17,7 +21,7 @@ class ArtistAbout
     #[Groups(['artist:read'])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 3000)]
     #[Groups(['artist:read'])]
     private ?string $about = null;
 

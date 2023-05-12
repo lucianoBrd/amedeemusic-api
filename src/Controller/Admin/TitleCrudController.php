@@ -28,7 +28,14 @@ class TitleCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name')->setColumns(6);
+        yield TextField::new('name')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield AssociationField::new('project')->setColumns(6);
         yield TextEditorField::new('lyrics')
             ->setTrixEditorConfig([

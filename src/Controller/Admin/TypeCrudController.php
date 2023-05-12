@@ -23,6 +23,13 @@ class TypeCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name')->setColumns(12);
+        yield TextField::new('name')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
     }
 }

@@ -27,10 +27,22 @@ class ProjectPlatformCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield UrlField::new('link')->setColumns(12);
+        yield UrlField::new('link')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield FaField::new('fa', 'Logo')
             ->setColumns(6)
             ->setHelp('See https://fontawesome.com/search?o=r&m=free')
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
         ;
         yield AssociationField::new('project')->setColumns(6);
     }

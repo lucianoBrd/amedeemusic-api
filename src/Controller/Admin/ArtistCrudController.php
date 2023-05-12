@@ -39,10 +39,31 @@ class ArtistCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield FormField::addPanel('General');
-        yield TextField::new('name')->setColumns(6);
+        yield TextField::new('name')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield DateField::new('date')->setColumns(6);
-        yield EmailField::new('contact')->setColumns(6);
-        yield UrlField::new('videosLink')->setColumns(6);
+        yield EmailField::new('contact')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
+        yield UrlField::new('videosLink')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield AssociationField::new('artistAbouts')->hideOnForm();
 
         yield FormField::addPanel('Image');

@@ -25,10 +25,22 @@ class SocialCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield UrlField::new('link')->setColumns(6);
+        yield UrlField::new('link')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield FaField::new('fa', 'Logo')
             ->setColumns(6)
             ->setHelp('See https://fontawesome.com/search?o=r&m=free')
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
         ;
     }
 }

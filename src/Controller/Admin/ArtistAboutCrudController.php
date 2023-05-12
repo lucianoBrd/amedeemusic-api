@@ -26,7 +26,14 @@ class ArtistAboutCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextareaField::new('about')->setColumns(12);
+        yield TextareaField::new('about')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 3000
+                ]
+            ])
+        ;
         yield AssociationField::new('artist')->setColumns(6);
         yield AssociationField::new('local')->setColumns(6);
     }

@@ -34,7 +34,14 @@ class LocalCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name')->setColumns(6);
+        yield TextField::new('name')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield LocaleField::new('local')->setColumns(6);
     }
 }

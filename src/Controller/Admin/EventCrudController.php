@@ -30,10 +30,31 @@ class EventCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name')->setColumns(6);
-        yield TextField::new('place')->setColumns(6);
+        yield TextField::new('name')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
+        yield TextField::new('place')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield AssociationField::new('local')->setColumns(6);
         yield DateTimeField::new('date')->setColumns(6);
-        yield UrlField::new('link')->setColumns(12);
+        yield UrlField::new('link')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
     }
 }

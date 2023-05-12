@@ -16,7 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(),
+        new GetCollection(
+            normalizationContext: ['groups' => 'project:read:collection']
+        ),
         new Get(
             name: 'lastProjectLight', 
             uriTemplate: '/projects/last/light', 
@@ -25,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => 'project:read:light']
         )
     ],
-    order: ['date' => 'ASC'],
+    order: ['date' => 'DESC'],
     paginationEnabled: false
 )]
 class Project
@@ -33,19 +35,19 @@ class Project
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['project:read', 'project:read:light'])]
+    #[Groups(['project:read', 'project:read:light', 'project:read:collection'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:read', 'project:read:light'])]
+    #[Groups(['project:read', 'project:read:light', 'project:read:collection'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['project:read', 'project:read:light'])]
+    #[Groups(['project:read', 'project:read:light', 'project:read:collection'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['project:read', 'project:read:light'])]
+    #[Groups(['project:read', 'project:read:light', 'project:read:collection'])]
     private ?string $image = null;
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Title::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
@@ -56,6 +58,7 @@ class Project
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['project:read', 'project:read:collection'])]
     private ?Type $type = null;
 
     public function __construct()

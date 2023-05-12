@@ -47,8 +47,22 @@ class VideoCrudController extends AbstractCrudController
             ->setRequired($pageName !== Crud::PAGE_EDIT)
             ->setFormTypeOptions($pageName == Crud::PAGE_EDIT ? ['allow_delete' => false] : [])
         ;
-        yield TextField::new('name')->setColumns(12);
-        yield UrlField::new('link')->setColumns(6);
+        yield TextField::new('name')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
+        yield UrlField::new('link')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield DateField::new('date')->setColumns(6);
         yield AssociationField::new('videoDescriptions')->hideOnForm();
     }

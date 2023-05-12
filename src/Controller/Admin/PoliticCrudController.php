@@ -36,7 +36,14 @@ class PoliticCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('title')->setColumns(6);
+        yield TextField::new('title')
+            ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield AssociationField::new('local')->setColumns(6);
         yield TextEditorField::new('document')
             ->setTrixEditorConfig([

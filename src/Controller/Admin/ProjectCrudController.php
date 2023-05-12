@@ -37,7 +37,14 @@ class ProjectCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name')->setColumns(12);
+        yield TextField::new('name')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield AssociationField::new('type')->setColumns(6);
         yield DateField::new('date')->setColumns(6);
         yield ImageField::new('image')

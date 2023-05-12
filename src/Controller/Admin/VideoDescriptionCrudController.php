@@ -26,7 +26,14 @@ class VideoDescriptionCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextareaField::new('description')->setColumns(12);
+        yield TextareaField::new('description')
+            ->setColumns(12)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
         yield AssociationField::new('video')->setColumns(6);
         yield AssociationField::new('local')->setColumns(6);
     }
