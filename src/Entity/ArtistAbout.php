@@ -2,14 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ArtistAboutRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArtistAboutRepository::class)]
-#[ApiResource]
 #[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
     order: ['id' => 'ASC'],
     paginationEnabled: false
 )]
