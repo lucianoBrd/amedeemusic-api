@@ -2,13 +2,23 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\EventRepository;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EventRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
+    order: ['date' => 'DESC'],
+    paginationEnabled: true,
+    paginationItemsPerPage: 8
+)]
 class Event
 {
     #[ORM\Id]
@@ -28,13 +38,9 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
-    #[ORM\ManyToOne(inversedBy: 'events')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Local $local = null;
-
     public function __toString(): string
     {
-        return $this->name . ' - ' . $this->local->__toString();
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -86,18 +92,6 @@ class Event
     public function setLink(?string $link): self
     {
         $this->link = $link;
-
-        return $this;
-    }
-
-    public function getLocal(): ?Local
-    {
-        return $this->local;
-    }
-
-    public function setLocal(?Local $local): self
-    {
-        $this->local = $local;
 
         return $this;
     }

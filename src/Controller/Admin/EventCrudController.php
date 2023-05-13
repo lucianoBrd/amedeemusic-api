@@ -22,7 +22,6 @@ class EventCrudController extends AbstractCrudController
         return $filters
             ->add('name')
             ->add('place')
-            ->add('local')
             ->add('date')
             ->add('link')
         ;
@@ -31,7 +30,7 @@ class EventCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('name')
-            ->setColumns(6)
+            ->setColumns(12)
             ->setFormTypeOptions([
                 'attr' => [
                     'maxlength' => 255
@@ -39,15 +38,13 @@ class EventCrudController extends AbstractCrudController
             ])
         ;
         yield TextField::new('place')
-            ->setColumns(6)
+            ->setColumns(12)
             ->setFormTypeOptions([
                 'attr' => [
                     'maxlength' => 255
                 ]
             ])
         ;
-        yield AssociationField::new('local')->setColumns(6);
-        yield DateTimeField::new('date')->setColumns(6);
         yield UrlField::new('link')
             ->setColumns(12)
             ->setFormTypeOptions([
@@ -56,5 +53,6 @@ class EventCrudController extends AbstractCrudController
                 ]
             ])
         ;
+        yield DateTimeField::new('date')->setColumns(12);
     }
 }

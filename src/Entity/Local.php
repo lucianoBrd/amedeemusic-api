@@ -33,9 +33,6 @@ class Local
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: Politic::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $politics;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Event::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
-    private Collection $events;
-
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: ArtistAbout::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $artistAbouts;
 
@@ -46,7 +43,6 @@ class Local
     {
         $this->testimonials = new ArrayCollection();
         $this->politics = new ArrayCollection();
-        $this->events = new ArrayCollection();
         $this->artistAbouts = new ArrayCollection();
         $this->videoDescriptions = new ArrayCollection();
     }
@@ -139,36 +135,6 @@ class Local
             // set the owning side to null (unless already changed)
             if ($politic->getLocal() === $this) {
                 $politic->setLocal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Event>
-     */
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    public function addEvent(Event $event): self
-    {
-        if (!$this->events->contains($event)) {
-            $this->events->add($event);
-            $event->setLocal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): self
-    {
-        if ($this->events->removeElement($event)) {
-            // set the owning side to null (unless already changed)
-            if ($event->getLocal() === $this) {
-                $event->setLocal(null);
             }
         }
 
