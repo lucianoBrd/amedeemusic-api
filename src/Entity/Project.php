@@ -20,6 +20,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => 'project:read:collection']
         ),
         new Get(
+            normalizationContext: ['groups' => 'project:read']
+        ),
+        new Get(
             name: 'lastProjectLight', 
             uriTemplate: '/projects/last/light', 
             controller: GetLastProjectController::class,
@@ -51,9 +54,11 @@ class Project
     private ?string $image = null;
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Title::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[Groups(['project:read'])]
     private Collection $titles;
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: ProjectPlatform::class, cascade: ['persist', 'remove'])]
+    #[Groups(['project:read'])]
     private Collection $projectPlatforms;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]

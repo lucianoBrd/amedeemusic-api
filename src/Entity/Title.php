@@ -2,26 +2,39 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\TitleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TitleRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TitleRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
+    order: ['name' => 'ASC'],
+    paginationEnabled: false
+)]
 class Title
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['project:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['project:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['project:read'])]
     private ?string $lyrics = null;
 
     #[ORM\ManyToOne(inversedBy: 'titles')]
@@ -29,6 +42,7 @@ class Title
     private ?Project $project = null;
 
     #[ORM\OneToMany(mappedBy: 'title', targetEntity: TitlePlatform::class, cascade: ['persist', 'remove'])]
+    #[Groups(['project:read'])]
     private Collection $titlePlatforms;
 
     public function __construct()
