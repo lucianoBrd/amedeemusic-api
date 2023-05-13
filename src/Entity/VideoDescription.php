@@ -2,24 +2,37 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\VideoDescriptionRepository;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\VideoDescriptionRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VideoDescriptionRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
+    order: ['id' => 'ASC'],
+    paginationEnabled: false
+)]
 class VideoDescription
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['video:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['video:read'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'videoDescriptions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['video:read'])]
     private ?Local $local = null;
 
     #[ORM\ManyToOne(inversedBy: 'videoDescriptions')]

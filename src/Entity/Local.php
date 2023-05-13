@@ -16,15 +16,15 @@ class Local
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'video:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'video:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:read'])]
+    #[Groups(['artist:read', 'video:read'])]
     private ?string $local = null;
 
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: Testimonial::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
