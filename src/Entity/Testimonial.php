@@ -2,12 +2,24 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\TestimonialRepository;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\TestimonialRepository;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: TestimonialRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+    ],
+    order: ['id' => 'DESC'],
+    paginationEnabled: false
+)]
+#[ApiFilter(SearchFilter::class, properties: ['local.local' => 'exact'])]
 class Testimonial
 {
     #[ORM\Id]
