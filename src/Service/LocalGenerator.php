@@ -2,37 +2,33 @@
 
 namespace App\Service;
 
+use App\Entity\Locals;
 use App\Entity\Language;
 
 class LocalGenerator
 {
-    private $locals;
+    private $locals = Locals::LOCALS;
 
     public function __construct()
     {
-        $this->locals = [
-            'fr' => 'fr',
-            'en' => 'en',
-        ];
     }
 
     public function getLocals(): array {
         return $this->locals;
     }
 
-    public function checkLocal(string $local): bool {
-        $error = true;
+    public function checkLocal(string $local): string {
         foreach ($this->locals as $l) {
             if ($l == $local) {
-                $error = false;
+                return $l;
             }
         }
-        return $error;
+        return Locals::EN;
     }
 
     public function getLanguageByLocal(string $local): Language {
         $language = new Language();
-        if ($local == 'fr') {
+        if ($local == Locals::FR) {
             $language
                 ->setUnsubscribe('Se désabonner')
                 ->setSubscribe('S\'abonner')

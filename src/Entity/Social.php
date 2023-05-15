@@ -28,6 +28,11 @@ class Social
     #[ORM\Column(length: 255)]
     private ?string $fa = null;
 
+    public function __toString(): string
+    {
+        return $this->link;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

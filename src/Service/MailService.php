@@ -22,11 +22,24 @@ class MailService
     {
     }
 
+    public function sendMessages(array $messages): bool {
+        $error = false;
+        foreach ($messages as $message) {
+            $error = $error || $this->sendMessage(
+                $message['to'],
+                $message['title'],
+                $message['context']
+            );
+        }
+        return $error;
+    }
+
     public function sendMessage(
         string $to,
         string $title,
         array $context
-    ) {
+    ): bool 
+    {
         $error = true;
 
         $message = (new TemplatedEmail())
@@ -56,7 +69,7 @@ class MailService
         ?string $buttonName = null,
         ?User $user = null,
         ?bool $debug = false
-    )
+    ): array
     {
         $language = $this->localGenerator->getLanguageByLocal($local);
         $unsubscribePath = null;
@@ -78,7 +91,6 @@ class MailService
             'language' => $language,
             'unsubscribePath' => $unsubscribePath,
             'debug' => $debug,
-            //'unsubscribePath' => $secret ? $this->params->get('app.url') . '/unsubscribe/' . $local . '/' . $secret : null,
         ];
     }
 }

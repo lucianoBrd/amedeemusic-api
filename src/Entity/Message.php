@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\MessageRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MessageRepository;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -23,6 +24,16 @@ class Message
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    public function __construct()
+    {
+        $this->date = new DateTime('now');
+    }
+
+    public function __toString(): string
+    {
+        return substr($this->message, 0, 10);
+    }
 
     public function getId(): ?int
     {

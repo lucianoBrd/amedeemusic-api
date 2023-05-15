@@ -35,6 +35,8 @@ class SubscribeController extends AbstractController
         $error = true;
         $method = $request->getMethod();
 
+        $local = $this->localGenerator->checkLocal($local);
+
         $language = $this->localGenerator->getLanguageByLocal($local);
 
         /* Remove all illegal characters from mail */
@@ -95,7 +97,6 @@ class SubscribeController extends AbstractController
         if ($method == 'POST') {
             return $this->json(
                 $userReturn,
-                //headers: ['Content-Type' => 'application/json;charset=UTF-8']
             );
         } else {
             return $this->render(
@@ -109,6 +110,8 @@ class SubscribeController extends AbstractController
     #[Route(path: '/unsubscribe/{local}/{secret}', name: 'unsubscribe', methods: ['GET'])]
     public function unsubscribe(string $local, string $secret, Request $request): Response
     {
+        $local = $this->localGenerator->checkLocal($local);
+
         $language = $this->localGenerator->getLanguageByLocal($local);
 
         $repository = $this->manager->getRepository(User::class);
