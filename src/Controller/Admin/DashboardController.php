@@ -11,6 +11,7 @@ use App\Entity\Video;
 use App\Entity\Artist;
 use App\Entity\Social;
 use App\Entity\Gallery;
+use App\Entity\Message;
 use App\Entity\Politic;
 use App\Entity\Project;
 use App\Entity\ArtistAbout;
@@ -75,6 +76,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('General');
         yield MenuItem::linkToCrud('Local', 'fa-solid fa-language', Local::class);
         yield MenuItem::linkToCrud('Politic', 'fa-solid fa-cookie-bite', Politic::class);
-        yield MenuItem::linkToCrud('User', 'fa-solid fa-users', User::class);
+        yield MenuItem::subMenu('User', 'fa-solid fa-users')->setSubItems([
+            MenuItem::linkToCrud('User', 'fa-solid fa-user', User::class),
+            MenuItem::linkToCrud('Message', 'fa-solid fa-message', Message::class),
+        ]);
     }
 }

@@ -2,45 +2,42 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Entity\Message;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class UserCrudController extends AbstractCrudController
+class MessageCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return Message::class;
     }
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::NEW, Action::EDIT)
+            ->disable(Action::NEW, Action::EDIT, Action::DELETE)
         ;
     }
 
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add('name')
-            ->add('mail')
-            ->add('subscribe')
+            ->add('message')
+            ->add('date')
+            ->add('user')
         ;
     }
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('name');
-        yield EmailField::new('mail');
-        yield BooleanField::new('subscribe');
-        yield AssociationField::new('messages')->hideOnForm();
+        yield TextareaField::new('message');
+        yield DateTimeField::new('date');
+        yield AssociationField::new('user');
     }
 }

@@ -1,6 +1,16 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
 
+    globals:
+        client_path: '%app.client.url%'
+        mailer_email: '%mailer_email%'
+        artist_name: '%artist_name%'
+        imagesPath: '/assets/email/images'
+
+    paths:
+        '%kernel.project_dir%/public/assets/email/images': images
+        '%kernel.project_dir%/public/assets/email/css': styles
+
 when@test:
     twig:
         strict_variables: true

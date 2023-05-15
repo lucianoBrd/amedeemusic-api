@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\Language;
+
+class LocalGenerator
+{
+    private $locals;
+
+    public function __construct()
+    {
+        $this->locals = [
+            'fr' => 'fr',
+            'en' => 'en',
+        ];
+    }
+
+    public function getLocals(): array {
+        return $this->locals;
+    }
+
+    public function checkLocal(string $local): bool {
+        $error = true;
+        foreach ($this->locals as $l) {
+            if ($l == $local) {
+                $error = false;
+            }
+        }
+        return $error;
+    }
+
+    public function getLanguageByLocal(string $local): Language {
+        $language = new Language();
+        if ($local == 'fr') {
+            $language
+                ->setUnsubscribe('Se désabonner')
+                ->setSubscribe('S\'abonner')
+                ->setUnsubscribeSuccess('Désabonnement effectué avec succès')
+                ->setHello('Bonjour')
+                ->setAnyQuestionsContactMe('Si vous avez des questions, n\'hésitez pas à me contacter')
+                ->setHaveAQuestion('Vous avez une question ?')
+                ->setConfirmationOfRecusal('Confirmation de Réception')
+                ->setWillAnswerYou('Je vous répondrais dans les meilleurs délais.')
+                ->setThankSubscribe('Merci de vous être abonné')
+                ->setThankMessage('Merci pour votre message, je vous répondrais dans les meilleurs délais.')
+                ->setMessage('Votre message :')
+                ->setWebsite('Accéder au site Web')
+                ->setUnsubscribeError('Impossible d\'effectuer le désabonnement')
+                ->setErrorHelp('Si le problème persiste, n\'hésitez pas à me contacter.')
+                ->setErrorHelp('Si le problème persiste, n\'hésitez pas à me contacter.')
+                ->setSubscribeError('Impossible d\'effectuer l\'abonnement')
+            ;
+        } else {
+            $language
+                ->setUnsubscribe('Unsubscribe')
+                ->setSubscribe('Subscribe')
+                ->setUnsubscribeSuccess('Unsubscribe successfully')
+                ->setHello('Hello')
+                ->setAnyQuestionsContactMe('If you have any questions, please contact me')
+                ->setHaveAQuestion('Have A question ?')
+                ->setConfirmationOfRecusal('Confirmation of Recusal')
+                ->setWillAnswerYou('I will answer you as soon as possible.')
+                ->setThankSubscribe('Thank you for subscribing')
+                ->setThankMessage('Thank you for your message, I will answer you as soon as possible.')
+                ->setMessage('Your message :')
+                ->setWebsite('Access the website')
+                ->setUnsubscribeError('Unable to unsubscribe')
+                ->setErrorHelp('If the problem persists, please contact me.')
+                ->setSubscribeError('Unable to subscribe')
+            ;
+        }
+        return $language;
+    }
+}
