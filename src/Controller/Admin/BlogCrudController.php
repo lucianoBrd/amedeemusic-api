@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -29,6 +30,8 @@ class BlogCrudController extends AbstractCrudController
         return $filters
             ->add('title')
             ->add('date')
+            ->add('content')
+            ->add('local')
             ->add('blogContents')
         ;
     }
@@ -52,7 +55,17 @@ class BlogCrudController extends AbstractCrudController
                 ]
             ])
         ;
-        yield DateField::new('date')->setColumns(12);
+        yield DateField::new('date')->setColumns(6);
+        yield AssociationField::new('local')->setColumns(6);
+        yield TextEditorField::new('content')
+            ->setTrixEditorConfig([
+                'blockAttributes' => [
+                    'default' => ['tagName' => 'p'],
+                    'heading1' => ['tagName' => 'h5'],
+                ],
+            ])
+            ->setColumns(12)
+        ;
         yield TextField::new('slug')->hideOnForm();
         yield AssociationField::new('blogContents')->hideOnForm();
     }

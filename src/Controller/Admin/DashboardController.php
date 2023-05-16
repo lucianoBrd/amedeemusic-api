@@ -16,17 +16,14 @@ use App\Entity\Message;
 use App\Entity\Politic;
 use App\Entity\Project;
 use App\Entity\ArtistAbout;
-use App\Entity\BlogContent;
 use App\Entity\Testimonial;
 use App\Entity\TitlePlatform;
 use App\Entity\ProjectPlatform;
 use App\Entity\VideoDescription;
-use App\Controller\Admin\SocialCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
@@ -64,7 +61,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Blog');
         yield MenuItem::subMenu('Blog', 'fa-regular fa-rectangle-list')->setSubItems([
             MenuItem::linkToCrud('Blog', 'fa-solid fa-table-list', Blog::class),
-            MenuItem::linkToCrud('BlogContent', 'fa-solid fa-align-center', BlogContent::class),
         ]);
 
         yield MenuItem::section('Site');

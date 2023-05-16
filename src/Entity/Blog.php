@@ -2,36 +2,72 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\BlogRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BlogRepository;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\GetLastsBlogController;
+use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => 'blog:read:collection']
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'blog:read']
+        ),
+        new GetCollection(
+            name: 'lastsBlog', 
+            uriTemplate: '/blogs/lasts', 
+            controller: GetLastsBlogController::class,
+            read: false,
+            normalizationContext: ['groups' => 'blog:read:collection']
+        )
+    ],
+    order: ['date' => 'DESC'],
+    paginationEnabled: false
+)]
+#[ApiFilter(SearchFilter::class, properties: ['local.local' => 'exact'])]
 class Blog
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['blog:read', 'blog:read:collection'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['blog:read', 'blog:read:collection'])]
     private ?string $image = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['blog:read', 'blog:read:collection'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['blog:read', 'blog:read:collection'])]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: BlogContent::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
-    private Collection $blogContents;
-
     #[ORM\Column(length: 350, unique: true)]
+    #[Groups(['blog:read', 'blog:read:collection'])]
     private ?string $slug = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['blog:read', 'blog:read:collection'])]
+    private ?string $content = null;
+
+    #[ORM\ManyToOne(inversedBy: 'blogs')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['blog:read', 'blog:read:collection'])]
+    private ?Local $local = null;
 
     public function __construct()
     {
@@ -40,7 +76,7 @@ class Blog
 
     public function __toString(): string
     {
-        return $this->slug;
+        return $this->slug . ' - ' . $this->local->__toString();
     }
 
     public function getId(): ?int
@@ -84,36 +120,6 @@ class Blog
         return $this;
     }
 
-    /**
-     * @return Collection<int, BlogContent>
-     */
-    public function getBlogContents(): Collection
-    {
-        return $this->blogContents;
-    }
-
-    public function addBlogContent(BlogContent $blogContent): self
-    {
-        if (!$this->blogContents->contains($blogContent)) {
-            $this->blogContents->add($blogContent);
-            $blogContent->setBlog($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBlogContent(BlogContent $blogContent): self
-    {
-        if ($this->blogContents->removeElement($blogContent)) {
-            // set the owning side to null (unless already changed)
-            if ($blogContent->getBlog() === $this) {
-                $blogContent->setBlog(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -122,6 +128,30 @@ class Blog
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getLocal(): ?Local
+    {
+        return $this->local;
+    }
+
+    public function setLocal(?Local $local): self
+    {
+        $this->local = $local;
 
         return $this;
     }

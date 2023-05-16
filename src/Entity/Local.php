@@ -51,8 +51,8 @@ class Local
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: VideoDescription::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $videoDescriptions;
 
-    #[ORM\OneToMany(mappedBy: 'local', targetEntity: BlogContent::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
-    private Collection $blogContents;
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: Blog::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    private Collection $blogs;
 
     public function __construct()
     {
@@ -60,7 +60,7 @@ class Local
         $this->politics = new ArrayCollection();
         $this->artistAbouts = new ArrayCollection();
         $this->videoDescriptions = new ArrayCollection();
-        $this->blogContents = new ArrayCollection();
+        $this->blogs = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -218,29 +218,29 @@ class Local
     }
 
     /**
-     * @return Collection<int, BlogContent>
+     * @return Collection<int, Blog>
      */
-    public function getBlogContents(): Collection
+    public function getBlogs(): Collection
     {
-        return $this->blogContents;
+        return $this->blogs;
     }
 
-    public function addBlogContent(BlogContent $blogContent): self
+    public function addBlog(Blog $blog): self
     {
-        if (!$this->blogContents->contains($blogContent)) {
-            $this->blogContents->add($blogContent);
-            $blogContent->setLocal($this);
+        if (!$this->blogs->contains($blog)) {
+            $this->blogs->add($blog);
+            $blog->setLocal($this);
         }
 
         return $this;
     }
 
-    public function removeBlogContent(BlogContent $blogContent): self
+    public function removeBlog(Blog $blog): self
     {
-        if ($this->blogContents->removeElement($blogContent)) {
+        if ($this->blogs->removeElement($blog)) {
             // set the owning side to null (unless already changed)
-            if ($blogContent->getLocal() === $this) {
-                $blogContent->setLocal(null);
+            if ($blog->getLocal() === $this) {
+                $blog->setLocal(null);
             }
         }
 
