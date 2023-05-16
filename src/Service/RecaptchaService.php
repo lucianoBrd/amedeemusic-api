@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+
 class RecaptchaService
 {
     public function __construct(
-        
+        private ContainerBagInterface $params,
     )
     {
     }

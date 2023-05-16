@@ -38,83 +38,80 @@ class ContactController extends AbstractController
 
         $language = $this->localGenerator->getLanguageByLocal($local);
 
-        $postData = json_decode($request->getContent(), true);
+        $captcha = $request->request->get('captcha');
+        $name = $request->request->get('name');
+        $mail = $request->request->get('mail');
+        $message = $request->request->get('message');
 
-        if (isset($postData['captcha']) && isset($postData['name']) && isset($postData['mail']) && isset($postData['message'])) {
+        /* Remove all illegal characters from mail */
+        $mail = filter_var($mail, FILTER_SANITIZE_EMAIL);
 
-            $captcha = htmlspecialchars($postData['captcha']);
-            $name = htmlspecialchars($postData['name']);
-            $mail = htmlspecialchars($postData['mail']);
-            $message = htmlspecialchars($postData['message']);
+        $checkCaptcha = $this->recaptchaService->checkCaptcha($captcha);
 
-            /* Remove all illegal characters from mail */
-            $mail = filter_var($mail, FILTER_SANITIZE_EMAIL);
+        if ($checkCaptcha &&
+            $name && !empty($name) &&
+            $mail && !empty($mail) && filter_var($mail, FILTER_VALIDATE_EMAIL) &&
+            $message && !empty($message)
+        ) {
+            /* Save User + Message */
+            $user = new User();
+            $m = new Message();
 
-            if ($this->recaptchaService->checkCaptcha($captcha) &&
-                $name && !empty($name) &&
-                $mail && !empty($mail) && filter_var($mail, FILTER_VALIDATE_EMAIL) &&
-                $message && !empty($message)
-            ) {
-                /* Save User + Message */
-                $user = new User();
-                $m = new Message();
+            $m->setMessage($message);
 
-                $m->setMessage($message);
+            $user->setName($name)
+                ->setMail($mail)
+                ->addMessage($m);
 
-                $user->setName($name)
-                    ->setMail($mail)
-                    ->addMessage($m);
+            $user = $this->userService->addUser($user);
 
-                $user = $this->userService->addUser($user);
+            /* Create messages */
+            $title = 'Message de ' . $name;
+            $context = $this->mailService->getMessageContext(
+                title: $title,
+                local: $local,
+                banner: Banner::BANNER_CONTACT,
+                name: $this->params->get('artist_name'),
+                paragraphs: [
+                    $name,
+                    $mail,
+                    $message,
+                ],
+                buttonPath: null,
+                buttonAbsolutePath: null,
+                buttonName: null,
+                user: null,
+            );
+            $titleConfirm = $language->getConfirmationOfRecusal();
+            $contextConfirm = $this->mailService->getMessageContext(
+                title: $titleConfirm,
+                local: $local,
+                banner: Banner::BANNER_CONTACT,
+                name: $name,
+                paragraphs: [
+                    $language->getThankMessage(),
+                    $language->getMessage(),
+                    $message,
+                ],
+                buttonPath: null,
+                buttonAbsolutePath: null,
+                buttonName: null,
+                user: $user,
+            );
 
-                /* Create messages */
-                $title = 'Message de ' . $name;
-                $context = $this->mailService->getMessageContext(
-                    title: $title,
-                    local: $local,
-                    banner: Banner::BANNER_CONTACT,
-                    name: $this->params->get('artist_name'),
-                    paragraphs: [
-                        $name,
-                        $mail,
-                        $message,
-                    ],
-                    buttonPath: null,
-                    buttonAbsolutePath: null,
-                    buttonName: null,
-                    user: null,
-                );
-                $titleConfirm = $language->getConfirmationOfRecusal();
-                $contextConfirm = $this->mailService->getMessageContext(
-                    title: $titleConfirm,
-                    local: $local,
-                    banner: Banner::BANNER_CONTACT,
-                    name: $name,
-                    paragraphs: [
-                        $language->getThankMessage(),
-                        $language->getMessage(),
-                        $message,
-                    ],
-                    buttonPath: null,
-                    buttonAbsolutePath: null,
-                    buttonName: null,
-                    user: $user,
-                );
-
-                /* Send messages */
-                $error = $this->mailService->sendMessages([
-                    [
-                        'to' => $this->params->get('mailer_email'),
-                        'title' => $title,
-                        'context' => $context
-                    ],
-                    [
-                        'to' => $mail,
-                        'title' => $titleConfirm,
-                        'context' => $contextConfirm
-                    ]
-                ]);
-            }
+            /* Send messages */
+            $error = $this->mailService->sendMessages([
+                [
+                    'to' => $this->params->get('mailer_email'),
+                    'title' => $title,
+                    'context' => $context
+                ],
+                [
+                    'to' => $mail,
+                    'title' => $titleConfirm,
+                    'context' => $contextConfirm
+                ]
+            ]);
         }
 
         if ($error) {

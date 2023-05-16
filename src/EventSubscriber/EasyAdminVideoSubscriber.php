@@ -20,7 +20,7 @@ class EasyAdminVideoSubscriber implements EventSubscriberInterface
         $this->filesystem = $filesystem;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             AfterEntityDeletedEvent::class => ['deleteImageOnDelete'],

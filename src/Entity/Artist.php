@@ -93,6 +93,10 @@ class Artist
     #[Groups(['artist:read'])]
     private Collection $artistAbouts;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['artist:read', 'artist:read:light'])]
+    private ?string $footer = null;
+
     public function __construct()
     {
         $this->artistAbouts = new ArrayCollection();
@@ -278,6 +282,18 @@ class Artist
                 $artistAbout->setArtist(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFooter(): ?string
+    {
+        return $this->footer;
+    }
+
+    public function setFooter(?string $footer): self
+    {
+        $this->footer = $footer;
 
         return $this;
     }

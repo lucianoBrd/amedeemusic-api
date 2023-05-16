@@ -125,5 +125,12 @@ class ArtistCrudController extends AbstractCrudController
             ->setColumns(6)
             ->setHelp('Recommended 1920x1030')
         ;
+        yield ImageField::new('footer')
+            ->setBasePath($this->params->get('images_base_directory') . 'artist/')
+            ->setUploadDir($this->params->get('images_directory') . 'artist/')
+            ->setUploadedFileNamePattern('[year]-[month]-[day]-[slug]-[randomhash].[extension]')
+            ->setColumns(6)
+            ->setHelp('Recommended 1920x913')
+        ;
     }
 }
