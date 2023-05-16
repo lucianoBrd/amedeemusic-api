@@ -51,12 +51,16 @@ class Local
     #[ORM\OneToMany(mappedBy: 'local', targetEntity: VideoDescription::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $videoDescriptions;
 
+    #[ORM\OneToMany(mappedBy: 'local', targetEntity: BlogContent::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    private Collection $blogContents;
+
     public function __construct()
     {
         $this->testimonials = new ArrayCollection();
         $this->politics = new ArrayCollection();
         $this->artistAbouts = new ArrayCollection();
         $this->videoDescriptions = new ArrayCollection();
+        $this->blogContents = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -207,6 +211,36 @@ class Local
             // set the owning side to null (unless already changed)
             if ($videoDescription->getLocal() === $this) {
                 $videoDescription->setLocal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BlogContent>
+     */
+    public function getBlogContents(): Collection
+    {
+        return $this->blogContents;
+    }
+
+    public function addBlogContent(BlogContent $blogContent): self
+    {
+        if (!$this->blogContents->contains($blogContent)) {
+            $this->blogContents->add($blogContent);
+            $blogContent->setLocal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlogContent(BlogContent $blogContent): self
+    {
+        if ($this->blogContents->removeElement($blogContent)) {
+            // set the owning side to null (unless already changed)
+            if ($blogContent->getLocal() === $this) {
+                $blogContent->setLocal(null);
             }
         }
 

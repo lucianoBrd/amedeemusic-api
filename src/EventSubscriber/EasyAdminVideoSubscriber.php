@@ -11,13 +11,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class EasyAdminVideoSubscriber implements EventSubscriberInterface
 {
-    private $params;
-    private $filesystem ;
-
-    public function __construct(ContainerBagInterface $params, Filesystem $filesystem)
+    public function __construct(
+        private ContainerBagInterface $params, 
+        private Filesystem $filesystem,
+    )
     {
-        $this->params = $params;
-        $this->filesystem = $filesystem;
     }
 
     public static function getSubscribedEvents(): array

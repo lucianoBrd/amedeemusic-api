@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Blog;
 use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\Event;
@@ -15,6 +16,7 @@ use App\Entity\Message;
 use App\Entity\Politic;
 use App\Entity\Project;
 use App\Entity\ArtistAbout;
+use App\Entity\BlogContent;
 use App\Entity\Testimonial;
 use App\Entity\TitlePlatform;
 use App\Entity\ProjectPlatform;
@@ -50,7 +52,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Project');
         yield MenuItem::subMenu('Project', 'fa-solid fa-radio')->setSubItems([
-            MenuItem::linkToCrud('Project', 'fas fa-record-vinyl', Project::class),
+            MenuItem::linkToCrud('Project', 'fa-solid fa-record-vinyl', Project::class),
             MenuItem::linkToCrud('ProjectPlatform', 'fa-solid fa-icons', ProjectPlatform::class),
         ]);
         yield MenuItem::subMenu('Title', 'fa-solid fa-radio')->setSubItems([
@@ -58,6 +60,12 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('TitlePlatform', 'fa-solid fa-icons', TitlePlatform::class),
         ]);
         yield MenuItem::linkToCrud('Type', 'fa-solid fa-compact-disc', Type::class);
+
+        yield MenuItem::section('Blog');
+        yield MenuItem::subMenu('Blog', 'fa-regular fa-rectangle-list')->setSubItems([
+            MenuItem::linkToCrud('Blog', 'fa-solid fa-table-list', Blog::class),
+            MenuItem::linkToCrud('BlogContent', 'fa-solid fa-align-center', BlogContent::class),
+        ]);
 
         yield MenuItem::section('Site');
         yield MenuItem::subMenu('Artist', 'fa-solid fa-microphone-lines')->setSubItems([
