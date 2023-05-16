@@ -49,6 +49,7 @@ class PoliticCrudController extends AbstractCrudController
             ->setTrixEditorConfig([
                 'blockAttributes' => [
                     'default' => ['tagName' => 'p'],
+                    'heading1' => ['tagName' => 'h5'],
                 ],
             ])
             ->setColumns(12)
