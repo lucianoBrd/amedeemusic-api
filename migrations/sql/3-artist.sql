@@ -1,0 +1,2 @@
+INSERT INTO `artist` (`id`, `date`, `man`, `header`, `project`, `gallery`, `video`, `videos_link`, `blog`, `subscribe`, `testimonial`, `contact`, `name`, `footer`) VALUES
+(1, '2023-05-26 00:00:00', 'artist.png', NULL, NULL, NULL, NULL, 'https://youtube.com/@amedeemusic', NULL, NULL, NULL, 'amedee.management@gmail.com', 'Amédée', NULL);
