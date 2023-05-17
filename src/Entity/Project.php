@@ -20,15 +20,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => 'project:read:collection']
         ),
         new Get(
-            normalizationContext: ['groups' => 'project:read']
-        ),
-        new Get(
             name: 'lastProjectLight', 
             uriTemplate: '/projects/last/light', 
             controller: GetLastProjectController::class,
             read: false,
             normalizationContext: ['groups' => 'project:read:light']
-        )
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'project:read']
+        ),
     ],
     order: ['date' => 'DESC'],
     paginationEnabled: false

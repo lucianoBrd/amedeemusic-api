@@ -17,7 +17,7 @@ class LocalGenerator
         return $this->locals;
     }
 
-    public function checkLocal(string $local): string {
+    public function checkLocal(?string $local): string {
         foreach ($this->locals as $l) {
             if ($l == $local) {
                 return $l;

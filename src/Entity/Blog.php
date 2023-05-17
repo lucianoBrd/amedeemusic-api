@@ -21,16 +21,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             normalizationContext: ['groups' => 'blog:read:collection']
         ),
-        new Get(
-            normalizationContext: ['groups' => 'blog:read']
-        ),
         new GetCollection(
             name: 'lastsBlog', 
             uriTemplate: '/blogs/lasts', 
             controller: GetLastsBlogController::class,
             read: false,
             normalizationContext: ['groups' => 'blog:read:collection']
-        )
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'blog:read']
+        ),
     ],
     order: ['date' => 'DESC'],
     paginationEnabled: false

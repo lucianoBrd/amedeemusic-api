@@ -3,7 +3,10 @@
 namespace App\Controller\Api;
 
 use App\Entity\Blog;
+use App\Entity\Local;
+use App\Service\LocalGenerator;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -11,12 +14,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class GetLastsBlogController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private LocalGenerator $localGenerator, 
     ) {}
 
-    public function __invoke(): array
+    public function __invoke(Request $request)
     {
-        $blogs = $this->entityManager->getRepository(Blog::class)->findBy([], ['date' => 'DESC'], 5);
+        $local = $request->query->get('local_local');
+        $local = $this->localGenerator->checkLocal($local);
+        $local = $this->entityManager->getRepository(Local::class)->findOneBy(['local' => $local]);
+
+        $blogs = $this->entityManager->getRepository(Blog::class)->findBy(['local' => $local], ['date' => 'DESC'], 5);
 
         return $blogs;
     }

@@ -32,7 +32,7 @@ class BlogCrudController extends AbstractCrudController
             ->add('date')
             ->add('content')
             ->add('local')
-            ->add('blogContents')
+            ->add('slug')
         ;
     }
 
@@ -67,6 +67,5 @@ class BlogCrudController extends AbstractCrudController
             ->setColumns(12)
         ;
         yield TextField::new('slug')->hideOnForm();
-        yield AssociationField::new('blogContents')->hideOnForm();
     }
 }
