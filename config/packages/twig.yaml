@@ -6,6 +6,8 @@ twig:
         mailer_email: '%mailer_email%'
         artist_name: '%artist_name%'
         imagesPath: '/assets/email/images'
+        app_name: '%app.name%'
+        assets_base_directory: '%assets_base_directory%'
 
     paths:
         '%kernel.project_dir%/public/assets/email/images': images

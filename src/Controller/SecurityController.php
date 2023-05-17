@@ -2,13 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class SecurityController extends AbstractController
 {
+    public function __construct(
+        private ContainerBagInterface $params,
+    ) {
+    }
+    
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -24,7 +30,8 @@ class SecurityController extends AbstractController
         return $this->render('@EasyAdmin/page/login.html.twig', [
             'last_username' => $lastUsername, 
             'error' => $error,
-            'page_title' => 'AmedeeMusic login',
+            'page_title' => $this->params->get('app.name'),
+            'favicon_path' => ($this->params->get('assets_base_directory') . 'logo/favicon.ico'),
             'csrf_token_intention' => 'authenticate',
             'username_parameter' => 'username',
             'password_parameter' => 'password',
