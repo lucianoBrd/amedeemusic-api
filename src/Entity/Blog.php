@@ -19,13 +19,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(
-            normalizationContext: ['groups' => 'blog:read:collection']
-        ),
-        new GetCollection(
             name: 'lastsBlog', 
             uriTemplate: '/blogs/lasts', 
             controller: GetLastsBlogController::class,
             read: false,
+            normalizationContext: ['groups' => 'blog:read:collection']
+        ),
+        new GetCollection(
             normalizationContext: ['groups' => 'blog:read:collection']
         ),
         new Get(

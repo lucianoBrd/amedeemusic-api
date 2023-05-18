@@ -7,15 +7,23 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\GalleryRepository;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\Api\GetLastsGalleryController;
 
 #[ORM\Entity(repositoryClass: GalleryRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            name: 'lastsGallery', 
+            uriTemplate: '/galleries/lasts', 
+            controller: GetLastsGalleryController::class,
+            read: false,
+        ),
         new GetCollection(),
         new Get()
     ],
     order: ['id' => 'DESC'],
-    paginationEnabled: false
+    paginationEnabled: true,
+    paginationItemsPerPage: 8
 )]
 class Gallery
 {

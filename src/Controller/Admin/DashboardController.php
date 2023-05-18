@@ -82,7 +82,6 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('About', 'fa-solid fa-file-signature', ArtistAbout::class),
         ]);
         yield MenuItem::linkToCrud('Event', 'fa-regular fa-calendar-days', Event::class);
-        yield MenuItem::linkToCrud('Event', 'fa-regular fa-calendar-days', Event::class);
         yield MenuItem::linkToCrud('Gallery', 'fa-solid fa-images', Gallery::class);
         yield MenuItem::linkToCrud('Blog', 'fa-solid fa-table-list', Blog::class);
         yield MenuItem::linkToCrud('Testimonial', 'fa-solid fa-comments', Testimonial::class);
