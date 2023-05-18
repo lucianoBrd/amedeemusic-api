@@ -26,7 +26,11 @@ class DeployController extends AbstractController
         $output = [];
         foreach($commands as $command){
             /* Run command */
-            $tmp = shell_exec($command);
+            try {
+                $tmp = shell_exec($command);
+            } catch (Exception $e) {
+                $tmp = $e->getMessage();
+            }
             /* Output */
             $output[$i]['command'] = $command; 
             $output[$i]['result'] = htmlentities(trim($tmp));
