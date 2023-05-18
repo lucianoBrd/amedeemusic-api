@@ -45,7 +45,7 @@ class Artist
     #[Groups(['artist:read', 'artist:read:light'])]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['artist:read', 'artist:read:light'])]
     private ?string $man = null;
 

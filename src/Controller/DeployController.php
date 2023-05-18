@@ -14,12 +14,12 @@ class DeployController extends AbstractController
 {
 
     #[Route(path: '/deploy', name: 'deploy')]
-    public function index(KernelInterface $kernel)
+    public function index(KernelInterface $kernel): Response
     {
-        $commands = array(
+        $commands = [
             'git pull',
             'git status',
-        );
+        ];
         
         $i = 0;
         $output = [];
@@ -33,25 +33,33 @@ class DeployController extends AbstractController
         }
 
         /* Clear cache */
-        $output[$i]['command'] = 'cache:clear';
-        $output[$i]['result'] = $this->do_command($kernel, 'cache:clear');
+        $command = 'cache:clear';
+        $output[$i]['command'] = $command;
+        $output[$i]['result'] = $this->do_command($kernel, [
+            'command' => $command,
+            '--env' => $kernel->getEnvironment()
+        ]);
+
+        $i++;
+        /* Migration cache */
+        $command = 'doctrine:migrations:migrate';
+        $output[$i]['command'] = $command;
+        $output[$i]['result'] = $this->do_command($kernel, [
+            'command' => $command,
+            '--no-interaction'
+        ]);
 
         return $this->json([
             $output
         ]);
     }
 
-    private function do_command($kernel, $command)
+    private function do_command(KernelInterface $kernel, array $command): string
     {
-        $env = $kernel->getEnvironment();
-
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
-        $input = new ArrayInput(array(
-            'command' => $command,
-            '--env' => $env
-        ));
+        $input = new ArrayInput($command);
 
         $output = new BufferedOutput();
         $application->run($input, $output);
