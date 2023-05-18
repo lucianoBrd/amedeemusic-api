@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,21 +33,21 @@ class DeployController extends AbstractController
             $i++;
         }
 
-        /* Clear cache */
-        $command = 'cache:clear';
-        $output[$i]['command'] = $command;
-        $output[$i]['result'] = $this->do_command($kernel, [
-            'command' => $command,
-            '--env' => $kernel->getEnvironment()
-        ]);
-
-        $i++;
         /* Migration cache */
         $command = 'doctrine:migrations:migrate';
         $output[$i]['command'] = $command;
         $output[$i]['result'] = $this->do_command($kernel, [
             'command' => $command,
             '--no-interaction'
+        ]);
+
+        /* Clear cache */
+        $i++;
+        $command = 'cache:clear';
+        $output[$i]['command'] = $command;
+        $output[$i]['result'] = $this->do_command($kernel, [
+            'command' => $command,
+            '--env' => $kernel->getEnvironment()
         ]);
 
         return $this->json([
@@ -56,16 +57,20 @@ class DeployController extends AbstractController
 
     private function do_command(KernelInterface $kernel, array $command): string
     {
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
+        try {
+            $application = new Application($kernel);
+            $application->setAutoExit(false);
 
-        $input = new ArrayInput($command);
+            $input = new ArrayInput($command);
 
-        $output = new BufferedOutput();
-        $application->run($input, $output);
+            $output = new BufferedOutput();
+            $application->run($input, $output);
 
-        $content = $output->fetch();
+            $content = $output->fetch();
 
-        return $content;
+            return $content;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
