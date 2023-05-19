@@ -77,7 +77,7 @@ class ProjectRepository extends ServiceEntityRepository
             } else {
                 $searchWhere .= ' OR ';
             }
-            $searchWhere .= 'p.name LIKE :val' . $key . ' OR type.name LIKE :val' . $key . ' OR title.name LIKE :val' . $key . ' OR title.lyrics LIKE :val' . $key . ' ';
+            $searchWhere .= 'p.name LIKE :val' . $key . ' OR type.name LIKE :val' . $key . ' OR title.name LIKE :val' . $key . ' OR title.lyrics LIKE :val' . $key;
         }
 
         $query
