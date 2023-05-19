@@ -17,7 +17,7 @@ use ApiPlatform\Metadata\GetCollection;
     ],
     order: ['date' => 'DESC'],
     paginationEnabled: true,
-    paginationItemsPerPage: 8
+    paginationItemsPerPage: Data::PAGINATION_ITEMS_PER_PAGE
 )]
 class Event
 {

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Data;
 use App\Entity\Project;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ class GetLastsProjectController extends AbstractController
 
     public function __invoke(Request $request)
     {
-        $projects = $this->entityManager->getRepository(Project::class)->findBy([], ['date' => 'DESC'], 5);
+        $projects = $this->entityManager->getRepository(Project::class)->findBy([], ['date' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE_LASTS);
 
         return $projects;
     }

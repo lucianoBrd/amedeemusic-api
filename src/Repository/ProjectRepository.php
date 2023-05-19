@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Data;
 use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -44,13 +45,13 @@ class ProjectRepository extends ServiceEntityRepository
     /**
      * @return Project[] Returns an array of Project objects
      */
-    public function findBySearch(string $search, ?int $page = 1, ?int $limit = 8): ApiPlatformPaginator
+    public function findBySearch(string $search, ?int $page = 1, ?int $limit = Data::PAGINATION_ITEMS_PER_PAGE): ApiPlatformPaginator
     {
         if ($page == null) {
             $page = 1;
         }
         if ($limit == null) {
-            $page = 8;
+            $page = Data::PAGINATION_ITEMS_PER_PAGE;
         }
         $firstResult = ($page - 1) * $limit;
 

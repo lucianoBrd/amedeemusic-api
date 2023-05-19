@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Blog;
+use App\Entity\Data;
 use App\Entity\Local;
 use App\Service\LocalGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +25,7 @@ class GetLastsBlogController extends AbstractController
         $local = $this->localGenerator->checkLocal($local);
         $local = $this->entityManager->getRepository(Local::class)->findOneBy(['local' => $local]);
 
-        $blogs = $this->entityManager->getRepository(Blog::class)->findBy(['local' => $local], ['date' => 'DESC'], 5);
+        $blogs = $this->entityManager->getRepository(Blog::class)->findBy(['local' => $local], ['date' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE_LASTS);
 
         return $blogs;
     }

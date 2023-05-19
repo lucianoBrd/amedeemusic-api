@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Data;
 use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -50,7 +51,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     order: ['date' => 'DESC'],
     paginationEnabled: true,
-    paginationItemsPerPage: 8
+    paginationItemsPerPage: Data::PAGINATION_ITEMS_PER_PAGE
 )]
 #[ApiFilter(SearchFilter::class, properties: [
     'name' => 'partial',
