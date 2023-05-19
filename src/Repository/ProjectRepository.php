@@ -44,8 +44,16 @@ class ProjectRepository extends ServiceEntityRepository
     /**
      * @return Project[] Returns an array of Project objects
      */
-    public function findBySearch(string $search, ?int $page = 1, ?int $limit = 2): ApiPlatformPaginator
+    public function findBySearch(string $search, ?int $page = 1, ?int $limit = 8): ApiPlatformPaginator
     {
+        if ($page == null) {
+            $page = 1;
+        }
+        if ($limit == null) {
+            $page = 8;
+        }
+        $firstResult = ($page - 1) * $limit;
+
         $query = $this->createQueryBuilder('p')
             ->leftJoin('p.type', 'type')
             ->leftJoin('p.titles', 'title')
@@ -53,7 +61,7 @@ class ProjectRepository extends ServiceEntityRepository
             ->setParameter('val', '%' . $search . '%')
             ->orderBy('p.date', 'DESC')
             ->getQuery()
-            ->setFirstResult($page)
+            ->setFirstResult($firstResult)
             ->setMaxResults($limit)
         ;
         $doctrinePaginator = new Paginator($query);
