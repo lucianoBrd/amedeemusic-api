@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Data;
 use App\Entity\Gallery;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ class GetLastsGalleryController extends AbstractController
 
     public function __invoke(Request $request)
     {
-        $galleries = $this->entityManager->getRepository(Gallery::class)->findBy([], ['id' => 'DESC'], 5);
+        $galleries = $this->entityManager->getRepository(Gallery::class)->findBy([], ['id' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE_LASTS);
 
         return $galleries;
     }

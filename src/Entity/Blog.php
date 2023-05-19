@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Data;
 use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\GetLastsBlogController;
+use App\Controller\Api\GetFilterBlogController;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -26,6 +28,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => 'blog:read:collection']
         ),
         new GetCollection(
+            name: 'filterBlog', 
+            uriTemplate: '/blogs/filter', 
+            controller: GetFilterBlogController::class,
+            read: false,
+            normalizationContext: ['groups' => 'blog:read:collection']
+        ),
+        new GetCollection(
             normalizationContext: ['groups' => 'blog:read:collection']
         ),
         new Get(
@@ -33,7 +42,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
     ],
     order: ['date' => 'DESC'],
-    paginationEnabled: false
+    paginationEnabled: true,
+    paginationItemsPerPage: Data::PAGINATION_ITEMS_PER_PAGE
 )]
 #[ApiFilter(SearchFilter::class, properties: ['local.local' => 'exact'])]
 class Blog

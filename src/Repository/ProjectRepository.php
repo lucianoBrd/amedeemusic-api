@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Data;
 use App\Entity\Project;
+use App\Service\SearchService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use ApiPlatform\Doctrine\Orm\Paginator as ApiPlatformPaginator;
@@ -18,7 +20,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class ProjectRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private SearchService $searchService,
+    )
     {
         parent::__construct($registry, Project::class);
     }
@@ -44,21 +49,46 @@ class ProjectRepository extends ServiceEntityRepository
     /**
      * @return Project[] Returns an array of Project objects
      */
-    public function findBySearch(string $search, ?int $page = 1, ?int $limit = 8): ApiPlatformPaginator
+    public function findBySearch(?string $search = '', ?int $page = 1, ?int $limit = Data::PAGINATION_ITEMS_PER_PAGE): ApiPlatformPaginator
     {
+        if ($search == null) {
+            $search = '';
+        }
         if ($page == null) {
             $page = 1;
         }
         if ($limit == null) {
-            $page = 8;
+            $page = Data::PAGINATION_ITEMS_PER_PAGE;
         }
         $firstResult = ($page - 1) * $limit;
+
+        $searchs = $this->searchService->explodeStringByWhitespace($search);
 
         $query = $this->createQueryBuilder('p')
             ->leftJoin('p.type', 'type')
             ->leftJoin('p.titles', 'title')
-            ->andWhere('p.name LIKE :val OR type.name LIKE :val OR title.name LIKE :val OR title.lyrics LIKE :val')
-            ->setParameter('val', '%' . $search . '%')
+        ;
+
+        $searchWhere = '';
+        $first = true;
+        foreach ($searchs as $key => $s) {
+            if ($first) {
+                $first = false;
+            } else {
+                $searchWhere .= ' OR ';
+            }
+            $searchWhere .= 'p.name LIKE :val' . $key . ' OR type.name LIKE :val' . $key . ' OR title.name LIKE :val' . $key . ' OR title.lyrics LIKE :val' . $key . ' ';
+        }
+
+        $query
+            ->andWhere($searchWhere)
+        ;
+
+        foreach ($searchs as $key => $s) {
+            $query->setParameter('val' . $key, '%' . $s . '%');
+        }
+
+        $query = $query
             ->orderBy('p.date', 'DESC')
             ->getQuery()
             ->setFirstResult($firstResult)

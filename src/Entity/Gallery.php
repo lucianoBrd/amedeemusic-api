@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Data;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
@@ -23,7 +24,7 @@ use App\Controller\Api\GetLastsGalleryController;
     ],
     order: ['id' => 'DESC'],
     paginationEnabled: true,
-    paginationItemsPerPage: 8
+    paginationItemsPerPage: Data::PAGINATION_ITEMS_PER_PAGE
 )]
 class Gallery
 {
