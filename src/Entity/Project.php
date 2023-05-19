@@ -5,17 +5,35 @@ namespace App\Entity;
 use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProjectRepository;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\GetLastProjectController;
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\Api\GetLastsProjectController;
+use App\Controller\Api\GetFilterProjectController;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            name: 'lastsProject', 
+            uriTemplate: '/projects/lasts', 
+            controller: GetLastsProjectController::class,
+            read: false,
+            normalizationContext: ['groups' => 'project:read:collection']
+        ),
+        new GetCollection(
+            name: 'filterProject', 
+            uriTemplate: '/projects/filter', 
+            controller: GetFilterProjectController::class,
+            read: false,
+            normalizationContext: ['groups' => 'project:read:collection']
+        ),
         new GetCollection(
             normalizationContext: ['groups' => 'project:read:collection']
         ),
@@ -31,8 +49,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
     ],
     order: ['date' => 'DESC'],
-    paginationEnabled: false
+    paginationEnabled: true,
+    paginationItemsPerPage: 8
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'name' => 'partial',
+])]
 class Project
 {
     #[ORM\Id]

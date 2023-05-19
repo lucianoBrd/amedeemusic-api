@@ -16,7 +16,7 @@ class GetLastProjectController extends AbstractController
 
     public function __invoke(): ?Project
     {
-        $projects = $this->entityManager->getRepository(Project::class)->findBy([], ['date' => 'DESC']);
+        $projects = $this->entityManager->getRepository(Project::class)->findBy([], ['date' => 'DESC'], 1);
         
         foreach ($projects as $project) {
             return $project;

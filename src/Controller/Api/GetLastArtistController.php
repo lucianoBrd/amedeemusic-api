@@ -16,7 +16,7 @@ class GetLastArtistController extends AbstractController
 
     public function __invoke(): ?Artist
     {
-        $artists = $this->entityManager->getRepository(Artist::class)->findBy([], ['id' => 'DESC']);
+        $artists = $this->entityManager->getRepository(Artist::class)->findBy([], ['id' => 'DESC'], 1);
         
         foreach ($artists as $artist) {
             return $artist;

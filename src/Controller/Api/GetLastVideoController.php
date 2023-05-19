@@ -16,7 +16,7 @@ class GetLastVideoController extends AbstractController
 
     public function __invoke(): ?Video
     {
-        $videos = $this->entityManager->getRepository(Video::class)->findBy([], ['id' => 'DESC']);
+        $videos = $this->entityManager->getRepository(Video::class)->findBy([], ['id' => 'DESC'], 1);
         
         foreach ($videos as $video) {
             return $video;
