@@ -8,10 +8,24 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EventRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\Api\GetLastsEventController;
+use App\Controller\Api\GetFilterEventController;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            name: 'lastsEvent', 
+            uriTemplate: '/events/lasts', 
+            controller: GetLastsEventController::class,
+            read: false,
+        ),
+        new GetCollection(
+            name: 'filterEvent', 
+            uriTemplate: '/events/filter', 
+            controller: GetFilterEventController::class,
+            read: false,
+        ),
         new GetCollection(),
         new Get()
     ],
