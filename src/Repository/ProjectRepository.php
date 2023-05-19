@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Project;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use ApiPlatform\Doctrine\Orm\Paginator as ApiPlatformPaginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Project>
@@ -39,20 +41,34 @@ class ProjectRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Project[] Returns an array of Project objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Project[] Returns an array of Project objects
+     */
+    public function findBySearch(string $search, ?int $page = 1, ?int $limit = 8): ApiPlatformPaginator
+    {
+        if ($page == null) {
+            $page = 1;
+        }
+        if ($limit == null) {
+            $page = 8;
+        }
+        $firstResult = ($page - 1) * $limit;
+
+        $query = $this->createQueryBuilder('p')
+            ->leftJoin('p.type', 'type')
+            ->leftJoin('p.titles', 'title')
+            ->andWhere('p.name LIKE :val OR type.name LIKE :val OR title.name LIKE :val OR title.lyrics LIKE :val')
+            ->setParameter('val', '%' . $search . '%')
+            ->orderBy('p.date', 'DESC')
+            ->getQuery()
+            ->setFirstResult($firstResult)
+            ->setMaxResults($limit)
+        ;
+        $doctrinePaginator = new Paginator($query);
+        $paginator = new ApiPlatformPaginator($doctrinePaginator);
+
+        return $paginator;
+    }
 
 //    public function findOneBySomeField($value): ?Project
 //    {
