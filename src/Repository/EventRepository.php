@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Data;
 use App\Entity\Event;
+use App\Service\SearchService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use ApiPlatform\Doctrine\Orm\Paginator as ApiPlatformPaginator;
@@ -19,7 +20,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class EventRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private SearchService $searchService,
+    )
     {
         parent::__construct($registry, Event::class);
     }

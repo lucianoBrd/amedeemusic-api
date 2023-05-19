@@ -18,7 +18,7 @@ class GetLastsEventController extends AbstractController
 
     public function __invoke(Request $request)
     {
-        $events = $this->entityManager->getRepository(Event::class)->findBy([], ['date' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE_LASTS);
+        $events = $this->entityManager->getRepository(Event::class)->findBy([], ['date' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE);
 
         return $events;
     }
