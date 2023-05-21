@@ -55,6 +55,6 @@ class EasyAdminBlogSubscriber implements EventSubscriberInterface
         }
 
         $slug = $this->slugger->slug($entity->getTitle());
-        $entity->setSlug($slug . '-' . time());
+        $entity->setSlug(strtolower($slug . '-' . time()));
     }
 }

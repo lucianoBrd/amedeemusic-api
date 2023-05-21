@@ -8,11 +8,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BlogRepository;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\GetLastsBlogController;
 use App\Controller\Api\GetFilterBlogController;
+use App\Controller\Api\GetRandomsBlogController;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -20,6 +22,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            name: 'randomsBlog', 
+            uriTemplate: '/blogs/randoms', 
+            controller: GetRandomsBlogController::class,
+            read: false,
+            normalizationContext: ['groups' => 'blog:read:collection']
+        ),
         new GetCollection(
             name: 'lastsBlog', 
             uriTemplate: '/blogs/lasts', 
@@ -52,6 +61,7 @@ class Blog
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(['blog:read', 'blog:read:collection'])]
+    #[ApiProperty(identifier: false)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -68,6 +78,7 @@ class Blog
 
     #[ORM\Column(length: 350, unique: true)]
     #[Groups(['blog:read', 'blog:read:collection'])]
+    #[ApiProperty(identifier: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
