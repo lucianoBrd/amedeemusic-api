@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Testimonial;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -23,6 +24,7 @@ class TestimonialCrudController extends AbstractCrudController
             ->add('designation')
             ->add('local')
             ->add('citation')
+            ->add('link')
         ;
     }
     
@@ -38,6 +40,14 @@ class TestimonialCrudController extends AbstractCrudController
         ;
         yield TextField::new('designation')
             ->setColumns(6)
+            ->setFormTypeOptions([
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+        ;
+        yield UrlField::new('link')
+            ->setColumns(12)
             ->setFormTypeOptions([
                 'attr' => [
                     'maxlength' => 255

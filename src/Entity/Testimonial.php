@@ -9,10 +9,17 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\TestimonialRepository;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\Api\GetRandomsTestimonialController;
 
 #[ORM\Entity(repositoryClass: TestimonialRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(
+            name: 'randomsTestimonial', 
+            uriTemplate: '/testimonials/randoms', 
+            controller: GetRandomsTestimonialController::class,
+            read: false,
+        ),
         new GetCollection(),
         new Get(),
     ],
@@ -39,6 +46,9 @@ class Testimonial
     #[ORM\ManyToOne(inversedBy: 'testimonials')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Local $local = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $link = null;
 
     public function __toString(): string
     {
@@ -94,6 +104,18 @@ class Testimonial
     public function setLocal(?Local $local): self
     {
         $this->local = $local;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(string $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }
