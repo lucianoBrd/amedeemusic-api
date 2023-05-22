@@ -23,6 +23,7 @@ class UserCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->disable(Action::NEW, Action::EDIT)
         ;
     }
@@ -42,5 +43,6 @@ class UserCrudController extends AbstractCrudController
         yield EmailField::new('mail');
         yield BooleanField::new('subscribe');
         yield AssociationField::new('messages')->hideOnForm();
+        yield AssociationField::new('mails')->hideOnForm();
     }
 }
