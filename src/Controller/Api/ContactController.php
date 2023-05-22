@@ -70,7 +70,7 @@ class ContactController extends AbstractController
             $context = $this->mailService->getMessageContext(
                 title: $title,
                 local: $local,
-                banner: Banner::BANNER_CONTACT,
+                banner: Banner::BANNER_FREE_GOODS,
                 name: $this->params->get('artist_name'),
                 paragraphs: [
                     $name,
@@ -86,7 +86,7 @@ class ContactController extends AbstractController
             $contextConfirm = $this->mailService->getMessageContext(
                 title: $titleConfirm,
                 local: $local,
-                banner: Banner::BANNER_CONTACT,
+                banner: Banner::BANNER_FREE_GOODS,
                 name: $name,
                 paragraphs: [
                     $language->getThankMessage(),

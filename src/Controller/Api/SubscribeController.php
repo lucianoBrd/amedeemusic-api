@@ -55,7 +55,7 @@ class SubscribeController extends AbstractController
             $context = $this->mailService->getMessageContext(
                 title: $title,
                 local: $local,
-                banner: Banner::BANNER_SUBSCRIBE,
+                banner: Banner::BANNER_USER_WELCOMING,
                 name: $this->userService->getUserName($user),
                 paragraphs: [],
                 buttonPath: null,
@@ -79,7 +79,7 @@ class SubscribeController extends AbstractController
             $context = $this->mailService->getMessageContext(
                 title: $title,
                 local: $local,
-                banner: Banner::BANNER_SUBSCRIBE,
+                banner: Banner::BANNER_USER_WELCOMING,
                 name: '#Unknown',
                 paragraphs: [
                     $language->getErrorHelp()
@@ -128,7 +128,7 @@ class SubscribeController extends AbstractController
             $context = $this->mailService->getMessageContext(
                 title: $title,
                 local: $local,
-                banner: Banner::BANNER_UNSUBSCRIBE,
+                banner: Banner::BANNER_USER_WELCOMING,
                 name: $this->userService->getUserName($user),
                 paragraphs: [],
                 buttonPath: null,
@@ -143,7 +143,7 @@ class SubscribeController extends AbstractController
             $context = $this->mailService->getMessageContext(
                 title: $title,
                 local: $local,
-                banner: Banner::BANNER_UNSUBSCRIBE,
+                banner: Banner::BANNER_USER_WELCOMING,
                 name: '#Unknown',
                 paragraphs: [
                     $language->getErrorHelp()

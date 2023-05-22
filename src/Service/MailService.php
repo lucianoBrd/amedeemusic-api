@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Mail;
 use App\Entity\User;
+use App\Service\UserService;
 use App\Service\LocalGenerator;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -18,8 +20,29 @@ class MailService
         private MailerInterface $mailer,
         private ContainerBagInterface $params,
         private UrlGeneratorInterface $router,
+        private UserService $userService,
     )
     {
+    }
+
+    public function addRecipientsToMail(Mail $mail): Mail {
+        $users = $this->userService->getAllSubscribeUser();
+        
+        $recipientsString = '';
+
+        $first = true;
+        foreach ($users as $user) {
+            $mail->addRecipient($user);
+
+            if ($first) {
+                $first = false;
+            } else {
+                $recipientsString .= ',';
+            }
+            $recipientsString .= $user->getMail();
+        }
+        $mail->setRecipientsString($recipientsString);
+        return $mail;
     }
 
     public function sendMessages(array $messages): bool {

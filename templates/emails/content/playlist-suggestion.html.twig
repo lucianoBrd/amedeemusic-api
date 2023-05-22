@@ -1,0 +1,80 @@
+{% extends "emails/base.html" %}
+{% block content %}
+<!-- Section : Content -->
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+    <tr>
+      <td align="center" bgcolor="#F5F5F5">
+        <!-- 500px Box -->
+        <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+          <tr>
+            <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:50px 50px 30px 50px;">
+              <!-- Content -->
+              <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                <tr>
+                  <td class="col" width="400"" align="left">
+                    <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 28px;line-height: 28px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
+                      Hey, This is your Weekly
+                    </h1>
+                    <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#006CF5;margin: 0; margin-bottom: 15px;">
+                      Playlist Suggestion
+                    </h1>
+                  </td>
+                </tr>
+              </table>
+              <!-- end Content -->
+            </td>
+          </tr>
+        </table>
+        <!-- end 500px box -->       
+      </td>
+    </tr>
+  </table>
+  <!-- end Section : content -->
+
+
+
+  <!-- Section : Featured Playlist -->
+  <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+    <tr>
+      <td align="center" bgcolor="#F5F5F5">
+        <!-- 500px Box -->
+        <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+          <tr>
+            <td class="col px-sm-30 pb-sm-30" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;border-bottom-right-radius: 6px; border-bottom-left-radius: 6px;">
+              <!-- Content -->
+              <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                <tr>
+                  <td class="col px-sm-30 py-sm-20" width="100%" bgcolor="#FAFAFA" style="padding: 30px 50px;" align="center">
+                    <a href="#" style="text-decoration: none;">
+                      <img src="https://dummyimage.com/240x240/D6DAE3/000" alt="playlist Cover" style="width: 240px; max-width: 100%;">
+                    </a>
+                    <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                    <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 28px;line-height: 34px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 15px;">
+                      Happy Friday <br>
+                      Commute
+                    </h3>
+                    <p class="paragraph-center" style="width: 70%;;font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                      Almost through the Week, Enjoy your last commute
+                    </p>
+                    <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                    <!-- button -->
+                    <table class="align-sm-center" cellpadding="0" cellspacing="0" role="presentation">
+                      <tr>
+                        <th bgcolor="#006CF5" style="border-radius: 3px; line-height: 100%; mso-padding-alt: 5px 50px 10px;">
+                          <a href="#" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 400; display: block; font-size: 16px; padding: 10px 30px; text-decoration: none;">Play Now</a>
+                        </th>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <!-- end Content -->
+            </td>
+          </tr>
+        </table>
+        <!-- end 500px box -->       
+      </td>
+    </tr>
+  </table>
+  <!-- end Section : Featured Playlist -->
+{% endblock %}

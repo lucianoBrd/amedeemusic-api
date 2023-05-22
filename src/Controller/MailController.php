@@ -29,7 +29,7 @@ class MailController extends AbstractController
         $context = $this->mailService->getMessageContext(
             title: $title,
             local: $local,
-            banner: Banner::BANNER_SUBSCRIBE,
+            banner: Banner::BANNER_PLAYLIST_SUGGESTION,
             name: 'Lucien Burdet',
             paragraphs: [
                 'Ceci est un paragraphe',
@@ -41,13 +41,13 @@ class MailController extends AbstractController
             user: $user
         );
         
-        $error = $this->mailService->sendMessage(
+        /*$error = $this->mailService->sendMessage(
             'lucien.burdet@gmail.com',
             $title,
             $context
         );
 
-        dump($error);
+        dump($error);*/
 
         $context['debug'] = true;
 

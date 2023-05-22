@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\MailRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MailRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MailRepository::class)]
 class Mail
@@ -17,9 +20,11 @@ class Mail
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $content = null;
 
     #[ORM\Column(length: 500)]
+    #[Assert\NotBlank]
     private ?string $title = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'mails')]
@@ -34,6 +39,7 @@ class Mail
     public function __construct()
     {
         $this->recipients = new ArrayCollection();
+        $this->date = new DateTime('now');
     }
 
     public function getId(): ?int

@@ -10,6 +10,7 @@ class Language
     private ?string $unsubscribeSuccess = null;
     private ?string $unsubscribeError = null;
     private ?string $subscribeError = null;
+	private ?string $unsubscribeText = null;
     private ?string $hello = null;
     private ?string $anyQuestionsContactMe = null;
     private ?string $haveAQuestion = null;
@@ -254,6 +255,22 @@ class Language
 	 */
 	public function setSubscribeError(?string $subscribeError): self {
 		$this->subscribeError = $subscribeError;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getUnsubscribeText(): ?string {
+		return $this->unsubscribeText;
+	}
+	
+	/**
+	 * @param  $unsubscribeText 
+	 * @return self
+	 */
+	public function setUnsubscribeText(?string $unsubscribeText): self {
+		$this->unsubscribeText = $unsubscribeText;
 		return $this;
 	}
 }
