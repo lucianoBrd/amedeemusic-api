@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Data;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiFilter;
@@ -9,6 +10,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\TestimonialRepository;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\Api\GetLastsTestimonialController;
+use App\Controller\Api\GetFilterTestimonialController;
 use App\Controller\Api\GetRandomsTestimonialController;
 
 #[ORM\Entity(repositoryClass: TestimonialRepository::class)]
@@ -20,11 +23,24 @@ use App\Controller\Api\GetRandomsTestimonialController;
             controller: GetRandomsTestimonialController::class,
             read: false,
         ),
+        new GetCollection(
+            name: 'lastsTestimonial', 
+            uriTemplate: '/testimonials/lasts', 
+            controller: GetLastsTestimonialController::class,
+            read: false,
+        ),
+        new GetCollection(
+            name: 'filterTestimonial', 
+            uriTemplate: '/testimonials/filter', 
+            controller: GetFilterTestimonialController::class,
+            read: false,
+        ),
         new GetCollection(),
         new Get(),
     ],
     order: ['id' => 'DESC'],
-    paginationEnabled: false
+    paginationEnabled: true,
+    paginationItemsPerPage: Data::PAGINATION_ITEMS_PER_PAGE
 )]
 #[ApiFilter(SearchFilter::class, properties: ['local.local' => 'exact'])]
 class Testimonial
