@@ -35,6 +35,9 @@
   {% include 'emails/logo.html.twig' %}
   {% include 'emails/banner.html.twig' %}
 
+  {% block header %}
+  {% include 'emails/header.html.twig' %}
+  {% endblock %}
   {% block content %}{% endblock %}
 
   {% include 'emails/contact.html.twig' %}

@@ -5,7 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Banner;
 use App\Service\MailService;
+use App\Entity\MailContent\Shared\Text;
 use App\Entity\MailContent\BlogArticles;
+use App\Entity\MailContent\Shared\Image;
+use App\Entity\MailContent\Shared\Button;
+use App\Entity\MailContent\UserWelcoming;
 use App\Entity\MailContent\BlogArticles\Color;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\MailContent\BlogArticles\Article;
@@ -70,8 +74,10 @@ class MailController extends AbstractController
         $mailContent
             ->setTitle('Hey, This is your Weekly')
             ->setTitleBold('Blog Articles')
-            ->setParagraph('Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…')
         ;
+        $text = new Text();
+        $text->setParagraph('Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…');
+        $mailContent->addText($text);
         $article = new Article();
         $article
             ->setCategory('UX/UI Design')
@@ -92,6 +98,12 @@ class MailController extends AbstractController
             ->setParagraphBold('Luciano Brd')
         ;
         $mailContent->addArticle($article);
+
+        $image = new Image();
+        $image
+            ->setImage('https://dummyimage.com/120x112/D6DAE3/000')
+            ->setAbsolutePath(true)
+        ;
         $article = new Article();
         $article
             ->setCategory('Farming for Tomorrow')
@@ -100,9 +112,9 @@ class MailController extends AbstractController
             ->setLink('#')
             ->setParagraph('WIRED, by')
             ->setParagraphBold('Luciano Brd')
-            ->setImage('https://dummyimage.com/120x112/D6DAE3/000')
-            ->setImageAbsolutePath(true)
+            ->setImage($image)
         ;
+        
         $mailContent->addArticle($article);
         $article = new Article();
         $article
@@ -112,8 +124,7 @@ class MailController extends AbstractController
             ->setLink('#')
             ->setParagraph('WIRED, by')
             ->setParagraphBold('Luciano Brd')
-            ->setImage('https://dummyimage.com/120x112/D6DAE3/000')
-            ->setImageAbsolutePath(true)
+            ->setImage($image)
         ;
         $mailContent->addArticle($article);
 
@@ -136,5 +147,62 @@ class MailController extends AbstractController
         $context['htmlView'] = true;
 
         return $this->render('emails/content/blog-articles.html.twig', $context);
+    }
+
+    #[Route(path: '/mail/user-welcoming', name: 'mail-user-welcoming', condition: '%kernel.debug% === 1')]
+    public function mailUserWelcoming()
+    {
+        $local = 'fr';
+        $title = 'Titre';
+
+        $user = new User();
+        $user->setSecret('secret');
+
+        $mailContent = new UserWelcoming();
+        $mailContent
+            ->setTitle('Hey')
+            ->setTitleBold('Luciano!')
+            ->setLLabel('Username:')
+            ->setRLabel('Email:')
+            ->setLInfo('LucianoBrd')
+            ->setRInfo('luciano@brd.com')
+        ;
+        $text = new Text();
+        $text
+            ->setTitle('Nice to meet You !')
+            ->setParagraph('Welcome to Amédée! We\'re here to help speed up your projects by providing you with the best footage in the industry.');
+        $mailContent->addText($text);
+        $text = new Text();
+        $text
+            ->setTitle('Ready to go live?')
+            ->setParagraph('You can upgrade at any time during your trial. When you do, you\'ll have access to the full power of Squarespace.');
+        $mailContent->addText($text);
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Upgrade Now')
+        ;
+        $mailContent->setButton($button);
+
+        $context = $this->mailService->getMessageContext(
+            title: $title,
+            local: $local,
+            banner: Banner::BANNER_USER_WELCOMING,
+            content: $mailContent,
+            user: $user
+        );
+        
+        /*$error = $this->mailService->sendMessage(
+            'lucien.burdet@gmail.com',
+            $title,
+            $context
+        );
+
+        dump($error);*/
+
+        $context['htmlView'] = true;
+
+        return $this->render('emails/content/user-welcoming.html.twig', $context);
     }
 }

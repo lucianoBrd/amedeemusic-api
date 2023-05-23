@@ -2,7 +2,7 @@
 
 namespace App\Entity\MailContent\BlogArticles;
 
-use App\Entity\MailContent\BlogArticles;
+use App\Entity\MailContent\Shared\Image;
 
 class Article
 {
@@ -13,9 +13,7 @@ class Article
     private ?string $link = null;
     private ?string $paragraph = null;
     private ?string $paragraphBold = null;
-    private ?string $image = null;
-    private bool $imageAbsolutePath = false;
-    private ?BlogArticles $blogArticles = null;
+    private ?Image $image = null;
 
     public function __construct()
     {
@@ -121,38 +119,6 @@ class Article
 	/**
 	 * @return 
 	 */
-	public function getImage(): ?string {
-		return $this->image;
-	}
-	
-	/**
-	 * @param  $image 
-	 * @return self
-	 */
-	public function setImage(?string $image): self {
-		$this->image = $image;
-		return $this;
-	}
-
-	/**
-	 * @return 
-	 */
-	public function getBlogArticles(): ?BlogArticles {
-		return $this->blogArticles;
-	}
-	
-	/**
-	 * @param  $blogArticles 
-	 * @return self
-	 */
-	public function setBlogArticles(?BlogArticles $blogArticles): self {
-		$this->blogArticles = $blogArticles;
-		return $this;
-	}
-
-	/**
-	 * @return 
-	 */
 	public function getId(): ?string {
 		return $this->id;
 	}
@@ -160,16 +126,16 @@ class Article
 	/**
 	 * @return 
 	 */
-	public function getImageAbsolutePath(): bool {
-		return $this->imageAbsolutePath;
+	public function getImage(): ?Image {
+		return $this->image;
 	}
 	
 	/**
-	 * @param  $imageAbsolutePath 
+	 * @param  $image 
 	 * @return self
 	 */
-	public function setImageAbsolutePath(bool $imageAbsolutePath): self {
-		$this->imageAbsolutePath = $imageAbsolutePath;
+	public function setImage(?Image $image): self {
+		$this->image = $image;
 		return $this;
 	}
 }

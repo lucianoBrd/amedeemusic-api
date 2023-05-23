@@ -7,9 +7,9 @@ use App\Entity\User;
 use App\Service\UserService;
 use App\Service\LocalGenerator;
 use Symfony\Component\Mime\Address;
-use App\Entity\MailContent\MailContent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Entity\MailContent\MailContentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -86,7 +86,7 @@ class MailService
         string $title,
         string $local,
         string $banner,
-        MailContent $content,
+        MailContentInterface $content,
         ?User $user = null,
         ?bool $htmlView = false
     ): array
