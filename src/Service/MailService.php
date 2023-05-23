@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Service\UserService;
 use App\Service\LocalGenerator;
 use Symfony\Component\Mime\Address;
+use App\Entity\MailContent\MailContent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -85,13 +86,9 @@ class MailService
         string $title,
         string $local,
         string $banner,
-        string $name,
-        array $paragraphs,
-        ?string $buttonPath = null,
-        ?string $buttonAbsolutePath = null,
-        ?string $buttonName = null,
+        MailContent $content,
         ?User $user = null,
-        ?bool $debug = false
+        ?bool $htmlView = false
     ): array
     {
         $language = $this->localGenerator->getLanguageByLocal($local);
@@ -105,15 +102,10 @@ class MailService
             'local' => $local,
             'title' => $title,
             'banner' => $banner,
-            'h1' => $name,
-            'h3' => $title,
-            'paragraphs' => $paragraphs,
-            'buttonPath' => $buttonPath,
-            'buttonAbsolutePath' => $buttonAbsolutePath,
-            'buttonName' => $buttonName,
+            'content' => $content,
             'language' => $language,
             'unsubscribePath' => $unsubscribePath,
-            'debug' => $debug,
+            'htmlView' => $htmlView,
         ];
     }
 }

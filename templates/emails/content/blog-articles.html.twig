@@ -1,4 +1,4 @@
-{% extends "emails/base.html" %}
+{% extends "emails/base.html.twig" %}
 {% block content %}
 <!-- Section : Content -->
 <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
@@ -12,15 +12,21 @@
             <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
               <tr>
                 <td class="col" width="400"" align="left">
+                  {% if content.title %}
                   <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 28px;line-height: 28px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
-                    Hey, This is your Weekly
+                    {{ content.title }}
                   </h1>
+                  {% endif %}
+                  {% if content.titleBold %}
                   <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 15px;">
-                    Blog Articles
+                    {{ content.titleBold }}
                   </h1>
+                  {% endif %}
+                  {% if content.paragraph %}
                   <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…
+                    {{ content.paragraph }}
                   </p>
+                  {% endif %}
                 </td>
               </tr>
             </table>
@@ -36,7 +42,8 @@
 
 
 
-<!-- Section : Articls -->
+<!-- Section : Articles -->
+{% if content.articles|length > 0 %}
 <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
   <tr>
     <td align="center" bgcolor="#F5F5F5">
@@ -48,82 +55,41 @@
             <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
 
               <!-- Article 1 -->
+              {% for article in content.articles %}
               <tr>
-                <td colspan="2" class="col " width="100%" style="padding: 20px 0;">
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#006CF5; margin: 0; margin-bottom: 5px ;">
-                    UX/UI Design
+                <td class="col " {% if article.image %}width="270"{% else %}width="100%" colspan="2"{% endif %} style="padding: 20px 0;">
+                  {% if article.category %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#{{ article.color ? article.color : random(constant('App\\Entity\\MailContent\\BlogArticles\\Color::COLORS')) }}; margin: 0; margin-bottom: 5px ;">
+                    {{ article.category }}
                   </p>
-                  <a href="#" style="text-decoration: none;">
+                  {% endif %}
+                  {% if article.title %}
+                  <a href="{{ article.link ? article.link : '#' }}" style="text-decoration: none;">
                     <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                      Tiny Habits: The Small Changes That Change Everything.
+                      {{ article.title }}
                     </h3>
                   </a>
+                  {% endif %}
+                  {% if article.paragraph or article.paragraphBold %}
                   <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    WIRED, by <span style="color: #292929;">Margaret Rhodes</span> 
+                    {{ article.paragraph ? article.paragraph : '' }} {% if article.paragraphBold %}<span style="color: #292929;">{{ article.paragraphBold }}</span>{% endif %}
                   </p>
+                  {% endif %}
                 </td>
-              </tr>
-
-              <!-- Article 2 -->
-              <tr>
-                <td colspan="2" class="col " width="100%" style="padding: 20px 0;">
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#FF4133; margin: 0; margin-bottom: 5px ;">
-                    iOS Development
-                  </p>
-                  <a href="#" style="text-decoration: none;">
-                    <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                      Apple TV Login + Android - Behance Tech.
-                    </h3>
-                  </a>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    WIRED, by <span style="color: #292929;">Margaret Rhodes</span> 
-                  </p>
-                </td colspan="2">
-              </tr>
-
-              <!-- Article 3 -->
-              <tr>
-                <td class="col " width="270" style="padding: 20px 0;">
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#89C5CC; margin: 0; margin-bottom: 5px ;">
-                    Farming for Tomorrow
-                  </p>
-                  <a href="#" style="text-decoration: none;">
-                    <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                      New law in Italy would force supermarkets to donate unsold food to those in need.
-                    </h3>
-                  </a>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    WIRED, by <span style="color: #292929;">Margaret Rhodes</span> 
-                  </p>
-                </td>
+                {% if article.image %}
                 <td class="col hide-sm" width="120" style="padding: 20px 0 20px 10px;">
-                  <a href="#" style="text-decoration: none;">
-                    <img src="https://dummyimage.com/120x112/D6DAE3/000" alt="article thumb" style="width: 120px; max-width: 100%;">
+                  <a href="{{ article.link ? article.link : '#' }}" style="text-decoration: none;">
+                    {% set image = article.image %}
+                    {% if not article.imageAbsolutePath %}
+                    {% set image = htmlView ? asset(imagesPath ~ '/uploads/' ~ article.image) : email.image('@images/uploads/' ~ article.image) %}
+                    {% endif %}
+                    <img src="{{ image }}" alt="article thumb" style="width: 120px; max-width: 100%;">
                   </a>
                 </td>
+                {% endif %}
               </tr>
+              {% endfor %}
 
-              <!-- Article 4 -->
-              <tr>
-                <td class="col " width="270" style="padding: 20px 0; vertical-align: middle;">
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#FF9B21; margin: 0; margin-bottom: 5px ;">
-                    Personal Developpment
-                  </p>
-                  <a href="#" style="text-decoration: none;">
-                    <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                      Whether Your Goals Are Big or Small, It’s Important to Measure Your Progress
-                    </h3>
-                  </a>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    WIRED, by <span style="color: #292929;">Margaret Rhodes</span> 
-                  </p>
-                </td>
-                <td class="col hide-sm" width="120" style="padding: 20px 0 20px 10px; vertical-align: middle;">
-                  <a href="#" style="text-decoration: none;">
-                    <img src="https://dummyimage.com/120x112/D6DAE3/000" alt="article thumb" style="width: 120px; max-width: 100%;">
-                  </a>
-                </td>
-              </tr>
             </table>
             <!-- end Content -->
           </td>
@@ -133,5 +99,6 @@
     </td>
   </tr>
 </table>
-<!-- end Section : Articls->
+{% endif %}
+<!-- end Section : Articles->
 {% endblock %}

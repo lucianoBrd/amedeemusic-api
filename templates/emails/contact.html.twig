@@ -10,7 +10,7 @@
               <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
                 <tr>
                   <td class="col col-sm-4" width="80"" align="left">
-                    <img src="{{ debug ? asset(imagesPath ~ '/robot.png') : email.image('@images/robot.png') }}" alt="Robot" style="width: 80px; max-width: 100%;">
+                    <img src="{{ htmlView ? asset(imagesPath ~ '/robot.png') : email.image('@images/robot.png') }}" alt="Robot" style="width: 80px; max-width: 100%;">
                   </td>
                   <td class="col col-sm-8" width="300"" align="left" style="padding-left: 20px; vertical-align: middle;">
                     <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
