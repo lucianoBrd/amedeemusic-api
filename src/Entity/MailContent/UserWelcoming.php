@@ -4,6 +4,7 @@ namespace App\Entity\MailContent;
 
 use App\Entity\MailContent\MailContent;
 use App\Entity\MailContent\Shared\Button;
+use App\Entity\MailContent\UserWelcoming\Color;
 use App\Entity\MailContent\MailContentInterface;
 
 class UserWelcoming extends MailContent implements MailContentInterface
@@ -16,7 +17,7 @@ class UserWelcoming extends MailContent implements MailContentInterface
 
     public function __construct()
     {
-        $this->color = 'FF4133';
+        $this->color = Color::COLOR;
     }
 
 	/**

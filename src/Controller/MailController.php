@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Banner;
 use App\Service\MailService;
+use App\Entity\MailContent\JobBoard;
 use App\Entity\MailContent\Shared\Text;
 use App\Entity\MailContent\BlogArticles;
+use App\Entity\MailContent\JobBoard\Job;
 use App\Entity\MailContent\Shared\Image;
+use App\Entity\MailContent\JobBoard\Info;
 use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
 use App\Entity\MailContent\BlogArticles\Color;
@@ -15,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\MailContent\BlogArticles\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/admin/mail', condition: '%kernel.debug% === 1', name: 'mail_')]
 class MailController extends AbstractController
 {
 
@@ -24,7 +28,7 @@ class MailController extends AbstractController
     {
     }
 
-    #[Route(path: '/mail', name: 'mail', condition: '%kernel.debug% === 1')]
+    #[Route(path: '/mail', name: 'mail')]
     public function testMail()
     {
         $local = 'fr';
@@ -61,7 +65,7 @@ class MailController extends AbstractController
         return $this->render('emails/base.html.twig', $context);
     }
 
-    #[Route(path: '/mail/blog-articles', name: 'mail-blog-articles', condition: '%kernel.debug% === 1')]
+    #[Route(path: '/blog-articles', name: 'blog_articles')]
     public function mailBlogArticles()
     {
         $local = 'fr';
@@ -149,7 +153,7 @@ class MailController extends AbstractController
         return $this->render('emails/content/blog-articles.html.twig', $context);
     }
 
-    #[Route(path: '/mail/user-welcoming', name: 'mail-user-welcoming', condition: '%kernel.debug% === 1')]
+    #[Route(path: '/user-welcoming', name: 'user_welcoming')]
     public function mailUserWelcoming()
     {
         $local = 'fr';
@@ -204,5 +208,87 @@ class MailController extends AbstractController
         $context['htmlView'] = true;
 
         return $this->render('emails/content/user-welcoming.html.twig', $context);
+    }
+
+    #[Route(path: '/job-board', name: 'job_board')]
+    public function mailJobBoard()
+    {
+        $local = 'fr';
+        $title = 'Titre';
+
+        $user = new User();
+        $user->setSecret('secret');
+
+        $mailContent = new JobBoard();
+        $mailContent
+            ->setTitle('Design Jobs For')
+            ->setTitleBold('Web Designer')
+        ;
+        $text = new Text();
+        $text
+            ->setTitle('Design Jobs for Designer')
+            ->setParagraph('LucianoBrd is the heart of the design community and the best resource to discover and connect with designers and jobs worldwide.')
+        ;
+        $mailContent->addText($text);
+        $job = new Job();
+        $job
+            ->setTitle('Screen Art Director, Marcom')
+            ->setCompagny('-Apple Inc.')
+            ->setParagraph('Marcom is Apple\'s Global Marketing Communications group that oversees all of Apple\'s advertising and marketing to create world-class communications.')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('logo.png')
+        ;
+        $job->setImage($image);
+        $info = new Info();
+        $info
+            ->setTitle('Cupertino, CA')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('jpin.png')
+        ;
+        $info->setImage($image);
+        $job->addInfo($info);
+        $info = new Info();
+        $info
+            ->setTitle('Full-time')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('jcalandar.png')
+        ;
+        $info->setImage($image);
+        $job->addInfo($info);
+        $mailContent->addJob($job);
+        
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Show All Jobs')
+        ;
+        $mailContent->setButton($button);
+
+        $context = $this->mailService->getMessageContext(
+            title: $title,
+            local: $local,
+            banner: Banner::BANNER_JOB_BOARD,
+            content: $mailContent,
+            user: $user
+        );
+        
+        /*$error = $this->mailService->sendMessage(
+            'lucien.burdet@gmail.com',
+            $title,
+            $context
+        );
+
+        dump($error);*/
+
+        $context['htmlView'] = true;
+
+        return $this->render('emails/content/job-board.html.twig', $context);
     }
 }

@@ -8,7 +8,7 @@ use App\Entity\MailContent\MailContentInterface;
 
 class BlogArticles extends MailContent implements MailContentInterface
 {
-    private array $articles;
+    private array $articles = [];
 
     public function __construct()
     {

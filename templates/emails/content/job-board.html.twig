@@ -1,190 +1,90 @@
-{% extends "emails/base.html" %}
+{% extends "emails/base.html.twig" %}
 {% block content %}
-<!-- Section : Content -->
+<!-- Section : Job -->
+{% if content.jobs|length > 0 or content.button %}
 <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
   <tr>
     <td align="center" bgcolor="#F5F5F5">
       <!-- 500px Box -->
       <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
         <tr>
-          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:50px 50px;">
+          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;">
             <!-- Content -->
             <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
               <tr>
-                <td class="col" width="400"" align="left">
-                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 28px;line-height: 28px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
-                    Design Jobs For
-                  </h1>
-                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#89C5CC;margin: 0; margin-bottom: 15px;">
-                    Web Designer
-                  </h1>
-                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
-                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
-                    Design Jobs for Designer
-                  </h3>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 16px;line-height: 22px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    Notify 3 is the heart of the design community and the best resource to discover and connect with designers and jobs worldwide.
-                  </p>
-                  <div class="spacer py-sm-10" style="line-height: 40px;">‌</div>
-                 
+                <td class="col" width="400"" align="left">                 
 
                   <!-- Job 1 -->
+                  {% for job in content.jobs %}
                   <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                    {% if job.title or job.compagny or job.image %}
                     <tr>
-                      <td colspan="2" class="spacer py-sm-20" height="30"></td>
+                      <td {% if job.image and job.image.image %}colspan="2"{% endif %} class="spacer py-sm-20" height="30"></td>
                     </tr>
                     <tr>
+                      {% if job.image and job.image.image %}
                       <td class="col col-sm-2" width="40">
-                        <a href="#" style="text-decoration: none;">
-                          <img src="images/random_logo_1.png" alt="Random logo 1" style="width: 40px;">
+                        <a href="{{ job.link ? job.link : '#' }}" style="text-decoration: none;">
+                          {% set image = job.image.image %}
+                          {% if not job.image.absolutePath %}
+                          {% set image = htmlView ? asset(imagesPath ~ '/' ~ job.image.image) : email.image('@images/' ~ job.image.image) %}
+                          {% endif %}
+                          <img src="{{ image }}" alt="logo" style="width: 40px;">
                         </a>
                       </td>
-                      <td class="col col-sm-10 pl-sm-10" width="350" style="padding-left: 20px; vertical-align: middle;"> 
-                        <a href="#" class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px; text-decoration: none;">
-                          Screen Art Director, Marcom
+                      {% endif %}
+                      <td class="col col-sm-10 pl-sm-10" width="{% if job.image and job.image.image %}350{% else %}400{% endif %}" style="{% if job.image and job.image.image %}padding-left: 20px;{% endif %} vertical-align: middle;">
+                        {% if job.title %}
+                        <a href="{{ job.link ? job.link : '#' }}" class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px; text-decoration: none;">
+                          {{ job.title }}
                         </a>
+                        {% endif %}
+                        {% if job.compagny %}
                         <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          -Apple Inc.
+                          {{ job.compagny }}
                         </p>
+                        {% endif %}
                       </td>
                     </tr>
+                    {% endif %}
+                    {% if job.infos|length > 0 or job.paragraph %}
                     <tr>
-                      <td colspan="2" class="spacer py-sm-10" height="20"></td>
+                      <td {% if job.image and job.image.image %}colspan="2"{% endif %} class="spacer py-sm-10" height="20"></td>
                     </tr>
                     <tr>
-                      <td colspan="2" class="col">
+                      <td {% if job.image and job.image.image %}colspan="2"{% endif %} class="col">
+                        {% if job.paragraph %}
                         <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          Marcom is Apple’s Global Marketing Communications group that oversees all of Apple’s advertising and marketing to create world-class communications.
+                          {{ job.paragraph }}
                         </p>
+                        {% endif %}
+                        {% if job.infos|length > 0 %}
                         <div class="spacer pb-sm-10" style="line-height: 5px;">‌</div>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jpin.png" alt="pin" style="width: 7px; margin-right: 5px;"> Cupertino, CA</span>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jcalandar.png" alt="pin" style="width: 11px; margin-right: 5px;">Full-time</span>
+                        {% for info in job.infos %}
+                        {% if info.image or info.title %}
+                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0 0 0 {% if loop.first %}0{% else %}4px{% endif %}; padding: 5px 5px; background-color: #FAFAFA;">
+                          {% if info.image and info.image.image %}
+                          {% set image = info.image.image %}
+                          {% if not info.image.absolutePath %}
+                          {% set image = htmlView ? asset(imagesPath ~ '/' ~ info.image.image) : email.image('@images/' ~ info.image.image) %}
+                          {% endif %}
+                          <img src="{{ image }}" alt="{{ info.image.image }}" style="height: 11px; margin-right: 5px;"> 
+                          {% endif %}
+                          {{ info.title ? info.title : '' }}
+                        </span>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
                       </td>
                     </tr>
+                    {% endif %}
                     <tr>
                       <td colspan="2" class="spacer py-sm-10" height="20" style="border-bottom: 1px solid #F0F0F0;"></td>
                     </tr>
                   </table>
+                  {% endfor %}
 
-
-                  <!-- Job 2 -->
-                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-20" height="30"></td>
-                    </tr>
-                    <tr>
-                      <td class="col" width="400" style=" vertical-align: middle;"> 
-                        <a href="#" class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px; text-decoration: none;">
-                          Screen Art Director, Marcom
-                        </a>
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          -Apple Inc.
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-10" height="20"></td>
-                    </tr>
-                    <tr>
-                      <td class="col">
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          Marcom is Apple’s Global Marketing Communications group that oversees all of Apple’s advertising and marketing to create world-class communications.
-                        </p>
-                        <div class="spacer pb-sm-10" style="line-height: 5px;">‌</div>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jpin.png" alt="pin" style="width: 7px; margin-right: 5px;"> Cupertino, CA</span>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jcalandar.png" alt="pin" style="width: 11px; margin-right: 5px;">Full-time</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="spacer py-sm-10" height="20" style="border-bottom: 1px solid #F0F0F0;"></td>
-                    </tr>
-                  </table>
-
-                  <!-- Job 3 -->
-                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-20" height="30"></td>
-                    </tr>
-                    <tr>
-                      <td class="col col-sm-2" width="40">
-                        <a href="#" style="text-decoration: none;">
-                          <img src="images/random_logo_2.png" alt="Random logo 1" style="width: 40px;">
-                        </a>
-                      </td>
-                      <td class="col col-sm-10 pl-sm-10" width="350" style="padding-left: 20px; vertical-align: middle;"> 
-                        <a href="#" class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px; text-decoration: none;">
-                          Screen Art Director, Marcom
-                        </a>
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          -Apple Inc.
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-10" height="20"></td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="col">
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          Marcom is Apple’s Global Marketing Communications group that oversees all of Apple’s advertising and marketing to create world-class communications.
-                        </p>
-                        <div class="spacer pb-sm-10" style="line-height: 5px;">‌</div>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jpin.png" alt="pin" style="width: 7px; margin-right: 5px;"> Cupertino, CA</span>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jcalandar.png" alt="pin" style="width: 11px; margin-right: 5px;">Full-time</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-10" height="20" style="border-bottom: 1px solid #F0F0F0;"></td>
-                    </tr>
-                  </table>
-
-                  <!-- Job 4 -->
-                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-20" height="30"></td>
-                    </tr>
-                    <tr>
-                      <td class="col col-sm-2" width="40">
-                        <a href="#" style="text-decoration: none;">
-                          <img src="images/random_logo_3.png" alt="Random logo 3" style="width: 40px;">
-                        </a>
-                      </td>
-                      <td class="col col-sm-10 pl-sm-10" width="350" style="padding-left: 20px; vertical-align: middle;"> 
-                        <a href="#" class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px; text-decoration: none;">
-                          Screen Art Director, Marcom
-                        </a>
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          -Apple Inc.
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-10" height="20"></td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="col">
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          Marcom is Apple’s Global Marketing Communications group that oversees all of Apple’s advertising and marketing to create world-class communications.
-                        </p>
-                        <div class="spacer pb-sm-10" style="line-height: 5px;">‌</div>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jpin.png" alt="pin" style="width: 7px; margin-right: 5px;"> Cupertino, CA</span>
-                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; padding: 5px 5px; background-color: #FAFAFA;"><img src="images/jcalandar.png" alt="pin" style="width: 11px; margin-right: 5px;">Full-time</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="spacer py-sm-10" height="20" style="border-bottom: 1px solid #F0F0F0;"></td>
-                    </tr>
-                  </table>
-
-                  <div class="spacer py-sm-20" style="line-height: 30px;">‌</div>
-                  <!-- button -->
-                  <table class="align-sm-center" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-                    <tr>
-                      <th bgcolor="#89C5CC" style="border-radius: 3px; line-height: 100%; mso-padding-alt: 5px 50px 10px;">
-                        <a href="{{ gift_card.url }}" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 400; display: block; font-size: 16px; padding: 13px 20px; text-decoration: none;">Show All Jobs</a>
-                      </th>
-                    </tr>
-                  </table>
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.button, 'color': content.color} %}
                 </td>
               </tr>
             </table>
@@ -196,5 +96,6 @@
     </td>
   </tr>
 </table>
-<!-- end Section : content -->
+{% endif %}
+<!-- end Section : Job -->
 {% endblock %}
