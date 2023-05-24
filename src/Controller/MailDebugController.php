@@ -194,4 +194,36 @@ class MailDebugController extends AbstractController
 
         return $this->render('emails/content/month-stats.html.twig', $context);
     }
+
+    #[Route(path: '/pricing-table', name: 'pricing_table')]
+    public function mailPricingTable()
+    {
+        $local = 'fr';
+        $title = 'Titre';
+
+        $user = new User();
+        $user->setSecret('secret');
+
+        $mailContent = $this->mailContentDebugService->getPricingTable();
+
+        $context = $this->mailService->getMessageContext(
+            title: $title,
+            local: $local,
+            banner: Banner::BANNER_PRICING_TABLE,
+            content: $mailContent,
+            user: $user
+        );
+        
+        /*$error = $this->mailService->sendMessage(
+            'lucien.burdet@gmail.com',
+            $title,
+            $context
+        );
+
+        dump($error);*/
+
+        $context['htmlView'] = true;
+
+        return $this->render('emails/content/pricing-table.html.twig', $context);
+    }
 }

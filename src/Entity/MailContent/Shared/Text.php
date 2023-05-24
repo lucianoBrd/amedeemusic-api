@@ -2,12 +2,15 @@
 
 namespace App\Entity\MailContent\Shared;
 
+use App\Entity\MailContent\Shared\Image;
+
 
 class Text
 {
     private ?string $id = null;
     private ?string $title = null;
     private ?string $paragraph = null;
+    private ?Image $image = null;
 
     public function __construct()
     {
@@ -50,6 +53,22 @@ class Text
 	 */
 	public function setParagraph(?string $paragraph): self {
 		$this->paragraph = $paragraph;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getImage(): ?Image {
+		return $this->image;
+	}
+	
+	/**
+	 * @param  $image 
+	 * @return self
+	 */
+	public function setImage(?Image $image): self {
+		$this->image = $image;
 		return $this;
 	}
 }

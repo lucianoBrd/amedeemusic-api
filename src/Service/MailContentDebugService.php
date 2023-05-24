@@ -6,6 +6,7 @@ use App\Entity\MailContent\MonthStats;
 use App\Entity\MailContent\Shared\Text;
 use App\Entity\MailContent\BlogArticles;
 use App\Entity\MailContent\JobBoard\Job;
+use App\Entity\MailContent\PricingTable;
 use App\Entity\MailContent\Shared\Image;
 use App\Entity\MailContent\JobBoard\Info;
 use App\Entity\MailContent\Shared\Button;
@@ -13,6 +14,7 @@ use App\Entity\MailContent\UserWelcoming;
 use App\Entity\MailContent\MonthStats\Stat;
 use App\Entity\MailContent\BlogArticles\Article;
 use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
+use App\Entity\MailContent\PricingTable\Color as PricingTableColor;
 
 class MailContentDebugService
 {
@@ -309,6 +311,56 @@ class MailContentDebugService
             ->setName('More Details')
         ;
         $mailContent->setButton($button);
+        
+        return $mailContent;
+    }
+
+    public function getPricingTable(): PricingTable {
+        $mailContent = new PricingTable();
+        $mailContent
+            ->setTitle('Choose your')
+            ->setTitleBold('Plan')
+            ->setStarterTitle('Starter')
+            ->setStarterSubTitle('For Individuals')
+            ->setStarterPrice('Free')
+            ->setStarterParagraph('No Domain Included. No Google Ads Credits')
+            ->setAdvancedTitle('Advanced')
+            ->setAdvancedSubTitle('Groups & Organizations')
+            ->setAdvancedPrice('$10/')
+            ->setAdvancedDate('mo')
+            ->setAdvancedParagraph('Domain Included ($20). Google Ads Crédits($120)')
+        ;
+        $button = new Button();
+        $button
+            ->setColor(PricingTableColor::STARTER_COLOR)
+            ->setLink('#')
+            ->setName('Select')
+        ;
+        $mailContent->setStarterButton($button);
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Select')
+        ;
+        $mailContent->setAdvancedButton($button);
+        $text = new Text();
+        $text
+            ->setTitle('Exceptional Service, at the Right Price')
+            ->setParagraph('Here\'s a look back at your accomplishments last month, plus tips on how to make the most of your time while delivering. Now let\'s get moving!')
+        ;
+        $mailContent->addText($text);
+        $image = new Image();
+        $image
+            ->setImage('case.png')
+        ;
+        $text = new Text();
+        $text
+            ->setTitle('Entreprise')
+            ->setParagraph('Don\'t find what you\'re looking for or need multiple tarifes. Pease Contact Us for custom services')
+            ->setImage($image)
+        ;
+        $mailContent->addText($text);
         
         return $mailContent;
     }

@@ -22,6 +22,14 @@
                     {% endif %}
                     <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
                     {% for text in content.texts %}
+                    {% if text.image and text.image.image %}
+                    {% set image = text.image.image %}
+                    {% if not text.image.absolutePath %}
+                    {% set image = htmlView ? asset(imagesPath ~ '/' ~ text.image.image) : email.image('@images/' ~ text.image.image) %}
+                    {% endif %}
+                    <img src="{{ image }}" alt="{{ text.image.image }}" style="width: 23px;max-width: 23px;">
+                    <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                    {% endif %}
                     {% if text.title %}
                     <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
                         {{ text.title }}
