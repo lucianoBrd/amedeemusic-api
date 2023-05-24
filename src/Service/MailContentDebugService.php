@@ -2,6 +2,7 @@
 
 namespace App\Service;
 use App\Entity\MailContent\JobBoard;
+use App\Entity\MailContent\MonthStats;
 use App\Entity\MailContent\Shared\Text;
 use App\Entity\MailContent\BlogArticles;
 use App\Entity\MailContent\JobBoard\Job;
@@ -9,6 +10,7 @@ use App\Entity\MailContent\Shared\Image;
 use App\Entity\MailContent\JobBoard\Info;
 use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
+use App\Entity\MailContent\MonthStats\Stat;
 use App\Entity\MailContent\BlogArticles\Article;
 use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
 
@@ -234,6 +236,77 @@ class MailContentDebugService
             ->setColor($mailContent->getColor())
             ->setLink('#')
             ->setName('Show All Jobs')
+        ;
+        $mailContent->setButton($button);
+        
+        return $mailContent;
+    }
+
+    public function getMonthStats(): MonthStats {
+        $mailContent = new MonthStats();
+        $mailContent
+            ->setTitle('Congrats on a')
+            ->setTitleBold('Great Month')
+        ;
+        $text = new Text();
+        $text
+            ->setTitle('You\'re doing awesome, Luciano')
+            ->setParagraph('Here\'s a look back at your accomplishments last month, plus tips on how to make the most of your time while delivering. Now let\'s get moving!')
+        ;
+        $mailContent->addText($text);
+
+        // Stat1
+        $stat = new Stat();
+        $stat
+            ->setTitle('Views :')
+            ->setNumber('1.07 M')
+            ->setSubTitle('Pro tip:')
+            ->setParagraph('Here\'s a look back at your accomplishments last month, plus tips on how to make the most of your time while delivering. Now let\'s get moving!')
+            ->setEvolution('+38K views')
+            ->setDate('last month')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('eye.png')
+        ;
+        $stat->setImage($image);
+        $mailContent->addStat($stat);
+
+        // Stat2
+        $stat = new Stat();
+        $stat
+            ->setTitle('Likes :')
+            ->setNumber('66')
+            ->setEvolution('+38K likes')
+            ->setDate('last month')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('hearth.png')
+        ;
+        $stat->setImage($image);
+        $mailContent->addStat($stat);
+
+        // Stat3
+        $stat = new Stat();
+        $stat
+            ->setTitle('Downloads :')
+            ->setNumber('5.83 K')
+            ->setEvolution('+38K Downloads')
+            ->setDate('last month')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('download.png')
+        ;
+        $stat->setImage($image);
+        $mailContent->addStat($stat);
+        
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('More Details')
         ;
         $mailContent->setButton($button);
         

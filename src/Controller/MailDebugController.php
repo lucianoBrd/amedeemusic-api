@@ -162,4 +162,36 @@ class MailDebugController extends AbstractController
 
         return $this->render('emails/content/job-board.html.twig', $context);
     }
+
+    #[Route(path: '/month-stats', name: 'month_stats')]
+    public function mailMonthStats()
+    {
+        $local = 'fr';
+        $title = 'Titre';
+
+        $user = new User();
+        $user->setSecret('secret');
+
+        $mailContent = $this->mailContentDebugService->getMonthStats();
+
+        $context = $this->mailService->getMessageContext(
+            title: $title,
+            local: $local,
+            banner: Banner::BANNER_MONTH_STATS,
+            content: $mailContent,
+            user: $user
+        );
+        
+        /*$error = $this->mailService->sendMessage(
+            'lucien.burdet@gmail.com',
+            $title,
+            $context
+        );
+
+        dump($error);*/
+
+        $context['htmlView'] = true;
+
+        return $this->render('emails/content/month-stats.html.twig', $context);
+    }
 }

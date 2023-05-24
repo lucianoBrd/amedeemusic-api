@@ -13,6 +13,7 @@ class Button
     public function __construct()
     {
         $this->id = uniqid();
+		$this->color = '292929';
     }
 
 	/**
