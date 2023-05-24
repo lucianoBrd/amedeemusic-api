@@ -1,10 +1,6 @@
 <?php
 
-namespace App\Controller;
-
-use App\Entity\User;
-use App\Entity\Banner;
-use App\Service\MailService;
+namespace App\Service;
 use App\Entity\MailContent\JobBoard;
 use App\Entity\MailContent\Shared\Text;
 use App\Entity\MailContent\BlogArticles;
@@ -13,67 +9,17 @@ use App\Entity\MailContent\Shared\Image;
 use App\Entity\MailContent\JobBoard\Info;
 use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
-use App\Entity\MailContent\BlogArticles\Color;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\MailContent\BlogArticles\Article;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
 
-#[Route('/admin/mail', condition: '%kernel.debug% === 1', name: 'mail_')]
-class MailController extends AbstractController
+class MailContentDebugService
 {
-
     public function __construct(
-        private MailService $mailService
     )
     {
     }
 
-    #[Route(path: '/mail', name: 'mail')]
-    public function testMail()
-    {
-        $local = 'fr';
-        $title = 'Titre';
-        $user = new User();
-
-        $user->setSecret('secret');
-
-        $context = $this->mailService->getMessageContext(
-            title: $title,
-            local: $local,
-            banner: Banner::BANNER_PLAYLIST_SUGGESTION,
-            name: 'Lucien Burdet',
-            paragraphs: [
-                'Ceci est un paragraphe',
-                'Deuxième paragraphe',
-            ],
-            buttonPath: null,
-            buttonAbsolutePath: null,
-            buttonName: 'Test',
-            user: $user
-        );
-        
-        /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
-            $title,
-            $context
-        );
-
-        dump($error);*/
-
-        $context['debug'] = true;
-
-        return $this->render('emails/base.html.twig', $context);
-    }
-
-    #[Route(path: '/blog-articles', name: 'blog_articles')]
-    public function mailBlogArticles()
-    {
-        $local = 'fr';
-        $title = 'Titre';
-
-        $user = new User();
-        $user->setSecret('secret');
-
+    public function getBlogArticles(): BlogArticles {
         $mailContent = new BlogArticles();
         $mailContent
             ->setTitle('Hey, This is your Weekly')
@@ -82,20 +28,24 @@ class MailController extends AbstractController
         $text = new Text();
         $text->setParagraph('Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…');
         $mailContent->addText($text);
+
+        // Article1
         $article = new Article();
         $article
             ->setCategory('UX/UI Design')
-            ->setColor(Color::COLORS[array_rand(Color::COLORS)])
+            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
             ->setTitle('Tiny Habits: The Small Changes That Change Everything.')
             ->setLink('#')
             ->setParagraph('WIRED, by')
             ->setParagraphBold('Luciano Brd')
         ;
         $mailContent->addArticle($article);
+
+        // Article2
         $article = new Article();
         $article
             ->setCategory('iOS Development')
-            ->setColor(Color::COLORS[array_rand(Color::COLORS)])
+            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
             ->setTitle('Apple TV Login + Android - Behance Tech.')
             ->setLink('#')
             ->setParagraph('WIRED, by')
@@ -108,22 +58,25 @@ class MailController extends AbstractController
             ->setImage('https://dummyimage.com/120x112/D6DAE3/000')
             ->setAbsolutePath(true)
         ;
+
+        // Article3
         $article = new Article();
         $article
             ->setCategory('Farming for Tomorrow')
-            ->setColor(Color::COLORS[array_rand(Color::COLORS)])
+            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
             ->setTitle('New law in Italy would force supermarkets to donate unsold food to those in need.')
             ->setLink('#')
             ->setParagraph('WIRED, by')
             ->setParagraphBold('Luciano Brd')
             ->setImage($image)
         ;
-        
         $mailContent->addArticle($article);
+
+        // Article4
         $article = new Article();
         $article
             ->setCategory('Personal Developpment')
-            ->setColor(Color::COLORS[array_rand(Color::COLORS)])
+            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
             ->setTitle('Whether Your Goals Are Big or Small, It\'s Important to Measure Your Progress.')
             ->setLink('#')
             ->setParagraph('WIRED, by')
@@ -132,36 +85,10 @@ class MailController extends AbstractController
         ;
         $mailContent->addArticle($article);
 
-        $context = $this->mailService->getMessageContext(
-            title: $title,
-            local: $local,
-            banner: Banner::BANNER_BLOG_ARTICLES,
-            content: $mailContent,
-            user: $user
-        );
-        
-        /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
-            $title,
-            $context
-        );
-
-        dump($error);*/
-
-        $context['htmlView'] = true;
-
-        return $this->render('emails/content/blog-articles.html.twig', $context);
+        return $mailContent;
     }
 
-    #[Route(path: '/user-welcoming', name: 'user_welcoming')]
-    public function mailUserWelcoming()
-    {
-        $local = 'fr';
-        $title = 'Titre';
-
-        $user = new User();
-        $user->setSecret('secret');
-
+    public function getUserWelcoming(): UserWelcoming {
         $mailContent = new UserWelcoming();
         $mailContent
             ->setTitle('Hey')
@@ -189,36 +116,10 @@ class MailController extends AbstractController
         ;
         $mailContent->setButton($button);
 
-        $context = $this->mailService->getMessageContext(
-            title: $title,
-            local: $local,
-            banner: Banner::BANNER_USER_WELCOMING,
-            content: $mailContent,
-            user: $user
-        );
-        
-        /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
-            $title,
-            $context
-        );
-
-        dump($error);*/
-
-        $context['htmlView'] = true;
-
-        return $this->render('emails/content/user-welcoming.html.twig', $context);
+        return $mailContent;
     }
 
-    #[Route(path: '/job-board', name: 'job_board')]
-    public function mailJobBoard()
-    {
-        $local = 'fr';
-        $title = 'Titre';
-
-        $user = new User();
-        $user->setSecret('secret');
-
+    public function getJobBoard(): JobBoard {
         $mailContent = new JobBoard();
         $mailContent
             ->setTitle('Design Jobs For')
@@ -230,6 +131,71 @@ class MailController extends AbstractController
             ->setParagraph('LucianoBrd is the heart of the design community and the best resource to discover and connect with designers and jobs worldwide.')
         ;
         $mailContent->addText($text);
+
+        // Job1
+        $job = new Job();
+        $job
+            ->setTitle('Screen Art Director, Marcom')
+            ->setCompagny('-Apple Inc.')
+            ->setParagraph('Marcom is Apple\'s Global Marketing Communications group that oversees all of Apple\'s advertising and marketing to create world-class communications.')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('logo.png')
+        ;
+        $job->setImage($image);
+        $info = new Info();
+        $info
+            ->setTitle('Cupertino, CA')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('jpin.png')
+        ;
+        $info->setImage($image);
+        $job->addInfo($info);
+        $info = new Info();
+        $info
+            ->setTitle('Full-time')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('jcalandar.png')
+        ;
+        $info->setImage($image);
+        $job->addInfo($info);
+        $mailContent->addJob($job);
+
+        // Job2
+        $job = new Job();
+        $job
+            ->setTitle('Screen Art Director, Marcom')
+            ->setCompagny('-Apple Inc.')
+            ->setParagraph('Marcom is Apple\'s Global Marketing Communications group that oversees all of Apple\'s advertising and marketing to create world-class communications.')
+        ;
+        $info = new Info();
+        $info
+            ->setTitle('Cupertino, CA')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('jpin.png')
+        ;
+        $info->setImage($image);
+        $job->addInfo($info);
+        $info = new Info();
+        $info
+            ->setTitle('Full-time')
+        ;
+        $image = new Image();
+        $image
+            ->setImage('jcalandar.png')
+        ;
+        $info->setImage($image);
+        $job->addInfo($info);
+        $mailContent->addJob($job);
+
+        // Job3
         $job = new Job();
         $job
             ->setTitle('Screen Art Director, Marcom')
@@ -270,25 +236,7 @@ class MailController extends AbstractController
             ->setName('Show All Jobs')
         ;
         $mailContent->setButton($button);
-
-        $context = $this->mailService->getMessageContext(
-            title: $title,
-            local: $local,
-            banner: Banner::BANNER_JOB_BOARD,
-            content: $mailContent,
-            user: $user
-        );
         
-        /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
-            $title,
-            $context
-        );
-
-        dump($error);*/
-
-        $context['htmlView'] = true;
-
-        return $this->render('emails/content/job-board.html.twig', $context);
+        return $mailContent;
     }
 }
