@@ -223,4 +223,37 @@ class MailDebugController extends AbstractController
 
         return $this->render('emails/content/pricing-table.html.twig', $context);
     }
+
+    #[Route(path: '/book-suggestion', name: 'book_suggestion')]
+    public function mailBookSuggestion()
+    {
+        $local = 'fr';
+        $title = 'Titre';
+
+        $user = new User();
+        $user->setSecret('secret');
+
+        $mailContent = $this->mailContentDebugService->getBookSuggestion();
+
+        $context = $this->mailService->getMessageContext(
+            title: $title,
+            local: $local,
+            banner: Banner::BANNER_BOOK_SUGGESTION,
+            content: $mailContent,
+            user: $user
+        );
+        
+        /*$error = $this->mailService->sendMessage(
+            $this->params->get('mail_debug'),
+            $title,
+            $context,
+            'emails/content/book-suggestion.html.twig'
+        );
+
+        dump($error);*/
+
+        $context['htmlView'] = true;
+
+        return $this->render('emails/content/book-suggestion.html.twig', $context);
+    }
 }

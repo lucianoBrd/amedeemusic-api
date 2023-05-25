@@ -11,7 +11,9 @@ use App\Entity\MailContent\Shared\Image;
 use App\Entity\MailContent\JobBoard\Info;
 use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
+use App\Entity\MailContent\BookSuggestion;
 use App\Entity\MailContent\MonthStats\Stat;
+use App\Entity\MailContent\BookSuggestion\Book;
 use App\Entity\MailContent\BlogArticles\Article;
 use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
 use App\Entity\MailContent\PricingTable\Color as PricingTableColor;
@@ -361,6 +363,64 @@ class MailContentDebugService
             ->setImage($image)
         ;
         $mailContent->addText($text);
+        
+        return $mailContent;
+    }
+
+    public function getBookSuggestion(): BookSuggestion {
+        $mailContent = new BookSuggestion();
+        $mailContent
+            ->setTitle('Hey, This is your Weekly')
+            ->setTitleBold('Books Suggestion')
+            ->setSectionFeaturedTitle('Featured Book :')
+            ->setSectionBestTitle('Best Selling Books :')
+            ->setFeaturedAuthor('by Luciano')
+            ->setFeaturedCategory('Fiction')
+            ->setFeaturedTitle('Tiny Habits: The Small Changes That Change Everything')
+        ;
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Read Now')
+        ;
+        $mailContent->setFeaturedButton($button);
+        $image = new Image();
+        $image
+            ->setImage('https://dummyimage.com/150x230/D6DAE3/000')
+            ->setAbsolutePath(true)
+        ;
+        $mailContent->setFeaturedImage($image);
+
+        $image = new Image();
+        $image
+            ->setImage('https://dummyimage.com/117x178/D6DAE3/000')
+            ->setAbsolutePath(true)
+        ;
+        // Book1
+        $book = new Book();
+        $book
+            ->setTitle('Dear Edward: A Novel')
+            ->setImage($image)
+            ->setButton($button)
+        ;
+        $mailContent->addBook($book);
+        // Book2
+        $book = new Book();
+        $book
+            ->setTitle('American Dirt (Oprah\'s Book Club): A Novel')
+            ->setImage($image)
+            ->setButton($button)
+        ;
+        $mailContent->addBook($book);
+        // Book3
+        $book = new Book();
+        $book
+            ->setTitle('Habits of Purpose for an Age of Distraction')
+            ->setImage($image)
+            ->setButton($button)
+        ;
+        $mailContent->addBook($book);
         
         return $mailContent;
     }

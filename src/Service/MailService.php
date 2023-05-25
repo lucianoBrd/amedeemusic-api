@@ -6,6 +6,7 @@ use App\Entity\Mail;
 use App\Entity\User;
 use App\Service\UserService;
 use App\Service\LocalGenerator;
+use App\Service\MailContentService;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
@@ -22,6 +23,7 @@ class MailService
         private ContainerBagInterface $params,
         private UrlGeneratorInterface $router,
         private UserService $userService,
+        private MailContentService $mailContentService,
     )
     {
     }
@@ -107,6 +109,7 @@ class MailService
             'language' => $language,
             'unsubscribePath' => $unsubscribePath,
             'htmlView' => $htmlView,
+            'mailContentService' => $this->mailContentService,
         ];
     }
 }
