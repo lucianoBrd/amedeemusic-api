@@ -19,7 +19,9 @@ parameters:
 
     app.client.url: 'https://amedeemusic.com'
     app.url: 'https://api.amedeemusic.com'
-    app.name: 'AmédéeMusicApi'
+    app.name: 'AmédéeMusic'
+
+    mail_debug: 'lucien.burdet@gmail.com'
 
 services:
     # default configuration for services in *this* file

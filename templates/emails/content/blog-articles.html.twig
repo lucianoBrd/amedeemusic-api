@@ -37,11 +37,7 @@
                 {% if article.image and article.image.image %}
                 <td class="col hide-sm" width="120" style="padding: 20px 0 20px 10px;">
                   <a href="{{ article.link ? article.link : '#' }}" style="text-decoration: none;">
-                    {% set image = article.image.image %}
-                    {% if not article.image.absolutePath %}
-                    {% set image = htmlView ? asset(imagesPath ~ '/' ~ article.image.image) : email.image('@images/' ~ article.image.image) %}
-                    {% endif %}
-                    <img src="{{ image }}" alt="article" style="width: 120px; max-width: 100%;">
+                    {% include 'emails/content/shared/image.html.twig' with {'image': article.image, 'style': 'width: 120px; max-width: 100%;'} %}
                   </a>
                 </td>
                 {% endif %}

@@ -1,0 +1,7 @@
+{% if image and image.image %}
+{% set img = image.image %}
+{% if not image.absolutePath %}
+{% set img = htmlView ? asset(imagesPath ~ '/' ~ image.image) : email.image('@images/' ~ image.image) %}
+{% endif %}
+<img src="{{ img }}" alt="{{ image.image }}" style="{{ style }}">
+{% endif %}

@@ -61,7 +61,8 @@ class MailService
     public function sendMessage(
         string $to,
         string $title,
-        array $context
+        array $context,
+        string $template = 'emails/base.html.twig'
     ): bool 
     {
         $error = true;
@@ -70,7 +71,7 @@ class MailService
             ->from(Address::create($this->params->get('artist_name') . ' <' . $this->params->get('mailer_email') . '>'))
             ->to($to)
             ->subject($title)
-            ->htmlTemplate('emails/base.html.twig')
+            ->htmlTemplate($template)
             ->context($context)
         ;
         try {

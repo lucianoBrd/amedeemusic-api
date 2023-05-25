@@ -1,0 +1,17 @@
+{% if text.image and text.image.image %}
+{% include 'emails/content/shared/image.html.twig' with {'image': text.image, 'style': 'width: 23px;max-width: 23px;'} %}
+<div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+{% endif %}
+{% if text.title %}
+<h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
+    {{ text.title }}
+</h3>
+{% endif %}
+{% if text.paragraph %}
+<p style="font-family: 'Karla', Arial, sans-serif;font-size: 16px;line-height: 22px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+  {{ text.paragraph }}
+</p>
+{% endif %}
+{% if spacer %}
+<div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+{% endif %}

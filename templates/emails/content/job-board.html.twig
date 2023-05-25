@@ -25,11 +25,7 @@
                       {% if job.image and job.image.image %}
                       <td class="col col-sm-2" width="40">
                         <a href="{{ job.link ? job.link : '#' }}" style="text-decoration: none;">
-                          {% set image = job.image.image %}
-                          {% if not job.image.absolutePath %}
-                          {% set image = htmlView ? asset(imagesPath ~ '/' ~ job.image.image) : email.image('@images/' ~ job.image.image) %}
-                          {% endif %}
-                          <img src="{{ image }}" alt="logo" style="width: 40px;">
+                          {% include 'emails/content/shared/image.html.twig' with {'image': job.image, 'style': 'width: 40px;'} %}
                         </a>
                       </td>
                       {% endif %}
@@ -64,11 +60,7 @@
                         {% if info.image or info.title %}
                         <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0 0 0 {% if loop.first %}0{% else %}4px{% endif %}; padding: 5px 5px; background-color: #FAFAFA;">
                           {% if info.image and info.image.image %}
-                          {% set image = info.image.image %}
-                          {% if not info.image.absolutePath %}
-                          {% set image = htmlView ? asset(imagesPath ~ '/' ~ info.image.image) : email.image('@images/' ~ info.image.image) %}
-                          {% endif %}
-                          <img src="{{ image }}" alt="{{ info.image.image }}" style="height: 11px; margin-right: 5px;"> 
+                          {% include 'emails/content/shared/image.html.twig' with {'image': job.image, 'style': 'height: 11px; margin-right: 5px;'} %}
                           {% endif %}
                           {{ info.title ? info.title : '' }}
                         </span>

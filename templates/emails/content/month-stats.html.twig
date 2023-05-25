@@ -27,12 +27,8 @@
                           {% endif %}
                           <tr>
                             {% if stat.image and stat.image.image %}
-                            {% set image = stat.image.image %}
-                            {% if not stat.image.absolutePath %}
-                            {% set image = htmlView ? asset(imagesPath ~ '/' ~ stat.image.image) : email.image('@images/' ~ stat.image.image) %}
-                            {% endif %}
                             <td class="col pb-sm-20" width="30">
-                              <img src="{{ image }}" alt="{{ stat.image.image }}" style="width: 25px; max-width: 25px;">
+                              {% include 'emails/content/shared/image.html.twig' with {'image': stat.image, 'style': 'width: 25px; max-width: 25px;'} %}
                             </td>
                             {% endif %}
                             {% if stat.title or stat.number or stat.subTitle or stat.paragraph or stat.evolution or stat.date %}

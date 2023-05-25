@@ -5,19 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Banner;
 use App\Service\MailService;
-use App\Entity\MailContent\JobBoard;
-use App\Entity\MailContent\Shared\Text;
-use App\Entity\MailContent\BlogArticles;
-use App\Entity\MailContent\JobBoard\Job;
-use App\Entity\MailContent\Shared\Image;
 use App\Service\MailContentDebugService;
-use App\Entity\MailContent\JobBoard\Info;
-use App\Entity\MailContent\Shared\Button;
-use App\Entity\MailContent\UserWelcoming;
-use App\Entity\MailContent\BlogArticles\Color;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\MailContent\BlogArticles\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 #[Route('/admin/mail', condition: '%kernel.debug% === 1', name: 'mail_')]
 class MailDebugController extends AbstractController
@@ -26,6 +17,7 @@ class MailDebugController extends AbstractController
     public function __construct(
         private MailService $mailService,
         private MailContentDebugService $mailContentDebugService,
+        private ContainerBagInterface $params,
     )
     {
     }
@@ -87,9 +79,10 @@ class MailDebugController extends AbstractController
         );
         
         /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
+            $this->params->get('mail_debug'),
             $title,
-            $context
+            $context,
+            'emails/content/blog-articles.html.twig'
         );
 
         dump($error);*/
@@ -119,9 +112,10 @@ class MailDebugController extends AbstractController
         );
         
         /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
+            $this->params->get('mail_debug'),
             $title,
-            $context
+            $context,
+            'emails/content/user-welcoming.html.twig'
         );
 
         dump($error);*/
@@ -151,9 +145,10 @@ class MailDebugController extends AbstractController
         );
         
         /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
+            $this->params->get('mail_debug'),
             $title,
-            $context
+            $context,
+            'emails/content/job-board.html.twig'
         );
 
         dump($error);*/
@@ -183,9 +178,10 @@ class MailDebugController extends AbstractController
         );
         
         /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
+            $this->params->get('mail_debug'),
             $title,
-            $context
+            $context,
+            'emails/content/month-stats.html.twig'
         );
 
         dump($error);*/
@@ -215,9 +211,10 @@ class MailDebugController extends AbstractController
         );
         
         /*$error = $this->mailService->sendMessage(
-            'lucien.burdet@gmail.com',
+            $this->params->get('mail_debug'),
             $title,
-            $context
+            $context,
+            'emails/content/pricing-table.html.twig'
         );
 
         dump($error);*/
