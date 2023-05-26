@@ -54,7 +54,8 @@ class MailService
             $error = $error || $this->sendMessage(
                 $message['to'],
                 $message['title'],
-                $message['context']
+                $message['context'],
+                $message['template']
             );
         }
         return $error;

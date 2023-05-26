@@ -7,6 +7,7 @@ use App\Entity\Banner;
 use App\Entity\Message;
 use App\Service\MailService;
 use App\Service\UserService;
+use App\Service\ContactService;
 use App\Service\LocalGenerator;
 use App\Service\RecaptchaService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,6 +24,7 @@ class ContactController extends AbstractController
         private MailService $mailService,
         private EntityManagerInterface $manager,
         private UserService $userService,
+        private ContactService $contactService,
         private RecaptchaService $recaptchaService,
         private ContainerBagInterface $params,
     )
@@ -65,53 +67,27 @@ class ContactController extends AbstractController
 
             $user = $this->userService->addUser($user);
 
-            /* Create messages */
-            $title = 'Message de ' . $name;
-            $context = $this->mailService->getMessageContext(
-                title: $title,
-                local: $local,
-                banner: Banner::BANNER_FREE_GOODS,
-                name: $this->params->get('artist_name'),
-                paragraphs: [
-                    $name,
-                    $mail,
-                    $message,
-                ],
-                buttonPath: null,
-                buttonAbsolutePath: null,
-                buttonName: null,
-                user: null,
-            );
-            $titleConfirm = $language->getConfirmationOfRecusal();
-            $contextConfirm = $this->mailService->getMessageContext(
-                title: $titleConfirm,
-                local: $local,
-                banner: Banner::BANNER_FREE_GOODS,
-                name: $name,
-                paragraphs: [
-                    $language->getThankMessage(),
-                    $language->getMessage(),
-                    $message,
-                ],
-                buttonPath: null,
-                buttonAbsolutePath: null,
-                buttonName: null,
-                user: $user,
-            );
+            $repository = $this->manager->getRepository(Message::class);
+            $m = $repository->findBy(['user' => $user], ['id' => 'DESC'], 1);
+            if (count($m) > 0) {
+                $m = $m[0];
 
-            /* Send messages */
-            $error = $this->mailService->sendMessages([
-                [
-                    'to' => $this->params->get('mailer_email'),
-                    'title' => $title,
-                    'context' => $context
-                ],
-                [
-                    'to' => $mail,
-                    'title' => $titleConfirm,
-                    'context' => $contextConfirm
-                ]
-            ]);
+                /* Send messages */
+                $error = $this->mailService->sendMessages([
+                    [
+                        'to' => $this->params->get('mailer_email'),
+                        'title' => $language->getMessageFrom() . ' ' . $user->getName(),
+                        'context' => $this->contactService->getMessageContext($local, $m),
+                        'template' => 'emails/content/user-welcoming.html.twig'
+                    ],
+                    [
+                        'to' => $mail,
+                        'title' => $language->getConfirmationOfRecusal(),
+                        'context' => $this->contactService->getMessageContextConfirm($local, $m),
+                        'template' => 'emails/content/user-welcoming.html.twig'
+                    ]
+                ]);
+            }
         }
 
         if ($error) {

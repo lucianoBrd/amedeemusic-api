@@ -3,17 +3,15 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
-use App\Entity\Banner;
 use App\Service\MailService;
 use App\Service\UserService;
 use App\Service\LocalGenerator;
+use App\Service\SubscribeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class SubscribeController extends AbstractController
 {
@@ -23,8 +21,7 @@ class SubscribeController extends AbstractController
         private MailService $mailService,
         private UserService $userService,
         private EntityManagerInterface $manager,
-        private ContainerBagInterface $params,
-        private UrlGeneratorInterface $router,
+        private SubscribeService $subscribeService,
     )
     {
     }
@@ -50,46 +47,24 @@ class SubscribeController extends AbstractController
 
             $user = $this->userService->addUser($user, true);
 
-            /* Create context */
-            $title = $language->getThankSubscribe();
-            $context = $this->mailService->getMessageContext(
-                title: $title,
-                local: $local,
-                banner: Banner::BANNER_USER_WELCOMING,
-                name: $this->userService->getUserName($user),
-                paragraphs: [],
-                buttonPath: null,
-                buttonName: $language->getWebsite(),
-                user: $user,
-                debug: ($method == 'GET')
-            );
+            $context = $this->subscribeService->getSubscribeMessageContext($local, $user);
 
             /* Send message */
             $error = $this->mailService->sendMessage(
                 $mail,
-                $title,
-                $context
+                $language->getThankSubscribe(),
+                $context,
+                'emails/content/user-welcoming.html.twig'
             );
+
+            $context['htmlView'] = true;
         }
 
         if ($error) {
             $user = null;
 
             $title = $language->getSubscribeError();
-            $context = $this->mailService->getMessageContext(
-                title: $title,
-                local: $local,
-                banner: Banner::BANNER_USER_WELCOMING,
-                name: '#Unknown',
-                paragraphs: [
-                    $language->getErrorHelp()
-                ],
-                buttonPath: null,
-                buttonAbsolutePath: null,
-                buttonName: null,
-                user: $user,
-                debug: true
-            );
+            $context = $this->subscribeService->getMessageContextError($local, $user, $title);
         }
 
         $userReturn = $this->userService->getUserReturn($user);
@@ -100,7 +75,7 @@ class SubscribeController extends AbstractController
             );
         } else {
             return $this->render(
-                'emails/base.html.twig',
+                'emails/content/user-welcoming.html.twig',
                 $context
             );
         }
@@ -122,42 +97,15 @@ class SubscribeController extends AbstractController
             $this->manager->persist($user);
             $this->manager->flush();
 
-            $subscribePath = $this->router->generate('subscribe', ['local' => $local, 'mail' => $user->getMail()], UrlGeneratorInterface::ABSOLUTE_URL);
-
-            $title = $language->getUnsubscribeSuccess();
-            $context = $this->mailService->getMessageContext(
-                title: $title,
-                local: $local,
-                banner: Banner::BANNER_USER_WELCOMING,
-                name: $this->userService->getUserName($user),
-                paragraphs: [],
-                buttonPath: null,
-                buttonAbsolutePath: $subscribePath,
-                buttonName: $language->getSubscribe(),
-                user: $user,
-                debug: true
-            );
+            $context = $this->subscribeService->getUnsubscribeMessageContext($local, $user);
 
         } else {
             $title = $language->getUnsubscribeError();
-            $context = $this->mailService->getMessageContext(
-                title: $title,
-                local: $local,
-                banner: Banner::BANNER_USER_WELCOMING,
-                name: '#Unknown',
-                paragraphs: [
-                    $language->getErrorHelp()
-                ],
-                buttonPath: null,
-                buttonAbsolutePath: null,
-                buttonName: null,
-                user: $user,
-                debug: true
-            );
+            $context = $this->subscribeService->getMessageContextError($local, $user, $title);
         }
 
         return $this->render(
-            'emails/base.html.twig',
+            'emails/content/user-welcoming.html.twig',
             $context
         );
     }

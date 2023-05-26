@@ -22,6 +22,8 @@ class Language
     private ?string $website = null;
     private ?string $errorHelp = null;
     private ?string $by = null;
+    private ?string $respond = null;
+    private ?string $messageFrom = null;
 
     public function getUnsubscribe(): ?string
     {
@@ -288,6 +290,38 @@ class Language
 	 */
 	public function setBy(?string $by): self {
 		$this->by = $by;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getRespond(): ?string {
+		return $this->respond;
+	}
+	
+	/**
+	 * @param  $respond 
+	 * @return self
+	 */
+	public function setRespond(?string $respond): self {
+		$this->respond = $respond;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getMessageFrom(): ?string {
+		return $this->messageFrom;
+	}
+	
+	/**
+	 * @param  $messageFrom 
+	 * @return self
+	 */
+	public function setMessageFrom(?string $messageFrom): self {
+		$this->messageFrom = $messageFrom;
 		return $this;
 	}
 }

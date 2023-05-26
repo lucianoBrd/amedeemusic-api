@@ -46,8 +46,10 @@ class LocalGenerator
                 ->setErrorHelp('Si le problème persiste, n\'hésitez pas à me contacter.')
                 ->setErrorHelp('Si le problème persiste, n\'hésitez pas à me contacter.')
                 ->setSubscribeError('Impossible d\'effectuer l\'abonnement')
-                ->setUnsubscribeText('Vous recevez ce courriel parce que vous êtes abonné à la Newsletter d\'Amédée ')
+                ->setUnsubscribeText('Vous recevez ce courriel parce que vous êtes abonné à la Newsletter d\'Amédée')
                 ->setBy('par')
+                ->setRespond('Répondre')
+                ->setMessageFrom('Message de')
             ;
         } else {
             $language
@@ -68,6 +70,8 @@ class LocalGenerator
                 ->setSubscribeError('Unable to subscribe')
                 ->setUnsubscribeText('You\'re receiving this email because you are subscribed to The Newsletter from Amédée')
                 ->setBy('by')
+                ->setRespond('Respond')
+                ->setMessageFrom('Message from')
             ;
         }
         return $language;
