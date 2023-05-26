@@ -2,158 +2,158 @@
 
 namespace App\Entity\MailContent\EventSuggestion;
 
-use App\Entity\MailContent\Shared\Image;
+use App\Entity\MailContent\EventSuggestion;
 use App\Entity\MailContent\Shared\Button;
+use App\Entity\MailContent\Shared\Image;
+use App\Repository\MailContent\EventSuggestion\EventRepository;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ORM\Table(name: "mail_event")]
 class Event
 {
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $category = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $place = null;
+
+    #[ORM\Column(length: 600, nullable: true)]
     private ?string $paragraph = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $paragraphBold = null;
+
+    #[ORM\ManyToOne]
     private ?Image $image = null;
+
+    #[ORM\ManyToOne]
     private ?Button $button = null;
 
-    public function __construct()
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?EventSuggestion $eventSuggestion = null;
+
+    public function getId(): ?int
     {
-        $this->id = uniqid();
+        return $this->id;
     }
 
-	/**
-	 * @return 
-	 */
-	public function getId(): ?string {
-		return $this->id;
-	}
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getColor(): ?string {
-		return $this->color;
-	}
-	
-	/**
-	 * @param  $color 
-	 * @return self
-	 */
-	public function setColor(?string $color): self {
-		$this->color = $color;
-		return $this;
-	}
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
-	/**
-	 * @return 
-	 */
-	public function getTitle(): ?string {
-		return $this->title;
-	}
-	
-	/**
-	 * @param  $title 
-	 * @return self
-	 */
-	public function setTitle(?string $title): self {
-		$this->title = $title;
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getCategory(): ?string {
-		return $this->category;
-	}
-	
-	/**
-	 * @param  $category 
-	 * @return self
-	 */
-	public function setCategory(?string $category): self {
-		$this->category = $category;
-		return $this;
-	}
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getPlace(): ?string {
-		return $this->place;
-	}
-	
-	/**
-	 * @param  $place 
-	 * @return self
-	 */
-	public function setPlace(?string $place): self {
-		$this->place = $place;
-		return $this;
-	}
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
 
-	/**
-	 * @return 
-	 */
-	public function getParagraph(): ?string {
-		return $this->paragraph;
-	}
-	
-	/**
-	 * @param  $paragraph 
-	 * @return self
-	 */
-	public function setParagraph(?string $paragraph): self {
-		$this->paragraph = $paragraph;
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getParagraphBold(): ?string {
-		return $this->paragraphBold;
-	}
-	
-	/**
-	 * @param  $paragraphBold 
-	 * @return self
-	 */
-	public function setParagraphBold(?string $paragraphBold): self {
-		$this->paragraphBold = $paragraphBold;
-		return $this;
-	}
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getImage(): ?Image {
-		return $this->image;
-	}
-	
-	/**
-	 * @param  $image 
-	 * @return self
-	 */
-	public function setImage(?Image $image): self {
-		$this->image = $image;
-		return $this;
-	}
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
 
-	/**
-	 * @return 
-	 */
-	public function getButton(): ?Button {
-		return $this->button;
-	}
-	
-	/**
-	 * @param  $button 
-	 * @return self
-	 */
-	public function setButton(?Button $button): self {
-		$this->button = $button;
-		return $this;
-	}
+        return $this;
+    }
+
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?string $place): self
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    public function getParagraph(): ?string
+    {
+        return $this->paragraph;
+    }
+
+    public function setParagraph(?string $paragraph): self
+    {
+        $this->paragraph = $paragraph;
+
+        return $this;
+    }
+
+    public function getParagraphBold(): ?string
+    {
+        return $this->paragraphBold;
+    }
+
+    public function setParagraphBold(?string $paragraphBold): self
+    {
+        $this->paragraphBold = $paragraphBold;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getButton(): ?Button
+    {
+        return $this->button;
+    }
+
+    public function setButton(?Button $button): self
+    {
+        $this->button = $button;
+
+        return $this;
+    }
+
+    public function getEventSuggestion(): ?EventSuggestion
+    {
+        return $this->eventSuggestion;
+    }
+
+    public function setEventSuggestion(?EventSuggestion $eventSuggestion): self
+    {
+        $this->eventSuggestion = $eventSuggestion;
+
+        return $this;
+    }
 }

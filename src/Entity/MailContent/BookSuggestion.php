@@ -2,42 +2,69 @@
 
 namespace App\Entity\MailContent;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\MailContent\MailContent;
 use App\Entity\MailContent\Shared\Image;
 use App\Entity\MailContent\Shared\Button;
+use Doctrine\Common\Collections\Collection;
 use App\Entity\MailContent\BookSuggestion\Book;
 use App\Entity\MailContent\BookSuggestion\Color;
 use App\Entity\MailContent\MailContentInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\MailContent\BookSuggestionRepository;
 
+#[ORM\Entity(repositoryClass: BookSuggestionRepository::class)]
 class BookSuggestion extends MailContent implements MailContentInterface
 {
-    private array $books = [];
+
+    #[ORM\OneToMany(mappedBy: 'bookSuggestion', targetEntity: Book::class)]
+    private Collection $books;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredTitle = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredAuthor = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredCategory = null;
+
+    #[ORM\ManyToOne]
     private ?Button $featuredButton = null;
+
+    #[ORM\ManyToOne]
     private ?Image $featuredImage = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sectionFeaturedTitle = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sectionBestTitle = null;
 
     public function __construct()
     {
-        $this->books = [];
+        $this->books = new ArrayCollection();
         $this->color = Color::COLOR;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     /**
-     * @return array<Book>
+     * @return Collection<int, Book>
      */
-    public function getBooks(): array
+    public function getBooks(): Collection
     {
         return $this->books;
     }
 
     public function addBook(Book $book): self
     {
-        if (!array_key_exists($book->getId(), $this->books)) {
-            $this->books[$book->getId()] = $book;
+        if (!$this->books->contains($book)) {
+            $this->books->add($book);
+            $book->setBookSuggestion($this);
         }
 
         return $this;
@@ -45,122 +72,97 @@ class BookSuggestion extends MailContent implements MailContentInterface
 
     public function removeBook(Book $book): self
     {
-        if (array_key_exists($book->getId(), $this->books)) {
-            unset($this->books[$book->getId()]);
+        if ($this->books->removeElement($book)) {
+            // set the owning side to null (unless already changed)
+            if ($book->getBookSuggestion() === $this) {
+                $book->setBookSuggestion(null);
+            }
         }
 
         return $this;
     }
 
-	/**
-	 * @return 
-	 */
-	public function getFeaturedTitle(): ?string {
-		return $this->featuredTitle;
-	}
-	
-	/**
-	 * @param  $featuredTitle 
-	 * @return self
-	 */
-	public function setFeaturedTitle(?string $featuredTitle): self {
-		$this->featuredTitle = $featuredTitle;
-		return $this;
-	}
+    public function getFeaturedTitle(): ?string
+    {
+        return $this->featuredTitle;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getFeaturedAuthor(): ?string {
-		return $this->featuredAuthor;
-	}
-	
-	/**
-	 * @param  $featuredAuthor 
-	 * @return self
-	 */
-	public function setFeaturedAuthor(?string $featuredAuthor): self {
-		$this->featuredAuthor = $featuredAuthor;
-		return $this;
-	}
+    public function setFeaturedTitle(?string $featuredTitle): self
+    {
+        $this->featuredTitle = $featuredTitle;
 
-	/**
-	 * @return 
-	 */
-	public function getFeaturedCategory(): ?string {
-		return $this->featuredCategory;
-	}
-	
-	/**
-	 * @param  $featuredCategory 
-	 * @return self
-	 */
-	public function setFeaturedCategory(?string $featuredCategory): self {
-		$this->featuredCategory = $featuredCategory;
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getFeaturedButton(): ?Button {
-		return $this->featuredButton;
-	}
-	
-	/**
-	 * @param  $featuredButton 
-	 * @return self
-	 */
-	public function setFeaturedButton(?Button $featuredButton): self {
-		$this->featuredButton = $featuredButton;
-		return $this;
-	}
+    public function getFeaturedAuthor(): ?string
+    {
+        return $this->featuredAuthor;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getFeaturedImage(): ?Image {
-		return $this->featuredImage;
-	}
-	
-	/**
-	 * @param  $featuredImage 
-	 * @return self
-	 */
-	public function setFeaturedImage(?Image $featuredImage): self {
-		$this->featuredImage = $featuredImage;
-		return $this;
-	}
+    public function setFeaturedAuthor(?string $featuredAuthor): self
+    {
+        $this->featuredAuthor = $featuredAuthor;
 
-	/**
-	 * @return 
-	 */
-	public function getSectionFeaturedTitle(): ?string {
-		return $this->sectionFeaturedTitle;
-	}
-	
-	/**
-	 * @param  $sectionFeaturedTitle 
-	 * @return self
-	 */
-	public function setSectionFeaturedTitle(?string $sectionFeaturedTitle): self {
-		$this->sectionFeaturedTitle = $sectionFeaturedTitle;
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getSectionBestTitle(): ?string {
-		return $this->sectionBestTitle;
-	}
-	
-	/**
-	 * @param  $sectionBestTitle 
-	 * @return self
-	 */
-	public function setSectionBestTitle(?string $sectionBestTitle): self {
-		$this->sectionBestTitle = $sectionBestTitle;
-		return $this;
-	}
+    public function getFeaturedCategory(): ?string
+    {
+        return $this->featuredCategory;
+    }
+
+    public function setFeaturedCategory(?string $featuredCategory): self
+    {
+        $this->featuredCategory = $featuredCategory;
+
+        return $this;
+    }
+
+    public function getFeaturedButton(): ?Button
+    {
+        return $this->featuredButton;
+    }
+
+    public function setFeaturedButton(?Button $featuredButton): self
+    {
+        $this->featuredButton = $featuredButton;
+
+        return $this;
+    }
+
+    public function getFeaturedImage(): ?Image
+    {
+        return $this->featuredImage;
+    }
+
+    public function setFeaturedImage(?Image $featuredImage): self
+    {
+        $this->featuredImage = $featuredImage;
+
+        return $this;
+    }
+
+    public function getSectionFeaturedTitle(): ?string
+    {
+        return $this->sectionFeaturedTitle;
+    }
+
+    public function setSectionFeaturedTitle(?string $sectionFeaturedTitle): self
+    {
+        $this->sectionFeaturedTitle = $sectionFeaturedTitle;
+
+        return $this;
+    }
+
+    public function getSectionBestTitle(): ?string
+    {
+        return $this->sectionBestTitle;
+    }
+
+    public function setSectionBestTitle(?string $sectionBestTitle): self
+    {
+        $this->sectionBestTitle = $sectionBestTitle;
+
+        return $this;
+    }
 }

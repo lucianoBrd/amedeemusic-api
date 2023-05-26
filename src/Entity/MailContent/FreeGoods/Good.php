@@ -2,108 +2,117 @@
 
 namespace App\Entity\MailContent\FreeGoods;
 
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\MailContent\FreeGoods;
 use App\Entity\MailContent\Shared\Image;
 use App\Entity\MailContent\FreeGoods\Color;
+use App\Repository\MailContent\FreeGoods\GoodRepository;
 
+#[ORM\Entity(repositoryClass: GoodRepository::class)]
 class Good
 {
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $author = null;
+
+    #[ORM\ManyToOne]
     private ?Image $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'twoColGoods')]
+    private ?FreeGoods $freeGoods = null;
 
     public function __construct()
     {
-        $this->id = uniqid();
         $this->color = Color::COLOR;
     }
 
-	/**
-	 * @return 
-	 */
-	public function getId(): ?string {
-		return $this->id;
-	}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getColor(): ?string {
-		return $this->color;
-	}
-	
-	/**
-	 * @param  $color 
-	 * @return self
-	 */
-	public function setColor(?string $color): self {
-		$this->color = $color;
-		return $this;
-	}
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getTitle(): ?string {
-		return $this->title;
-	}
-	
-	/**
-	 * @param  $title 
-	 * @return self
-	 */
-	public function setTitle(?string $title): self {
-		$this->title = $title;
-		return $this;
-	}
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
-	/**
-	 * @return 
-	 */
-	public function getLink(): ?string {
-		return $this->link;
-	}
-	
-	/**
-	 * @param  $link 
-	 * @return self
-	 */
-	public function setLink(?string $link): self {
-		$this->link = $link;
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getAuthor(): ?string {
-		return $this->author;
-	}
-	
-	/**
-	 * @param  $author 
-	 * @return self
-	 */
-	public function setAuthor(?string $author): self {
-		$this->author = $author;
-		return $this;
-	}
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getImage(): ?Image {
-		return $this->image;
-	}
-	
-	/**
-	 * @param  $image 
-	 * @return self
-	 */
-	public function setImage(?Image $image): self {
-		$this->image = $image;
-		return $this;
-	}
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?string $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getFreeGoods(): ?FreeGoods
+    {
+        return $this->freeGoods;
+    }
+
+    public function setFreeGoods(?FreeGoods $freeGoods): self
+    {
+        $this->freeGoods = $freeGoods;
+
+        return $this;
+    }
 }

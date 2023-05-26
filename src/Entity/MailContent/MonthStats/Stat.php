@@ -2,140 +2,141 @@
 
 namespace App\Entity\MailContent\MonthStats;
 
+use App\Entity\MailContent\MonthStats;
 use App\Entity\MailContent\Shared\Image;
+use App\Repository\MailContent\MonthStats\StatRepository;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: StatRepository::class)]
 class Stat
 {
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $number = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $subTitle = null;
+
+    #[ORM\Column(length: 600, nullable: true)]
     private ?string $paragraph = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $evolution = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $date = null;
+
+    #[ORM\ManyToOne]
     private ?Image $image = null;
 
-    public function __construct()
+    #[ORM\ManyToOne(inversedBy: 'stats')]
+    private ?MonthStats $monthStats = null;
+
+    public function getId(): ?int
     {
-        $this->id = uniqid();
+        return $this->id;
     }
 
-	/**
-	 * @return 
-	 */
-	public function getTitle(): ?string {
-		return $this->title;
-	}
-	
-	/**
-	 * @param  $title 
-	 * @return self
-	 */
-	public function setTitle(?string $title): self {
-		$this->title = $title;
-		return $this;
-	}
+    public function getNumber(): ?string
+    {
+        return $this->number;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getParagraph(): ?string {
-		return $this->paragraph;
-	}
-	
-	/**
-	 * @param  $paragraph 
-	 * @return self
-	 */
-	public function setParagraph(?string $paragraph): self {
-		$this->paragraph = $paragraph;
-		return $this;
-	}
+    public function setNumber(?string $number): self
+    {
+        $this->number = $number;
 
-	/**
-	 * @return 
-	 */
-	public function getId(): ?string {
-		return $this->id;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getImage(): ?Image {
-		return $this->image;
-	}
-	
-	/**
-	 * @param  $image 
-	 * @return self
-	 */
-	public function setImage(?Image $image): self {
-		$this->image = $image;
-		return $this;
-	}
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getNumber(): ?string {
-		return $this->number;
-	}
-	
-	/**
-	 * @param  $number 
-	 * @return self
-	 */
-	public function setNumber(?string $number): self {
-		$this->number = $number;
-		return $this;
-	}
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
 
-	/**
-	 * @return 
-	 */
-	public function getSubTitle(): ?string {
-		return $this->subTitle;
-	}
-	
-	/**
-	 * @param  $subTitle 
-	 * @return self
-	 */
-	public function setSubTitle(?string $subTitle): self {
-		$this->subTitle = $subTitle;
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getEvolution(): ?string {
-		return $this->evolution;
-	}
-	
-	/**
-	 * @param  $evolution 
-	 * @return self
-	 */
-	public function setEvolution(?string $evolution): self {
-		$this->evolution = $evolution;
-		return $this;
-	}
+    public function getSubTitle(): ?string
+    {
+        return $this->subTitle;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getDate(): ?string {
-		return $this->date;
-	}
-	
-	/**
-	 * @param  $date 
-	 * @return self
-	 */
-	public function setDate(?string $date): self {
-		$this->date = $date;
-		return $this;
-	}
+    public function setSubTitle(?string $subTitle): self
+    {
+        $this->subTitle = $subTitle;
+
+        return $this;
+    }
+
+    public function getParagraph(): ?string
+    {
+        return $this->paragraph;
+    }
+
+    public function setParagraph(?string $paragraph): self
+    {
+        $this->paragraph = $paragraph;
+
+        return $this;
+    }
+
+    public function getEvolution(): ?string
+    {
+        return $this->evolution;
+    }
+
+    public function setEvolution(?string $evolution): self
+    {
+        $this->evolution = $evolution;
+
+        return $this;
+    }
+
+    public function getDate(): ?string
+    {
+        return $this->date;
+    }
+
+    public function setDate(?string $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getMonthStats(): ?MonthStats
+    {
+        return $this->monthStats;
+    }
+
+    public function setMonthStats(?MonthStats $monthStats): self
+    {
+        $this->monthStats = $monthStats;
+
+        return $this;
+    }
 }

@@ -2,72 +2,69 @@
 
 namespace App\Entity\MailContent\Shared;
 
+use App\Repository\MailContent\Shared\ButtonRepository;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: ButtonRepository::class)]
 class Button
 {
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
 
     public function __construct()
     {
-        $this->id = uniqid();
 		$this->color = '292929';
     }
 
-	/**
-	 * @return 
-	 */
-	public function getId(): ?string {
-		return $this->id;
-	}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getName(): ?string {
-		return $this->name;
-	}
-	
-	/**
-	 * @param  $name 
-	 * @return self
-	 */
-	public function setName(?string $name): self {
-		$this->name = $name;
-		return $this;
-	}
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return 
-	 */
-	public function getLink(): ?string {
-		return $this->link;
-	}
-	
-	/**
-	 * @param  $link 
-	 * @return self
-	 */
-	public function setLink(?string $link): self {
-		$this->link = $link;
-		return $this;
-	}
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
 
-	/**
-	 * @return 
-	 */
-	public function getColor(): ?string {
-		return $this->color;
-	}
-	
-	/**
-	 * @param  $color 
-	 * @return self
-	 */
-	public function setColor(?string $color): self {
-		$this->color = $color;
-		return $this;
-	}
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
 }

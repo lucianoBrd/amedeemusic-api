@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\MailContent\MailContent;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,10 +20,6 @@ class Mail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank]
-    private ?string $content = null;
-
     #[ORM\Column(length: 500)]
     #[Assert\NotBlank]
     private ?string $title = null;
@@ -36,27 +33,25 @@ class Mail
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\ManyToOne]
+    private ?MailContent $mailContent = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $template = null;
+
+    #[ORM\Column]
+    private ?bool $sent = null;
+
     public function __construct()
     {
         $this->recipients = new ArrayCollection();
         $this->date = new DateTime('now');
+        $this->sent = false;
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -115,6 +110,42 @@ class Mail
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getMailContent(): ?MailContent
+    {
+        return $this->mailContent;
+    }
+
+    public function setMailContent(?MailContent $mailContent): self
+    {
+        $this->mailContent = $mailContent;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?string $template): self
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    public function isSent(): ?bool
+    {
+        return $this->sent;
+    }
+
+    public function setSent(bool $sent): self
+    {
+        $this->sent = $sent;
 
         return $this;
     }

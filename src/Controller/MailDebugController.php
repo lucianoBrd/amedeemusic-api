@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
-#[Route('/admin/mail', condition: '%kernel.debug% === 1', name: 'mail_')]
+#[Route('/admin/mail-debug', condition: '%kernel.debug% === 1', name: 'mail_debug_')]
 class MailDebugController extends AbstractController
 {
 

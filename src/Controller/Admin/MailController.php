@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
+#[Route('/admin/mail', condition: '%kernel.debug% === 1', name: 'mail_')]
 class MailController extends AbstractController
 {
     public function __construct(
@@ -19,7 +20,7 @@ class MailController extends AbstractController
     ) {
     }
     
-    #[Route('/mail/new', name: 'new')]
+    #[Route('/new', name: 'new')]
     public function new(Request $request): Response
     {
         $mail = new Mail();

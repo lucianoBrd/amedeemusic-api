@@ -2,75 +2,80 @@
 
 namespace App\Entity\MailContent\EventPlan;
 
+use App\Entity\MailContent\EventPlan;
+use App\Repository\MailContent\EventPlan\ScheduleRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: ScheduleRepository::class)]
 class Schedule
 {
-    private ?string $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $hour = null;
+
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private array $paragraphs = [];
 
-    public function __construct()
+    #[ORM\ManyToOne(inversedBy: 'schedules')]
+    private ?EventPlan $eventPlan = null;
+
+    public function getId(): ?int
     {
-        $this->id = uniqid();
-		$this->paragraphs = [];
+        return $this->id;
     }
 
-	/**
-	 * @return 
-	 */
-	public function getId(): ?string {
-		return $this->id;
-	}
-
-	/**
-	 * @return 
-	 */
-	public function getColor(): ?string {
-		return $this->color;
-	}
-	
-	/**
-	 * @param  $color 
-	 * @return self
-	 */
-	public function setColor(?string $color): self {
-		$this->color = $color;
-		return $this;
-	}
-
-	/**
-	 * @return 
-	 */
-	public function getHour(): ?string {
-		return $this->hour;
-	}
-	
-	/**
-	 * @param  $hour 
-	 * @return self
-	 */
-	public function setHour(?string $hour): self {
-		$this->hour = $hour;
-		return $this;
-	}
-
-	/**
-	 * @return 
-	 */
-	public function getParagraphs(): array {
-		return $this->paragraphs;
-	}
-	
-	public function addParagraph(string $paragraph): self
+    public function getColor(): ?string
     {
-    	$this->paragraphs[] = $paragraph;
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }
 
-    public function removeParagraph(string $paragraph): self
+    public function getHour(): ?string
     {
-        $this->paragraphs = array_diff($this->paragraphs, [$paragraph]);
+        return $this->hour;
+    }
+
+    public function setHour(?string $hour): self
+    {
+        $this->hour = $hour;
+
+        return $this;
+    }
+
+    public function getParagraphs(): array
+    {
+        return $this->paragraphs;
+    }
+
+    public function setParagraphs(?array $paragraphs): self
+    {
+        $this->paragraphs = $paragraphs;
+
+        return $this;
+    }
+
+    public function getEventPlan(): ?EventPlan
+    {
+        return $this->eventPlan;
+    }
+
+    public function setEventPlan(?EventPlan $eventPlan): self
+    {
+        $this->eventPlan = $eventPlan;
 
         return $this;
     }

@@ -2,31 +2,44 @@
 
 namespace App\Entity\MailContent;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\MailContent\MailContent;
-use App\Entity\MailContent\EventSuggestion\Event;
+use Doctrine\Common\Collections\Collection;
 use App\Entity\MailContent\MailContentInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\MailContent\EventSuggestion\Event;
+use App\Repository\MailContent\EventSuggestionRepository;
 
+#[ORM\Entity(repositoryClass: EventSuggestionRepository::class)]
 class EventSuggestion extends MailContent implements MailContentInterface
 {
-    private array $events = [];
+
+    #[ORM\OneToMany(mappedBy: 'eventSuggestion', targetEntity: Event::class)]
+    private Collection $events;
 
     public function __construct()
     {
-        $this->events = [];
+        $this->events = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**
-     * @return array<Event>
+     * @return Collection<int, Event>
      */
-    public function getEvents(): array
+    public function getEvents(): Collection
     {
         return $this->events;
     }
 
     public function addEvent(Event $event): self
     {
-        if (!array_key_exists($event->getId(), $this->events)) {
-            $this->events[$event->getId()] = $event;
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setEventSuggestion($this);
         }
 
         return $this;
@@ -34,8 +47,11 @@ class EventSuggestion extends MailContent implements MailContentInterface
 
     public function removeEvent(Event $event): self
     {
-        if (array_key_exists($event->getId(), $this->events)) {
-            unset($this->events[$event->getId()]);
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getEventSuggestion() === $this) {
+                $event->setEventSuggestion(null);
+            }
         }
 
         return $this;
