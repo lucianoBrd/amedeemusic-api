@@ -13,6 +13,7 @@ use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
 use App\Entity\MailContent\BookSuggestion;
 use App\Entity\MailContent\MonthStats\Stat;
+use App\Entity\MailContent\PlaylistSuggestion;
 use App\Entity\MailContent\BookSuggestion\Book;
 use App\Entity\MailContent\BlogArticles\Article;
 use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
@@ -421,6 +422,31 @@ class MailContentDebugService
             ->setButton($button)
         ;
         $mailContent->addBook($book);
+        
+        return $mailContent;
+    }
+
+    public function getPlaylistSuggestion(): PlaylistSuggestion {
+        $mailContent = new PlaylistSuggestion();
+        $mailContent
+            ->setTitle('Hey, This is your Weekly')
+            ->setTitleBold('Playlist Suggestion')
+            ->setPlaylistTitle('Happy Friday Commute')
+            ->setPlaylistParagraph('Almost through the Week, Enjoy your last commute')
+        ;
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Play Now')
+        ;
+        $mailContent->setPlaylistButton($button);
+        $image = new Image();
+        $image
+            ->setImage('https://dummyimage.com/240x240/D6DAE3/000')
+            ->setAbsolutePath(true)
+        ;
+        $mailContent->setPlaylistImage($image);
         
         return $mailContent;
     }

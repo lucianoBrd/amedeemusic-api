@@ -20,7 +20,7 @@ class MailContentService
             }
             $booksGroupedBy3['GROUPE' . $j][] = $book;
             $i++;
-        }dump($booksGroupedBy3);
+        }
         return $booksGroupedBy3;
     }
 }

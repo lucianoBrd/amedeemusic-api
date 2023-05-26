@@ -32,7 +32,7 @@
                   </h1>
                   {% endif %}
 
-                  {% include 'emails/content/shared/button.html.twig' with {'button': content.starterButton, 'color': constant('App\\Entity\\MailContent\\PricingTable\\Color::STARTER_COLOR')} %}
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.starterButton, 'color': constant('App\\Entity\\MailContent\\PricingTable\\Color::STARTER_COLOR'), 'size': 'md'} %}
 
                   {% if content.starterParagraph %}
                   <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
@@ -62,7 +62,7 @@
                   </h1>
                   {% endif %}
 
-                  {% include 'emails/content/shared/button.html.twig' with {'button': content.advancedButton, 'color': content.color} %}
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.advancedButton, 'color': content.color, 'size': 'md'} %}
 
                   {% if content.advancedParagraph %}
                   <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
