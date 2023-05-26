@@ -21,6 +21,7 @@ class Language
     private ?string $message = null;
     private ?string $website = null;
     private ?string $errorHelp = null;
+    private ?string $by = null;
 
     public function getUnsubscribe(): ?string
     {
@@ -271,6 +272,22 @@ class Language
 	 */
 	public function setUnsubscribeText(?string $unsubscribeText): self {
 		$this->unsubscribeText = $unsubscribeText;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getBy(): ?string {
+		return $this->by;
+	}
+	
+	/**
+	 * @param  $by 
+	 * @return self
+	 */
+	public function setBy(?string $by): self {
+		$this->by = $by;
 		return $this;
 	}
 }

@@ -9,18 +9,18 @@ class MailContentService
     {
     }
 
-    public function getBooksGroupedBy3(array $books): array {
-        $booksGroupedBy3 = [];
+    public function getGroupedBy(array $array, int $number = 2): array {
+        $arrayGroupedBy = [];
 
         $j = 0;
         $i = 0;
-        foreach ($books as $book) {
-            if ($i % 3 == 0) {
+        foreach ($array as $item) {
+            if ($i % $number == 0) {
                 $j++;
             }
-            $booksGroupedBy3['GROUPE' . $j][] = $book;
+            $arrayGroupedBy['GROUPE' . $j][] = $item;
             $i++;
         }
-        return $booksGroupedBy3;
+        return $arrayGroupedBy;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 use App\Entity\MailContent\JobBoard;
+use App\Entity\MailContent\FreeGoods;
 use App\Entity\MailContent\MonthStats;
 use App\Entity\MailContent\Shared\Text;
 use App\Entity\MailContent\BlogArticles;
@@ -12,6 +13,7 @@ use App\Entity\MailContent\JobBoard\Info;
 use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
 use App\Entity\MailContent\BookSuggestion;
+use App\Entity\MailContent\FreeGoods\Good;
 use App\Entity\MailContent\MonthStats\Stat;
 use App\Entity\MailContent\PlaylistSuggestion;
 use App\Entity\MailContent\BookSuggestion\Book;
@@ -447,6 +449,78 @@ class MailContentDebugService
             ->setAbsolutePath(true)
         ;
         $mailContent->setPlaylistImage($image);
+        
+        return $mailContent;
+    }
+
+    public function getFreeGoods(): FreeGoods {
+        $mailContent = new FreeGoods();
+        $mailContent
+            ->setTitle('Hey, This is your Weekly')
+            ->setTitleBold('Free Goods')
+        ;
+        
+        $image = new Image();
+        $image
+            ->setImage('https://dummyimage.com/188x134/D6DAE3/000')
+            ->setAbsolutePath(true)
+        ;
+        // Good1
+        $good = new Good();
+        $good
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setTitle('Stranger Forest Collection')
+            ->setAuthor('Luciano')
+        ;
+        $good->setImage($image);
+        $mailContent->addTwoColGood($good);
+        // Good2
+        $good = new Good();
+        $good
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setTitle('Fruit and vegetables')
+            ->setAuthor('LucianoBrd')
+        ;
+        $good->setImage($image);
+        $mailContent->addTwoColGood($good);
+
+        $image = new Image();
+        $image
+            ->setImage('https://dummyimage.com/117x134/D6DAE3/000')
+            ->setAbsolutePath(true)
+        ;
+        // Good1
+        $good = new Good();
+        $good
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setTitle('Campari Tomatoes')
+            ->setAuthor('Luciano')
+        ;
+        $good->setImage($image);
+        $mailContent->addThreeColGood($good);
+        // Good2
+        $good = new Good();
+        $good
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setTitle('Cheers!')
+            ->setAuthor('LucianoBrd')
+        ;
+        $good->setImage($image);
+        $mailContent->addThreeColGood($good);
+        // Good3
+        $good = new Good();
+        $good
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setTitle('Friday!')
+            ->setAuthor('Luciano')
+        ;
+        $good->setImage($image);
+        $mailContent->addThreeColGood($good);
         
         return $mailContent;
     }

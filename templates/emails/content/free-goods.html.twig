@@ -1,39 +1,7 @@
-{% extends "emails/base.html" %}
+{% extends "emails/base.html.twig" %}
 {% block content %}
-<!-- Section : Content -->
-<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-  <tr>
-    <td align="center" bgcolor="#F5F5F5">
-      <!-- 500px Box -->
-      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
-        <tr>
-          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:50px 50px 30px 50px;">
-            <!-- Content -->
-            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-              <tr>
-                <td class="col" width="400"" align="left">
-                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 28px;line-height: 28px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
-                    Hey, This is your Weekly
-                  </h1>
-                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#89C5CC;margin: 0; margin-bottom: 15px;">
-                    Free Goods
-                  </h1>
-                </td>
-              </tr>
-            </table>
-            <!-- end Content -->
-          </td>
-        </tr>
-      </table>
-      <!-- end 500px box -->       
-    </td>
-  </tr>
-</table>
-<!-- end Section : content -->
-
-
-
 <!-- Section : 2 columns -->
+{% if content.twoColGoods|length > 0 %}
 <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
   <tr>
     <td align="center" bgcolor="#F5F5F5">
@@ -43,33 +11,33 @@
           <td class="col px-sm-30 pb-sm-30" width="400" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;border-bottom-right-radius: 6px; border-bottom-left-radius: 6px;">
             <!-- Content -->
             <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              {% set goodsGroupedBy2 = mailContentService.getGroupedBy(content.twoColGoods, 2) %}
+              {% for goodsGrouped in goodsGroupedBy2 %}
               <tr>
-                <td class="col pr-sm-0 py-sm-20" width="188" style="padding-right: 12px;" >
-                  <a href="#" style="text-decoration: none;">
-                    <img class="full-width-sm" src="https://dummyimage.com/188x134/D6DAE3/000" alt="Good 1 Thumb" style="width: 188px; max-width: 100%;">
+                <!-- Good 1 -->
+                {% for good in goodsGrouped %}
+                <td class="col pr-sm-0 py-sm-20" width="188" style="padding-{% if loop.first %}right{% else %}left{% endif %}: 12px;" >
+                  {% if good.image and good.image.image %}
+                  <a href="{{ good.link ? good.link : '#' }}" style="text-decoration: none;">
+                    {% include 'emails/content/shared/image.html.twig' with {'image': good.image, 'style': 'width: 188px; max-width: 100%;'} %}
                   </a>
+                  {% endif %}
+                  {% if good.title %}
                   <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
                   <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 16px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                    Stranger Forest Collection
+                    {{ good.title }}
                   </h3>
+                  {% endif %}
+                  {% if good.author %}
                   <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    by <span style="color: #89C5CC;">talkiewalkie</span> 
+                    {{ language.by }} <span style="color: #{{ good.color ? good.color : content.color }};">{{ good.author }}</span> 
                   </p>
-                </td>
-
-                <td class="col pl-sm-0 py-sm-20" width="188" style="padding-left: 12px;" >
-                  <a href="#" style="text-decoration: none;">
-                    <img class="full-width-sm" src="https://dummyimage.com/188x134/D6DAE3/000" alt="Good 1 Thumb" style="width: 188px; max-width: 100%;">
-                  </a>
+                  {% endif %}
                   <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
-                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 16px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                    Fruit and vegetables
-                  </h3>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    by <span style="color: #89C5CC;">Daniele Simonelli</span> 
-                  </p>
                 </td>
+                {% endfor %}
               </tr>
+              {% endfor %}
             </table>
             <!-- end Content -->
           </td>
@@ -79,10 +47,12 @@
     </td>
   </tr>
 </table>
+{% endif %}
 <!-- end Section : 2 columns-->
 
 
 <!-- Section : 3 columns -->
+{% if content.threeColGoods|length > 0 %}
 <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
   <tr>
     <td align="center" bgcolor="#F5F5F5">
@@ -92,45 +62,33 @@
           <td class="col px-sm-30 pb-sm-30" width="400" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;border-bottom-right-radius: 6px; border-bottom-left-radius: 6px;">
             <!-- Content -->
             <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              {% set goodsGroupedBy3 = mailContentService.getGroupedBy(content.threeColGoods, 3) %}
+              {% for goodsGrouped in goodsGroupedBy3 %}
               <tr>
-
-                <td class="col col-sm-6  pr-sm-10 pb-sm-20" width="117" style="padding-right: 12px;" align="left">
-                  <a href="#" style="text-decoration: none;">
-                    <img class="full-width-sm" src="https://dummyimage.com/117x134/D6DAE3/000" alt="best Selling Book 1" style="width: 118px; max-width: 100%;">
+                <!-- Good 1 -->
+                {% for good in goodsGrouped %}
+                <td class="col col-sm-6  pr-sm-10 pb-sm-20" width="117" style="{% if loop.first %}padding-right: 12px;{% elseif loop.last %}padding-left: 12px;{% else %}padding:0 12px;{% endif %}" align="left">
+                  {% if good.image and good.image.image %}
+                  <a href="{{ good.link ? good.link : '#' }}" style="text-decoration: none;">
+                    {% include 'emails/content/shared/image.html.twig' with {'image': good.image, 'style': 'width: 118px; max-width: 100%;'} %}
                   </a>
+                  {% endif %}
+                  {% if good.title %}
                   <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
                   <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 18px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                    Campari Tomatoes
+                    {{ good.title }}
                   </h3>
+                  {% endif %}
+                  {% if good.author %}
                   <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    by <span style="color: #89C5CC;">Daniele</span> 
+                    {{ language.by }} <span style="color: #{{ good.color ? good.color : content.color }};">{{ good.author }}</span> 
                   </p>
-                </td>
-                <td class="col col-sm-6 pr-sm-0 pl-sm-10 pb-sm-20" width="118" style="padding:0 12px;" align="left">
-                  <a href="#" style="text-decoration: none;">
-                    <img class="full-width-sm" src="https://dummyimage.com/117x134/D6DAE3/000" alt="best Selling Book 2" style="width: 118px; max-width: 100%;">
-                  </a>
+                  {% endif %}
                   <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
-                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 18px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                    Cheers!
-                  </h3>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    by <span style="color: #89C5CC;">MUTI</span> 
-                  </p>
                 </td>
-                <td class="col col-sm-6 pl-sm-0 pr-sm-10 pb-sm-20" width="117" style="padding-left: 12px;" align="left">
-                  <a href="#" style="text-decoration: none;">
-                    <img class="full-width-sm" src="https://dummyimage.com/117x134/D6DAE3/000" alt="best Selling Book 3" style="width: 118px; max-width: 100%;">
-                  </a>
-                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
-                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 18px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                    Friday!
-                  </h3>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    by <span style="color: #89C5CC;"> Maria Kotyshova</span> 
-                  </p>
-                </td>
+                {% endfor %}
               </tr>
+              {% endfor %}
             </table>
             <!-- end Content -->
           </td>
@@ -140,5 +98,6 @@
     </td>
   </tr>
 </table>
+{% endif %}
 <!-- end Section : 3 columns-->
 {% endblock %}

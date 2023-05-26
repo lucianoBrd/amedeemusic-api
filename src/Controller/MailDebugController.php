@@ -289,4 +289,37 @@ class MailDebugController extends AbstractController
 
         return $this->render('emails/content/playlist-suggestion.html.twig', $context);
     }
+
+    #[Route(path: '/free-goods', name: 'free_goods')]
+    public function mailFreeGoods()
+    {
+        $local = 'fr';
+        $title = 'Titre';
+
+        $user = new User();
+        $user->setSecret('secret');
+
+        $mailContent = $this->mailContentDebugService->getFreeGoods();
+
+        $context = $this->mailService->getMessageContext(
+            title: $title,
+            local: $local,
+            banner: Banner::BANNER_FREE_GOODS,
+            content: $mailContent,
+            user: $user
+        );
+        
+        /*$error = $this->mailService->sendMessage(
+            $this->params->get('mail_debug'),
+            $title,
+            $context,
+            'emails/content/free-goods.html.twig'
+        );
+
+        dump($error);*/
+
+        $context['htmlView'] = true;
+
+        return $this->render('emails/content/free-goods.html.twig', $context);
+    }
 }

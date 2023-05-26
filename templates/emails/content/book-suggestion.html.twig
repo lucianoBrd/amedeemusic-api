@@ -90,7 +90,7 @@
               </tr>
               {% endif %}
               {% if booksLength > 0 %}
-              {% set booksGroupedBy3 = mailContentService.getBooksGroupedBy3(content.books) %}
+              {% set booksGroupedBy3 = mailContentService.getGroupedBy(content.books, 3) %}
               {% for booksGrouped in booksGroupedBy3 %}
               <tr>
                 <!-- Book 1 -->
