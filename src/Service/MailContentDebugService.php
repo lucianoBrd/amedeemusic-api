@@ -14,12 +14,15 @@ use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
 use App\Entity\MailContent\BookSuggestion;
 use App\Entity\MailContent\FreeGoods\Good;
+use App\Entity\MailContent\EventSuggestion;
 use App\Entity\MailContent\MonthStats\Stat;
 use App\Entity\MailContent\PlaylistSuggestion;
 use App\Entity\MailContent\BookSuggestion\Book;
 use App\Entity\MailContent\BlogArticles\Article;
+use App\Entity\MailContent\EventSuggestion\Event;
 use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
 use App\Entity\MailContent\PricingTable\Color as PricingTableColor;
+use App\Entity\MailContent\EventSuggestion\Color as EventSuggestionColor;
 
 class MailContentDebugService
 {
@@ -521,6 +524,102 @@ class MailContentDebugService
         ;
         $good->setImage($image);
         $mailContent->addThreeColGood($good);
+        
+        return $mailContent;
+    }
+
+    public function getEventSuggestion(): EventSuggestion {
+        $mailContent = new EventSuggestion();
+        $mailContent
+            ->setTitle('Hey, This is your Weekly')
+            ->setTitleBold('Event Suggestion')
+        ;
+        
+        $text = new Text();
+        $text->setParagraph('Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…');
+        $mailContent->addText($text);
+
+        $image = new Image();
+        $image
+            ->setImage('pin.png')
+        ;
+
+        // Event1
+        $event = new Event();
+        $event
+            ->setCategory('UX/UI Design')
+            ->setColor(EventSuggestionColor::COLORS[array_rand(EventSuggestionColor::COLORS)])
+            ->setTitle('Tiny Habits: The Small Changes That Change Everything.')
+            ->setPlace('Songbird Cafe. Los Angeles, CA')
+            ->setParagraph('Places Left')
+            ->setParagraphBold('18')
+            ->setImage($image)
+        ;
+        $button = new Button();
+        $button
+            ->setColor($event->getColor())
+            ->setLink('#')
+            ->setName('Book Now')
+        ;
+        $event->setButton($button);
+        $mailContent->addEvent($event);
+        // Event2
+        $event = new Event();
+        $event
+            ->setCategory('UX/UI Design')
+            ->setColor(EventSuggestionColor::COLORS[array_rand(EventSuggestionColor::COLORS)])
+            ->setTitle('Tiny Habits: The Small Changes That Change Everything.')
+            ->setPlace('Songbird Cafe. Los Angeles, CA')
+            ->setParagraph('Places Left')
+            ->setParagraphBold('18')
+            ->setImage($image)
+        ;
+        $button = new Button();
+        $button
+            ->setColor($event->getColor())
+            ->setLink('#')
+            ->setName('Book Now')
+        ;
+        $event->setButton($button);
+        $mailContent->addEvent($event);
+        // Event3
+        $event = new Event();
+        $event
+            ->setCategory('UX/UI Design')
+            ->setColor(EventSuggestionColor::COLORS[array_rand(EventSuggestionColor::COLORS)])
+            ->setTitle('Tiny Habits: The Small Changes That Change Everything.')
+            ->setPlace('Songbird Cafe. Los Angeles, CA')
+            ->setParagraph('Places Left')
+            ->setParagraphBold('18')
+            ->setImage($image)
+        ;
+        $button = new Button();
+        $button
+            ->setColor($event->getColor())
+            ->setLink('#')
+            ->setName('Book Now')
+        ;
+        $event->setButton($button);
+        $mailContent->addEvent($event);
+        // Event4
+        $event = new Event();
+        $event
+            ->setCategory('UX/UI Design')
+            ->setColor(EventSuggestionColor::COLORS[array_rand(EventSuggestionColor::COLORS)])
+            ->setTitle('Tiny Habits: The Small Changes That Change Everything.')
+            ->setPlace('Songbird Cafe. Los Angeles, CA')
+            ->setParagraph('Places Left')
+            ->setParagraphBold('18')
+            ->setImage($image)
+        ;
+        $button = new Button();
+        $button
+            ->setColor($event->getColor())
+            ->setLink('#')
+            ->setName('Book Now')
+        ;
+        $event->setButton($button);
+        $mailContent->addEvent($event);
         
         return $mailContent;
     }

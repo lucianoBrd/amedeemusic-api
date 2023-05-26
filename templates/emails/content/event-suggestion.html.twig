@@ -1,42 +1,8 @@
-{% extends "emails/base.html" %}
+{% extends "emails/base.html.twig" %}
 {% block content %}
-<!-- Section : Content -->
-<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-  <tr>
-    <td align="center" bgcolor="#F5F5F5">
-      <!-- 500px Box -->
-      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
-        <tr>
-          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:50px 50px 30px 50px;">
-            <!-- Content -->
-            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-              <tr>
-                <td class="col" width="400"" align="left">
-                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 28px;line-height: 28px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 10px;">
-                    Hey, This is your Weekly
-                  </h1>
-                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 15px;">
-                    Blog Articles
-                  </h1>
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                    Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…
-                  </p>
-                </td>
-              </tr>
-            </table>
-            <!-- end Content -->
-          </td>
-        </tr>
-      </table>
-      <!-- end 500px box -->       
-    </td>
-  </tr>
-</table>
-<!-- end Section : content -->
-
-
-
 <!-- Section : Event -->
+{% for event in content.events %}
+{% set color = event.color ? event.color : random(constant('App\\Entity\\MailContent\\EventSuggestion\\Color::COLORS')) %}
 <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
   <tr>
     <td align="center" bgcolor="#F5F5F5">
@@ -51,40 +17,50 @@
               <tr>
                 <td colspan="2" class="col " width="100%" style="padding: 20px 30px; border-radius: 6px;" bgcolor="#FAFAFA">
                   <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                    {% if event.title or event.category %}
                     <tr>
                       <td colspan="2" class="col" style="padding-bottom: 10px; border-bottom: 1px solid #EBEBEB;">
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#006CF5; margin: 0; margin-bottom: 5px ;">
-                          UX/UI Design
+                        {% if event.category %}
+                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#{{ color }}; margin: 0; margin-bottom: 5px ;">
+                          {{ event.category }}
                         </p>
-                        <a href="#" style="text-decoration: none;">
+                        {% endif %}
+                        {% if event.title %}
+                        <a href="{{ event.button ? (event.button.link ? event.button.link : '#') : '#' }}" style="text-decoration: none;">
                           <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                            Tiny Habits: The Small Changes That Change Everything.
+                            {{ event.title }}
                           </h3>
                         </a>
+                        {% endif %}
                       </td>
                     </tr>
+                    {% endif %}
+                    {% if event.place or event.image or event.button or event.paragraph or event.paragraphBold %}
                     <tr>
+                      {% if event.place or event.image %}
                       <td class="col" width="170" style="padding-top:10px ;">
-                        <img src="images/pin.png" alt="pin" style="width:8px;max-width:100% ;">
+                        {% if event.image %}
+                        {% include 'emails/content/shared/image.html.twig' with {'image': event.image, 'style': 'width:8px;max-width:100% ;'} %}
+                        {% endif %}
+                        {% if event.place %}
                         <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          Songbird Cafe <br>
-                          Los Angeles, CA
+                          {{ event.place }}
                         </p>
+                        {% endif %}
                       </td>
+                      {% endif %}
+                      {% if event.button or event.paragraph or event.paragraphBold %}
                       <td class="col" width="170" style="padding-top:10px ;vertical-align: bottom;" align="right">
+                        {% if event.paragraph or event.paragraphBold %}
                         <p class="text-sm-left" style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 5px ;">
-                          <span style="color: #292929;">18</span> Places Left
+                          {% if event.paragraphBold %}<span style="color: #292929;">{{ event.paragraphBold }}</span>{% endif %} {{ event.paragraph ? event.paragraph : '' }}
                         </p>
-                        <!-- button -->
-                        <table class="align-sm-center full-width-sm" cellpadding="0" cellspacing="0" role="presentation">
-                          <tr>
-                            <th bgcolor="#006CF5" style="border-radius: 3px; line-height: 100%; mso-padding-alt: 5px 50px 10px;">
-                              <a href="#" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 500; display: block; font-size: 14px; padding: 8px 30px; text-decoration: none;">Book Now</a>
-                            </th>
-                          </tr>
-                        </table>
+                        {% endif %}
+                        {% include 'emails/content/shared/button.html.twig' with {'button': event.button, 'color': color, 'size': 'xs', 'spacer': false} %}
                       </td>
+                      {% endif %}
                     </tr>
+                    {% endif %}
                   </table>
                 </td>
               </tr>
@@ -98,198 +74,6 @@
     </td>
   </tr>
 </table>
-<!-- end Section : Event-->
-
-<!-- Section : Event -->
-<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-  <tr>
-    <td align="center" bgcolor="#F5F5F5">
-      <!-- 500px Box -->
-      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
-        <tr>
-          <td class="col px-sm-30 py-sm-20" width="400" align="left"Book Now bgcolor="#FFFFFF" style="padding:15px 50px ;">
-            <!-- Content -->
-            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-
-             <!-- Event 2 -->
-             <tr>
-              <td colspan="2" class="col " width="100%" style="padding: 20px 30px; border-radius: 6px;" bgcolor="#FAFAFA">
-                <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-                  <tr>
-                    <td colspan="2" class="col" style="padding-bottom: 10px; border-bottom: 1px solid #EBEBEB;">
-                      <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#FF4133; margin: 0; margin-bottom: 5px ;">
-                        UX/UI Design
-                      </p>
-                      <a href="#" style="text-decoration: none;">
-                        <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                          Tiny Habits: The Small Changes That Change Everything.
-                        </h3>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="col" width="170" style="padding-top:10px ;">
-                      <img src="images/pin.png" alt="pin" style="width:8px;max-width:100% ;">
-                      <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                        Songbird Cafe <br>
-                        Los Angeles, CA
-                      </p>
-                    </td>
-                    <td class="col" width="170" style="padding-top:10px ;vertical-align: bottom;" align="right">
-                      <p class="text-sm-left" style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 5px ;">
-                        <span style="color: #292929;">18</span> Places Left
-                      </p>
-                      <!-- button -->
-                      <table class="align-sm-center full-width-sm" cellpadding="0" cellspacing="0" role="presentation">
-                        <tr>
-                          <th bgcolor="#FF4133" style="border-radius: 3px; line-height: 100%; mso-padding-alt: 5px 50px 10px;">
-                            <a href="#" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 500; display: block; font-size: 14px; padding: 8px 30px; text-decoration: none;">Book Now</a>
-                          </th>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-             </tr>
-
-            </table>
-            <!-- end Content -->
-          </td>
-        </tr>
-      </table>
-      <!-- end 500px box -->       
-    </td>
-  </tr>
-</table>
-<!-- end Section : Event-->
-
-
-<!-- Section : Event -->
-<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-<tr>
-  <td align="center" bgcolor="#F5F5F5">
-    <!-- 500px Box -->
-    <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
-      <tr>
-        <td class="col px-sm-30 py-sm-20" width="400" align="left"Book Now bgcolor="#FFFFFF" style="padding:15px 50px ;">
-          <!-- Content -->
-          <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-
-           <!-- Event 3 -->
-           <tr>
-            <td colspan="2" class="col " width="100%" style="padding: 20px 30px; border-radius: 6px;" bgcolor="#FAFAFA">
-              <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-                <tr>
-                  <td colspan="2" class="col" style="padding-bottom: 10px; border-bottom: 1px solid #EBEBEB;">
-                    <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#FF9B21; margin: 0; margin-bottom: 5px ;">
-                      UX/UI Design
-                    </p>
-                    <a href="#" style="text-decoration: none;">
-                      <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                        Tiny Habits: The Small Changes That Change Everything.
-                      </h3>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col" width="170" style="padding-top:10px ;">
-                    <img src="images/pin.png" alt="pin" style="width:8px;max-width:100% ;">
-                    <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                      Songbird Cafe <br>
-                      Los Angeles, CA
-                    </p>
-                  </td>
-                  <td class="col" width="170" style="padding-top:10px ;vertical-align: bottom;" align="right">
-                    <p class="text-sm-left" style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 5px ;">
-                      <span style="color: #292929;">18</span> Places Left
-                    </p>
-                    <!-- button -->
-                    <table class="align-sm-center full-width-sm" cellpadding="0" cellspacing="0" role="presentation">
-                      <tr>
-                        <th bgcolor="#FF9B21" style="border-radius: 3px; line-height: 100%; mso-padding-alt: 5px 50px 10px;">
-                          <a href="#" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 500; display: block; font-size: 14px; padding: 8px 30px; text-decoration: none;">Book Now</a>
-                        </th>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-           </tr>
-          </table>
-          <!-- end Content -->
-        </td>
-      </tr>
-    </table>
-    <!-- end 500px box -->       
-  </td>
-</tr>
-</table>
-<!-- end Section : Event-->
-
-
-<!-- Section : Event -->
-<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-<tr>
-  <td align="center" bgcolor="#F5F5F5">
-    <!-- 500px Box -->
-    <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
-      <tr>
-        <td class="col px-sm-30 py-sm-20" width="400" align="left"Book Now bgcolor="#FFFFFF" style="padding:15px 50px ;">
-          <!-- Content -->
-          <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-
-            
-              <!-- Event 4 -->
-              <tr>
-                <td colspan="2" class="col " width="100%" style="padding: 20px 30px; border-radius: 6px;" bgcolor="#FAFAFA">
-                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
-                    <tr>
-                      <td colspan="2" class="col" style="padding-bottom: 10px; border-bottom: 1px solid #EBEBEB;">
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#89C5CC; margin: 0; margin-bottom: 5px ;">
-                          UX/UI Design
-                        </p>
-                        <a href="#" style="text-decoration: none;">
-                          <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
-                            Tiny Habits: The Small Changes That Change Everything.
-                          </h3>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="col" width="170" style="padding-top:10px ;">
-                        <img src="images/pin.png" alt="pin" style="width:8px;max-width:100% ;">
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
-                          Songbird Cafe <br>
-                          Los Angeles, CA
-                        </p>
-                      </td>
-                      <td class="col" width="170" style="padding-top:10px ;vertical-align: bottom;" align="right">
-                        <p class="text-sm-left" style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 5px ;">
-                          <span style="color: #292929;">18</span> Places Left
-                        </p>
-                        <!-- button -->
-                        <table class="align-sm-center full-width-sm" cellpadding="0" cellspacing="0" role="presentation">
-                          <tr>
-                            <th bgcolor="#89C5CC" style="border-radius: 3px; line-height: 100%; mso-padding-alt: 5px 50px 10px;">
-                              <a href="#" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 500; display: block; font-size: 14px; padding: 8px 30px; text-decoration: none;">Book Now</a>
-                            </th>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-          </table>
-          <!-- end Content -->
-        </td>
-      </tr>
-    </table>
-    <!-- end 500px box -->       
-  </td>
-</tr>
-</table>
+{% endfor %}
 <!-- end Section : Event-->
 {% endblock %}

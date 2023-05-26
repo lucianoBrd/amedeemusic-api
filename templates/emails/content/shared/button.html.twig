@@ -1,10 +1,12 @@
 <!-- button -->
 {% if button %}
+{% if spacer %}
 <div class="spacer py-sm-20" style="line-height: 30px;">‌</div>
-<table class="align-sm-center" cellpadding="0" cellspacing="0" role="presentation" {% if size != 'sm' %}width="100%"{% endif %}>
+{% endif %}
+<table class="align-sm-center {% if size == 'xs' %}full-width-sm{% endif %}" cellpadding="0" cellspacing="0" role="presentation" {% if size != 'sm' and size != 'xs' %}width="100%"{% endif %}>
   <tr>
     <th bgcolor="#{{ button.color ? button.color : color }}" style="border-radius: 3px; line-height: 100%; mso-padding-alt: 5px 50px 10px;">
-      <a href="{{ button.link ? button.link : '#' }}" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 400; display: block; font-size: 16px; padding: {% if size == 'sm' %}10px 30px{% else %}13px 20px{% endif %}; text-decoration: none;">{{ button.name ? button.name : '' }}</a>
+      <a href="{{ button.link ? button.link : '#' }}" style="font-family: 'Lato', Arial, sans-serif;color: #FFFFFF;font-weight: 400; display: block; font-size: {% if size == 'xs' %}14px{% else %}16px{% endif %}; padding: {% if size == 'sm' %}10px 30px{% elseif size == 'xs' %}8px 30px{% else %}13px 20px{% endif %}; text-decoration: none;">{{ button.name ? button.name : '' }}</a>
     </th>
   </tr>
 </table>
