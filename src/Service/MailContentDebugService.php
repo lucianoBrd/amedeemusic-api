@@ -2,6 +2,7 @@
 
 namespace App\Service;
 use App\Entity\MailContent\JobBoard;
+use App\Entity\MailContent\EventPlan;
 use App\Entity\MailContent\FreeGoods;
 use App\Entity\MailContent\MonthStats;
 use App\Entity\MailContent\Shared\Text;
@@ -16,10 +17,13 @@ use App\Entity\MailContent\BookSuggestion;
 use App\Entity\MailContent\FreeGoods\Good;
 use App\Entity\MailContent\EventSuggestion;
 use App\Entity\MailContent\MonthStats\Stat;
+use App\Entity\MailContent\EventPlan\Speaker;
+use App\Entity\MailContent\EventPlan\Schedule;
 use App\Entity\MailContent\PlaylistSuggestion;
 use App\Entity\MailContent\BookSuggestion\Book;
 use App\Entity\MailContent\BlogArticles\Article;
 use App\Entity\MailContent\EventSuggestion\Event;
+use App\Entity\MailContent\EventPlan\Color as EventPlanColor;
 use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
 use App\Entity\MailContent\PricingTable\Color as PricingTableColor;
 use App\Entity\MailContent\EventSuggestion\Color as EventSuggestionColor;
@@ -620,6 +624,126 @@ class MailContentDebugService
         ;
         $event->setButton($button);
         $mailContent->addEvent($event);
+        
+        return $mailContent;
+    }
+
+    public function getEventPlan(): EventPlan {
+        $mailContent = new EventPlan();
+        $mailContent
+            ->setTitle('Hey, Welcome to')
+            ->setTitleBold('National Design Guide - London')
+            ->setSectionSpeakerTitle('About this Event :')
+            ->setSectionScheduleTitle('The Schedule :')
+            ->setScheduleParagraph('If you have any dietary requirements please email luciano@brd.com')
+        ;
+
+        $text = new Text();
+        $text->setTitle('The following themes will be covered during this event:');
+        $mailContent->addText($text);
+
+        $text = new Text();
+        $text->setParagraph('• the whole design ‘landscape’ i.e. how the national guide fits with the NPPF, PPG, Build Better Build Beautiful Commission, BFL12 etc.');
+        $mailContent->addText($text);
+
+        $text = new Text();
+        $text->setParagraph('• the key objectives of the design guide and how it can be applied locally');
+        $mailContent->addText($text);
+
+        $button = new Button();
+        $button
+            ->setColor(EventPlanColor::COLOR)
+            ->setLink('#')
+            ->setName('Show More Detail')
+        ;
+        $mailContent->setFirstScheduleButton($button);
+        $button = new Button();
+        $button
+            ->setColor(EventPlanColor::COLOR)
+            ->setLink('#')
+            ->setName('Print Event Details')
+        ;
+        $mailContent->setSecondScheduleButton($button);
+
+        $image = new Image();
+        $image
+            ->setImage('https://dummyimage.com/117x117/D6DAE3/000')
+            ->setAbsolutePath(true)
+        ;
+
+        // Speaker1
+        $speaker = new Speaker();
+        $speaker
+            ->setImage($image)
+            ->setLink('#')
+            ->setTitle('Holley')
+            ->setParagraph('Facebook')
+        ;
+        $mailContent->addSpeaker($speaker);
+        // Speaker2
+        $speaker = new Speaker();
+        $speaker
+            ->setImage($image)
+            ->setLink('#')
+            ->setTitle('Andrew')
+            ->setParagraph('Airbnb')
+        ;
+        $mailContent->addSpeaker($speaker);
+        // Speaker3
+        $speaker = new Speaker();
+        $speaker
+            ->setImage($image)
+            ->setLink('#')
+            ->setTitle('Selina')
+            ->setParagraph('Angolia')
+        ;
+        $mailContent->addSpeaker($speaker);
+
+        // Schedule1
+        $schedule = new Schedule();
+        $schedule
+            ->setColor(EventPlanColor::COLORS[array_rand(EventPlanColor::COLORS)])
+            ->setHour('• 8.30 am:')
+        ;
+        $schedule->addParagraph('- Arrival, networking & breakfast');
+        $mailContent->addSchedule($schedule);
+        // Schedule2
+        $schedule = new Schedule();
+        $schedule
+            ->setColor(EventPlanColor::COLORS[array_rand(EventPlanColor::COLORS)])
+            ->setHour('• 9.30 am:')
+        ;
+        $schedule->addParagraph('- Workshop overview and goals - Positioning and Branding your product');
+        $schedule->addParagraph('- How to delight your customers in hard-to-copy,');
+        $schedule->addParagraph('- What to get big on, lead and expand');
+        $schedule->addParagraph('- Growth, engagement and monetisation');
+        $mailContent->addSchedule($schedule);
+        // Schedule3
+        $schedule = new Schedule();
+        $schedule
+            ->setColor(EventPlanColor::COLORS[array_rand(EventPlanColor::COLORS)])
+            ->setHour('• 1 pm:')
+        ;
+        $schedule->addParagraph('- Lunch');
+        $mailContent->addSchedule($schedule);
+        // Schedule4
+        $schedule = new Schedule();
+        $schedule
+            ->setColor(EventPlanColor::COLORS[array_rand(EventPlanColor::COLORS)])
+            ->setHour('• 2 pm:')
+        ;
+        $schedule->addParagraph('- Recap on frameworks - Strategy, metrics and tactics');
+        $schedule->addParagraph('- Product roadmap');
+        $schedule->addParagraph('- Product strategy presentations');
+        $mailContent->addSchedule($schedule);
+        // Schedule5
+        $schedule = new Schedule();
+        $schedule
+            ->setColor(EventPlanColor::COLORS[array_rand(EventPlanColor::COLORS)])
+            ->setHour('• 5 pm:')
+        ;
+        $schedule->addParagraph('- Drinks and networking');
+        $mailContent->addSchedule($schedule);
         
         return $mailContent;
     }

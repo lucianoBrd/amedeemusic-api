@@ -355,4 +355,37 @@ class MailDebugController extends AbstractController
 
         return $this->render('emails/content/event-suggestion.html.twig', $context);
     }
+
+    #[Route(path: '/event-plan', name: 'event_plan')]
+    public function mailEventPlan()
+    {
+        $local = 'fr';
+        $title = 'Titre';
+
+        $user = new User();
+        $user->setSecret('secret');
+
+        $mailContent = $this->mailContentDebugService->getEventPlan();
+
+        $context = $this->mailService->getMessageContext(
+            title: $title,
+            local: $local,
+            banner: Banner::BANNER_EVENT_PLAN,
+            content: $mailContent,
+            user: $user
+        );
+        
+        /*$error = $this->mailService->sendMessage(
+            $this->params->get('mail_debug'),
+            $title,
+            $context,
+            'emails/content/event-plan.html.twig'
+        );
+
+        dump($error);*/
+
+        $context['htmlView'] = true;
+
+        return $this->render('emails/content/event-plan.html.twig', $context);
+    }
 }
