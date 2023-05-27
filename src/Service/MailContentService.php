@@ -7,6 +7,7 @@ use App\Entity\Banner;
 use App\Service\MailService;
 use App\Service\MailContentTemplateService;
 use App\Entity\MailContent\MailContentInterface;
+use Doctrine\Common\Collections\Collection;
 
 class MailContentService
 {
@@ -116,7 +117,7 @@ class MailContentService
         }
     }
 
-    public function getGroupedBy(array $array, int $number = 2): array {
+    public function getGroupedBy(Collection $array, int $number = 2): array {
         $arrayGroupedBy = [];
 
         $j = 0;

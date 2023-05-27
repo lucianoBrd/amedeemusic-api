@@ -38,5 +38,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    app.mailcontent.service:
+        alias: App\Service\MailContentService
+        public: true
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
