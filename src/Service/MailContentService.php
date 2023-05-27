@@ -53,9 +53,9 @@ class MailContentService
         }
 
         $mailContentClassName = get_class($mailContent);
-
+        $title = $mail->getTitle();
         return $this->mailService->getMessageContext(
-            title: $mail->getTitle(),
+            title: $title ? $title : '',
             local: 'fr',
             banner: $this->getBannerByClassName($mailContentClassName),
             content: $mailContent,

@@ -57,7 +57,7 @@ class MailContent implements MailContentInterface
     public function __construct()
     {
         $this->texts = new ArrayCollection();
-        $this->color = '292929';
+        $this->color = '#292929';
     }
 
     public function getId(): ?int

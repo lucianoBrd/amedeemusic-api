@@ -14,8 +14,7 @@ class TextType extends AbstractType
         $builder
             ->add('title')
             ->add('paragraph')
-            ->add('image')
-            ->add('mailContent')
+            //->add('image')
         ;
     }
 

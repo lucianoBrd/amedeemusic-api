@@ -13,6 +13,7 @@ use App\Service\MailContentTemplateService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -73,11 +74,23 @@ class MailController extends AbstractDashboardController
             throw $this->createNotFoundException();
         }
 
+        $originalTexts = new ArrayCollection();
+        foreach ($mailContent->getTexts() as $text) {
+            $originalTexts->add($text);
+        }
+
         $form = $this->createForm(MailContentType::class, $mailContent);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            foreach ($originalTexts as $text) {
+                if (false === $mailContent->getTexts()->contains($text)) {
+                    $this->manager->remove($text);
+                }
+            }
+
+            $this->manager->persist($mailContent);
+            $this->manager->flush();
 
         }
 

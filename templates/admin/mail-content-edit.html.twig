@@ -1,0 +1,36 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block main %}
+{{ form_start(form) }}
+{{ form_row(form.title) }}
+{{ form_row(form.titleBold) }}
+{{ form_row(form.color) }}
+
+<fieldset class="mb-3">
+    <legend class="col-form-label">Texts</legend>
+    <ul class="texts collection"
+        data-index="{{ form.texts|length > 0 ? form.texts|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.texts.vars.prototype)|e('html_attr') }}"
+    >
+        {% for text in form.texts %}
+        <li>
+            <div>
+                <div class="mb-3">
+                    {{ form_row(text.title) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(text.paragraph) }}
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <button type="button" class="add_item_link btn btn-outline-primary btn" data-collection-holder-class="texts">+ Add a text</button>
+</fieldset>
+
+{{ form_row(form.save) }}
+{{ form_end(form) }}
+{% endblock %}
+{% block body_javascript %}
+<script type="text/javascript" src="/assets/js/collection.js"></script>
+{% endblock body_javascript %}

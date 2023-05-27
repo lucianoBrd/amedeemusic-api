@@ -33,7 +33,7 @@
                 {% if content.featuredTitle or content.featuredAuthor or content.featuredCategory or content.featuredButton %}
                 <td class="col pl-sm-0" width="220" style="padding-left: 30px; vertical-align: middle;" >
                   {% if content.featuredCategory %}
-                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 12px;font-weight: 400; color:#{{ content.color }}; margin: 0; margin-bottom: 5px ;">
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 12px;font-weight: 400; color:{{ content.color }}; margin: 0; margin-bottom: 5px ;">
                     {{ content.featuredCategory }}
                   </p>
                   {% endif %}
@@ -108,7 +108,7 @@
                   </h3>
                   {% endif %}
                   {% if book.button %}
-                  <a href="{{ book.button.link ? book.button.link : '#' }}" style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 12px;font-weight: 400; color:#{{ book.button.color ? book.button.color : content.color }}; margin: 0; margin-bottom: 5px ;text-decoration: none;">
+                  <a href="{{ book.button.link ? book.button.link : '#' }}" style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 12px;font-weight: 400; color:{{ book.button.color ? book.button.color : content.color }}; margin: 0; margin-bottom: 5px ;text-decoration: none;">
                     {{ book.button.name ? book.button.name : '' }}
                   </a>
                   {% endif %}

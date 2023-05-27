@@ -94,7 +94,7 @@
                       <td class="col" style="padding-bottom: 10px; ">
                         {% for schedule in content.schedules %}
                         {% if schedule.hour %}
-                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 500; color:#{{ schedule.color ? schedule.color : random(constant('App\\Entity\\MailContent\\EventPlan\\Color::COLORS')) }}; margin: 0; margin-bottom: 0px ;">
+                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 500; color:{{ schedule.color ? schedule.color : random(constant('App\\Entity\\MailContent\\EventPlan\\Color::COLORS')) }}; margin: 0; margin-bottom: 0px ;">
                           {{ schedule.hour }}
                         </p>
                         {% endif %}

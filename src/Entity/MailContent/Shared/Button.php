@@ -24,7 +24,7 @@ class Button
 
     public function __construct()
     {
-		$this->color = '292929';
+		$this->color = '#292929';
     }
 
     public function getId(): ?int

@@ -5,5 +5,5 @@ namespace App\Entity\MailContent\MonthStats;
 
 class Color
 {
-    public const COLOR = 'FF9B21';
+    public const COLOR = '#FF9B21';
 }
