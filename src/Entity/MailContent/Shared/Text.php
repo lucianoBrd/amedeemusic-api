@@ -20,10 +20,10 @@ class Text
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $paragraph = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'texts')]
+    #[ORM\ManyToOne(inversedBy: 'texts', cascade: ['persist'])]
     private ?MailContent $mailContent = null;
 
     public function getId(): ?int

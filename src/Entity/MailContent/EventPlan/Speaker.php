@@ -24,10 +24,10 @@ class Speaker
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $paragraph = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'speakers')]
+    #[ORM\ManyToOne(inversedBy: 'speakers', cascade: ['persist'])]
     private ?EventPlan $eventPlan = null;
 
     public function getId(): ?int

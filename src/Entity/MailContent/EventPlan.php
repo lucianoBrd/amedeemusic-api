@@ -15,11 +15,10 @@ use App\Repository\MailContent\EventPlanRepository;
 #[ORM\Entity(repositoryClass: EventPlanRepository::class)]
 class EventPlan extends MailContent implements MailContentInterface
 {
-
-    #[ORM\OneToMany(mappedBy: 'eventPlan', targetEntity: Speaker::class)]
+    #[ORM\OneToMany(mappedBy: 'eventPlan', targetEntity: Speaker::class, cascade: ['persist', 'remove'])]
     private Collection $speakers;
 
-    #[ORM\OneToMany(mappedBy: 'eventPlan', targetEntity: Schedule::class)]
+    #[ORM\OneToMany(mappedBy: 'eventPlan', targetEntity: Schedule::class, cascade: ['persist', 'remove'])]
     private Collection $schedules;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -31,21 +30,17 @@ class EventPlan extends MailContent implements MailContentInterface
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $scheduleParagraph = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $firstScheduleButton = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $secondScheduleButton = null;
 
     public function __construct()
     {
+        parent::__construct();
         $this->speakers = new ArrayCollection();
         $this->schedules = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

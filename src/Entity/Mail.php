@@ -20,7 +20,7 @@ class Mail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 500, nullable: true)]
     #[Assert\NotBlank]
     private ?string $title = null;
 
@@ -33,7 +33,7 @@ class Mail
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?MailContent $mailContent = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -59,7 +59,7 @@ class Mail
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 

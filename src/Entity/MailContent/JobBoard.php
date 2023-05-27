@@ -15,22 +15,17 @@ use App\Repository\MailContent\JobBoardRepository;
 #[ORM\Entity(repositoryClass: JobBoardRepository::class)]
 class JobBoard extends MailContent implements MailContentInterface
 {
-
-    #[ORM\OneToMany(mappedBy: 'jobBoard', targetEntity: Job::class)]
+    #[ORM\OneToMany(mappedBy: 'jobBoard', targetEntity: Job::class, cascade: ['persist', 'remove'])]
     private Collection $jobs;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $button = null;
 
     public function __construct()
     {
+        parent::__construct();
         $this->jobs = new ArrayCollection();
         $this->color = Color::COLOR;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

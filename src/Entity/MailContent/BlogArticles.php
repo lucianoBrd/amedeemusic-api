@@ -13,18 +13,13 @@ use App\Repository\MailContent\BlogArticlesRepository;
 #[ORM\Entity(repositoryClass: BlogArticlesRepository::class)]
 class BlogArticles extends MailContent implements MailContentInterface
 {
-
-    #[ORM\OneToMany(mappedBy: 'blogArticles', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'blogArticles', targetEntity: Article::class, cascade: ['persist', 'remove'])]
     private Collection $articles;
 
     public function __construct()
     {
+        parent::__construct();
         $this->articles = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

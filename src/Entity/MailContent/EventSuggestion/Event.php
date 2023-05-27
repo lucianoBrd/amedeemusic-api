@@ -35,13 +35,13 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $paragraphBold = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $button = null;
 
-    #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\ManyToOne(inversedBy: 'events', cascade: ['persist'])]
     private ?EventSuggestion $eventSuggestion = null;
 
     public function getId(): ?int

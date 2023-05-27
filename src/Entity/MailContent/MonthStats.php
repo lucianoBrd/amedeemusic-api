@@ -15,22 +15,17 @@ use App\Repository\MailContent\MonthStatsRepository;
 #[ORM\Entity(repositoryClass: MonthStatsRepository::class)]
 class MonthStats extends MailContent implements MailContentInterface
 {
-
-    #[ORM\OneToMany(mappedBy: 'monthStats', targetEntity: Stat::class)]
+    #[ORM\OneToMany(mappedBy: 'monthStats', targetEntity: Stat::class, cascade: ['persist', 'remove'])]
     private Collection $stats;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $button = null;
 
     public function __construct()
     {
+        parent::__construct();
         $this->stats = new ArrayCollection();
         $this->color = Color::COLOR;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

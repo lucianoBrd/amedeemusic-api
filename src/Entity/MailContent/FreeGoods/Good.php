@@ -28,10 +28,10 @@ class Good
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $author = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'twoColGoods')]
+    #[ORM\ManyToOne(inversedBy: 'twoColGoods', cascade: ['persist'])]
     private ?FreeGoods $freeGoods = null;
 
     public function __construct()

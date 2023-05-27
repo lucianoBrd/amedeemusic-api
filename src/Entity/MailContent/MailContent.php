@@ -3,19 +3,44 @@
 namespace App\Entity\MailContent;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\MailContent\JobBoard;
+use App\Entity\MailContent\EventPlan;
+use App\Entity\MailContent\FreeGoods;
+use App\Entity\MailContent\MonthStats;
 use App\Entity\MailContent\Shared\Text;
+use App\Entity\MailContent\BlogArticles;
+use App\Entity\MailContent\PricingTable;
+use App\Entity\MailContent\UserWelcoming;
+use App\Entity\MailContent\BookSuggestion;
+use App\Entity\MailContent\EventSuggestion;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\MailContent\PlaylistSuggestion;
 use App\Entity\MailContent\MailContentInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\MailContent\MailContentRepository;
 
-#[ORM\MappedSuperclass(repositoryClass: MailContentRepository::class)]
+#[ORM\Entity(repositoryClass: MailContentRepository::class)]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
+#[ORM\DiscriminatorMap([
+    'mail_content' => MailContent::class, 
+    'blog_articles' => BlogArticles::class,
+    'book_suggestion' => BookSuggestion::class,
+    'event_plan' => EventPlan::class,
+    'event_suggestion' => EventSuggestion::class,
+    'free_goods' => FreeGoods::class,
+    'job_board' => JobBoard::class,
+    'month_stats' => MonthStats::class,
+    'playlist_suggestion' => PlaylistSuggestion::class,
+    'pricing_table' => PricingTable::class,
+    'user_welcoming' => UserWelcoming::class,
+])]
 class MailContent implements MailContentInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     protected ?string $title = null;
@@ -26,7 +51,7 @@ class MailContent implements MailContentInterface
     #[ORM\Column(length: 255, nullable: true)]
     protected ?string $color = null;
 
-    #[ORM\OneToMany(mappedBy: 'mailContent', targetEntity: Text::class)]
+    #[ORM\OneToMany(mappedBy: 'mailContent', targetEntity: Text::class, cascade: ['persist', 'remove'])]
     protected Collection $texts;
 
     public function __construct()

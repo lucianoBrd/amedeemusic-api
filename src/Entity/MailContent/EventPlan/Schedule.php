@@ -24,7 +24,7 @@ class Schedule
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private array $paragraphs = [];
 
-    #[ORM\ManyToOne(inversedBy: 'schedules')]
+    #[ORM\ManyToOne(inversedBy: 'schedules', cascade: ['persist'])]
     private ?EventPlan $eventPlan = null;
 
     public function getId(): ?int

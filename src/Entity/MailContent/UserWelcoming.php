@@ -12,8 +12,7 @@ use App\Repository\MailContent\UserWelcomingRepository;
 #[ORM\Entity(repositoryClass: UserWelcomingRepository::class)]
 class UserWelcoming extends MailContent implements MailContentInterface
 {
-
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $button = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -30,12 +29,8 @@ class UserWelcoming extends MailContent implements MailContentInterface
 
     public function __construct()
     {
+        parent::__construct();
         $this->color = Color::COLOR;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getButton(): ?Button

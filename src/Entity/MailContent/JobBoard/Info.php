@@ -17,10 +17,10 @@ class Info
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'infos')]
+    #[ORM\ManyToOne(inversedBy: 'infos', cascade: ['persist'])]
     private ?Job $job = null;
 
     public function getId(): ?int

@@ -14,23 +14,18 @@ use App\Repository\MailContent\FreeGoodsRepository;
 #[ORM\Entity(repositoryClass: FreeGoodsRepository::class)]
 class FreeGoods extends MailContent implements MailContentInterface
 {
-
-    #[ORM\OneToMany(mappedBy: 'freeGoods', targetEntity: Good::class)]
+    #[ORM\OneToMany(mappedBy: 'freeGoods', targetEntity: Good::class, cascade: ['persist', 'remove'])]
     private Collection $twoColGoods;
 
-    #[ORM\OneToMany(mappedBy: 'freeGoods', targetEntity: Good::class)]
+    #[ORM\OneToMany(mappedBy: 'freeGoods', targetEntity: Good::class, cascade: ['persist', 'remove'])]
     private Collection $threeColGoods;
 
     public function __construct()
     {
+        parent::__construct();
         $this->twoColGoods = new ArrayCollection();
         $this->threeColGoods = new ArrayCollection();
         $this->color = Color::COLOR;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

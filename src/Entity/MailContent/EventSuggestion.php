@@ -13,18 +13,13 @@ use App\Repository\MailContent\EventSuggestionRepository;
 #[ORM\Entity(repositoryClass: EventSuggestionRepository::class)]
 class EventSuggestion extends MailContent implements MailContentInterface
 {
-
-    #[ORM\OneToMany(mappedBy: 'eventSuggestion', targetEntity: Event::class)]
+    #[ORM\OneToMany(mappedBy: 'eventSuggestion', targetEntity: Event::class, cascade: ['persist', 'remove'])]
     private Collection $events;
 
     public function __construct()
     {
+        parent::__construct();
         $this->events = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

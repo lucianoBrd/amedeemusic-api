@@ -33,10 +33,10 @@ class Article
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $paragraphBold = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[ORM\ManyToOne(inversedBy: 'articles', cascade: ['persist'])]
     private ?BlogArticles $blogArticles = null;
 
     public function getId(): ?int

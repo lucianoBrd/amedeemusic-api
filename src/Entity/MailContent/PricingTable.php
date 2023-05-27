@@ -12,7 +12,6 @@ use App\Repository\MailContent\PricingTableRepository;
 #[ORM\Entity(repositoryClass: PricingTableRepository::class)]
 class PricingTable extends MailContent implements MailContentInterface
 {
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $starterTitle = null;
 
@@ -43,20 +42,16 @@ class PricingTable extends MailContent implements MailContentInterface
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $advancedParagraph = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $starterButton = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $advancedButton = null;
 
     public function __construct()
     {
+        parent::__construct();
         $this->color = Color::COLOR;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getStarterTitle(): ?string

@@ -29,13 +29,13 @@ class Job
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $paragraph = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'job', targetEntity: Info::class)]
+    #[ORM\OneToMany(mappedBy: 'job', targetEntity: Info::class, cascade: ['persist', 'remove'])]
     private Collection $infos;
 
-    #[ORM\ManyToOne(inversedBy: 'jobs')]
+    #[ORM\ManyToOne(inversedBy: 'jobs', cascade: ['persist'])]
     private ?JobBoard $jobBoard = null;
 
     public function __construct()

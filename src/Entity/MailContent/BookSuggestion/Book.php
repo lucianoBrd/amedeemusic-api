@@ -19,13 +19,13 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $button = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(inversedBy: 'books', cascade: ['persist'])]
     private ?BookSuggestion $bookSuggestion = null;
 
     public function getId(): ?int

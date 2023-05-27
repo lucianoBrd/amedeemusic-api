@@ -13,27 +13,22 @@ use App\Repository\MailContent\PlaylistSuggestionRepository;
 #[ORM\Entity(repositoryClass: PlaylistSuggestionRepository::class)]
 class PlaylistSuggestion extends MailContent implements MailContentInterface
 {
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $playlistTitle = null;
 
     #[ORM\Column(length: 600, nullable: true)]
     private ?string $playlistParagraph = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $playlistButton = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $playlistImage = null;
 
     public function __construct()
     {
+        parent::__construct();
         $this->color = Color::COLOR;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getPlaylistTitle(): ?string

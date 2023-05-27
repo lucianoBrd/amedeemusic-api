@@ -16,8 +16,7 @@ use App\Repository\MailContent\BookSuggestionRepository;
 #[ORM\Entity(repositoryClass: BookSuggestionRepository::class)]
 class BookSuggestion extends MailContent implements MailContentInterface
 {
-
-    #[ORM\OneToMany(mappedBy: 'bookSuggestion', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'bookSuggestion', targetEntity: Book::class, cascade: ['persist', 'remove'])]
     private Collection $books;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -29,10 +28,10 @@ class BookSuggestion extends MailContent implements MailContentInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $featuredCategory = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Button $featuredButton = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $featuredImage = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -43,13 +42,9 @@ class BookSuggestion extends MailContent implements MailContentInterface
 
     public function __construct()
     {
+        parent::__construct();
         $this->books = new ArrayCollection();
         $this->color = Color::COLOR;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

@@ -33,10 +33,10 @@ class Stat
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $date = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'stats')]
+    #[ORM\ManyToOne(inversedBy: 'stats', cascade: ['persist'])]
     private ?MonthStats $monthStats = null;
 
     public function getId(): ?int
