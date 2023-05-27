@@ -28,7 +28,7 @@ use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
 use App\Entity\MailContent\PricingTable\Color as PricingTableColor;
 use App\Entity\MailContent\EventSuggestion\Color as EventSuggestionColor;
 
-class MailContentDebugService
+class MailContentTemplateService
 {
     public function __construct(
     )

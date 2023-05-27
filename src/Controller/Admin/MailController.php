@@ -2,11 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Data;
 use App\Entity\Mail;
 use App\Form\MailType;
 use App\Service\MailService;
-use App\Service\MailContentDebugService;
+use App\Service\MailContentService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\MailContentTemplateService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +23,7 @@ class MailController extends AbstractDashboardController
         private ContainerBagInterface $params,
         private MailService $mailService,
         private EntityManagerInterface $manager,
-        private MailContentDebugService $mailContentDebugService,
+        private MailContentService $mailContentService,
     ) {
     }
     
@@ -30,8 +32,6 @@ class MailController extends AbstractDashboardController
     {
         $mail = new Mail();
         $mail = $this->mailService->addRecipientsToMail($mail);
-
-        $mail->setMailContent($this->mailContentDebugService->getBlogArticles());
         
         $this->manager->persist($mail);
         $this->manager->flush();
@@ -40,9 +40,39 @@ class MailController extends AbstractDashboardController
     }
 
     #[Route('/edit/{mail}', name: 'edit')]
-    public function edit(Request $request, ?Mail $mail): Response
+    public function edit(Request $request, Mail $mail): Response
     {
         $form = $this->createForm(MailType::class, $mail);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $oldMailContent = $mail->getMailContent();
+            
+            $mailContent = $form->get('mailContent')->getData();
+            $mail->setMailContent($this->mailContentService->getMailContentByClassName($mailContent));
+
+            if ($oldMailContent) {
+                $this->manager->remove($oldMailContent);
+            }
+            $this->manager->persist($mail);
+            $this->manager->flush();
+        }
+
+        return $this->render('admin/mail-edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/edit/mail-content/{mail}', name: 'edit_mail_content')]
+    public function editMailContent(Request $request, Mail $mail): Response
+    {
+        $mailContent = $mail->getMailContent();
+
+        if (!$mailContent) {
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(MailContentType::class, $mailContent);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,8 +80,26 @@ class MailController extends AbstractDashboardController
 
         }
 
-        return $this->render('admin/mail-edit.html.twig', [
+        return $this->render('admin/mail-content-edit.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/display/{mail}', name: 'display')]
+    public function displayMail(Request $request, Mail $mail): Response
+    {
+        $mailContent = $mail->getMailContent();
+
+        if (!$mailContent) {
+            throw $this->createNotFoundException();
+        }
+
+        $mailContentClassName = get_class($mailContent);
+
+        $context = $this->mailContentService->getContextByMail($mail);
+
+        $context['htmlView'] = true;
+
+        return $this->render($this->mailContentService->getTemplateByClassName($mailContentClassName), $context);
     }
 }

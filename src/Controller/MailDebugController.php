@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Banner;
 use App\Service\MailService;
-use App\Service\MailContentDebugService;
+use App\Service\MailContentTemplateService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -16,7 +16,7 @@ class MailDebugController extends AbstractController
 
     public function __construct(
         private MailService $mailService,
-        private MailContentDebugService $mailContentDebugService,
+        private MailContentTemplateService $mailContentTemplateService,
         private ContainerBagInterface $params,
     )
     {
@@ -31,7 +31,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getBlogArticles();
+        $mailContent = $this->mailContentTemplateService->getBlogArticles();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -64,7 +64,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getUserWelcoming();
+        $mailContent = $this->mailContentTemplateService->getUserWelcoming();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -97,7 +97,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getJobBoard();
+        $mailContent = $this->mailContentTemplateService->getJobBoard();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -130,7 +130,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getMonthStats();
+        $mailContent = $this->mailContentTemplateService->getMonthStats();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -163,7 +163,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getPricingTable();
+        $mailContent = $this->mailContentTemplateService->getPricingTable();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -196,7 +196,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getBookSuggestion();
+        $mailContent = $this->mailContentTemplateService->getBookSuggestion();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -229,7 +229,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getPlaylistSuggestion();
+        $mailContent = $this->mailContentTemplateService->getPlaylistSuggestion();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -262,7 +262,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getFreeGoods();
+        $mailContent = $this->mailContentTemplateService->getFreeGoods();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -295,7 +295,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getEventSuggestion();
+        $mailContent = $this->mailContentTemplateService->getEventSuggestion();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
@@ -328,7 +328,7 @@ class MailDebugController extends AbstractController
         $user = new User();
         $user->setSecret('secret');
 
-        $mailContent = $this->mailContentDebugService->getEventPlan();
+        $mailContent = $this->mailContentTemplateService->getEventPlan();
 
         $context = $this->mailService->getMessageContext(
             title: $title,
