@@ -42,4 +42,30 @@ class Data
     public const PLAYLIST_SUGGESTION = PlaylistSuggestion::class;
     public const PRICING_TABLE = PricingTable::class;
     public const USER_WELCOMING = UserWelcoming::class;
+
+    public const MAIL_IMAGES = [
+        'banner-blog-articles.png' => 'banner-blog-articles.png',
+        'banner-book-suggestion.png' => 'banner-book-suggestion.png',
+        'banner-event-plan.png' => 'banner-event-plan.png',
+        'banner-event-suggestion.png' => 'banner-event-suggestion.png',
+        'banner-free-goods.png' => 'banner-free-goods.png',
+        'banner-job-board.png' => 'banner-job-board.png',
+        'banner-month-stats.png' => 'banner-month-stats.png',
+        'banner-playlist-suggestion.png' => 'banner-playlist-suggestion.png',
+        'banner-pricing-table.png' => 'banner-pricing-table.png',
+        'banner-user-welcoming.png' => 'banner-user-welcoming.png',
+        'case.png' => 'case.png',
+        'download.png' => 'download.png',
+        'eye.png' => 'eye.png',
+        'facebook.png' => 'facebook.png',
+        'hearth.png' => 'hearth.png',
+        'instagram.png' => 'instagram.png',
+        'jcalandar.png' => 'jcalandar.png',
+        'jpin.png' => 'jpin.png',
+        'logo.png' => 'logo.png',
+        'pin.png' => 'pin.png',
+        'robot.png' => 'robot.png',
+        'snapchat.png' => 'snapchat.png',
+        'tiktok.png' => 'tiktok.png',
+    ];
 }

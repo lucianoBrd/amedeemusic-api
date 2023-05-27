@@ -19,6 +19,11 @@ class Image
     #[ORM\Column]
     private ?bool $absolutePath = null;
 
+    public function __construct()
+    {
+		$this->absolutePath = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
