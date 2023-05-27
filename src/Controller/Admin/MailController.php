@@ -6,6 +6,7 @@ use App\Entity\Data;
 use App\Entity\Mail;
 use App\Form\MailType;
 use App\Service\MailService;
+use App\Form\MailContentType;
 use App\Service\MailContentService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\MailContentTemplateService;
