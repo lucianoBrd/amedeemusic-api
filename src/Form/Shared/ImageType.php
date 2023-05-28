@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class ImageType extends AbstractType
@@ -47,25 +48,38 @@ class ImageType extends AbstractType
                     return null;
                 }
             },
-            function(UploadedFile $imageAsUuploadedFile = null): ?UploadedFile {
+            function($imageAsUuploadedFile) {
                 return $imageAsUuploadedFile;
             }
         ));
-        /*
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $image = $event->getData();
             $form = $event->getForm();
-            
-            $form
-                ->add('image')
-                ->add('mailImages', ChoiceType::class, [
-                    'mapped' => false,
-                    'choices'  => array_merge(['' => null], Data::MAIL_IMAGES),
-                    'data' => (($image && $image->getImage() && in_array($image->getImage(), Data::MAIL_IMAGES)) ? $image->getImage() : ''),
-                ])
-            ;
+
+            if ($image instanceof Image && $image) {
+                $form
+                    ->add('keepImage', CheckboxType::class, [
+                        'required' => false,
+                        'mapped' => false,
+                        'data' => true,
+                    ])
+                ;
+            }
         });
-        */    
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $image = $event->getData();
+            $form = $event->getForm();
+            $oldImage = $form->getViewData();
+            
+            if (((array_key_exists('image', $image) && $image['image'] == null) || !array_key_exists('image', $image)) && $oldImage instanceof Image && $oldImage->getImage() && array_key_exists('keepImage', $image)) {
+                $image['image'] = new File($this->params->get('images_email_base_directory') . $oldImage->getImage());
+                
+                $event->setData($image);
+            }
+        });
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            dump($event);
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

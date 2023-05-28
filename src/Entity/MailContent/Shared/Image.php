@@ -3,8 +3,9 @@
 namespace App\Entity\MailContent\Shared;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\MailContent\Shared\ImageRepository;
+use Symfony\Component\HttpFoundation\File\File;
 
+use App\Repository\MailContent\Shared\ImageRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -18,7 +19,7 @@ class Image
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\File(mimeTypes: ["image/png", "image/jpeg", "image/jpg" ])]
-    private string|UploadedFile|null $image = null;
+    private string|UploadedFile|File|null $image = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $absolutePath = null;
@@ -28,12 +29,12 @@ class Image
         return $this->id;
     }
 
-    public function getImage(): string|UploadedFile|null
+    public function getImage(): string|UploadedFile|File|null
     {
         return $this->image;
     }
 
-    public function setImage(string|UploadedFile|null $image): self
+    public function setImage(string|UploadedFile|File|null $image): self
     {
         $this->image = $image;
 

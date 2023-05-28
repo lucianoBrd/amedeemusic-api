@@ -7,6 +7,7 @@ use App\Entity\Data;
 use App\Entity\MailContent\Shared\Image;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
@@ -31,6 +32,8 @@ class FileUploaderService
             $file->move($this->params->get('images_email_path_directory') . 'uploads/', $filename);
 
             $image->setImage('uploads/' . $filename);
+        } else if ($file instanceof File) {
+            $image->setImage('uploads/' . $file->getFilename());
         }
 
         $imageToRemove = null;
@@ -38,7 +41,7 @@ class FileUploaderService
         if ($action == 'remove' && $image && $image->getImage()) {
             $imageToRemove = $image->getImage();
         }
-        if ($action == 'update' && array_key_exists('image', $changeSet) && count($changeSet['image']) > 0 && $changeSet['image'][0] !== null) {
+        if ($action == 'update' && !$file instanceof File && array_key_exists('image', $changeSet) && count($changeSet['image']) > 0 && $changeSet['image'][0] !== null) {
             $imageToRemove = $changeSet['image'][0];
         }
 
