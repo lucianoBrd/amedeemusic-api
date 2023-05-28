@@ -1,4 +1,4 @@
-{% if text.image and text.image.image %}
+{% if text.image and (text.image.image or text.image.absolutePath) %}
 {% include 'emails/content/shared/image.html.twig' with {'image': text.image, 'style': 'width: 23px;max-width: 23px;'} %}
 <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
 {% endif %}

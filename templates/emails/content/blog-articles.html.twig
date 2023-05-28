@@ -15,7 +15,7 @@
               <!-- Article 1 -->
               {% for article in content.articles %}
               <tr>
-                <td class="col " {% if article.image and article.image.image %}width="270"{% else %}width="100%" colspan="2"{% endif %} style="padding: 20px 0;">
+                <td class="col " {% if article.image and (article.image.image or article.image.absolutePath) %}width="270"{% else %}width="100%" colspan="2"{% endif %} style="padding: 20px 0;">
                   {% if article.category %}
                   <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:{{ article.color ? article.color : random(constant('App\\Entity\\MailContent\\BlogArticles\\Color::COLORS')) }}; margin: 0; margin-bottom: 5px ;">
                     {{ article.category }}
@@ -34,7 +34,7 @@
                   </p>
                   {% endif %}
                 </td>
-                {% if article.image and article.image.image %}
+                {% if article.image and (article.image.image or article.image.absolutePath) %}
                 <td class="col hide-sm" width="120" style="padding: 20px 0 20px 10px;">
                   <a href="{{ article.link ? article.link : '#' }}" style="text-decoration: none;">
                     {% include 'emails/content/shared/image.html.twig' with {'image': article.image, 'style': 'width: 120px; max-width: 100%;'} %}

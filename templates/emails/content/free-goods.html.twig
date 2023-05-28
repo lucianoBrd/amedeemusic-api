@@ -17,7 +17,7 @@
                 <!-- Good 1 -->
                 {% for good in goodsGrouped %}
                 <td class="col pr-sm-0 py-sm-20" width="188" style="padding-{% if loop.first %}right{% else %}left{% endif %}: 12px;" >
-                  {% if good.image and good.image.image %}
+                  {% if good.image and (good.image.image or good.image.absolutePath) %}
                   <a href="{{ good.link ? good.link : '#' }}" style="text-decoration: none;">
                     {% include 'emails/content/shared/image.html.twig' with {'image': good.image, 'style': 'width: 188px; max-width: 100%;'} %}
                   </a>
@@ -68,7 +68,7 @@
                 <!-- Good 1 -->
                 {% for good in goodsGrouped %}
                 <td class="col col-sm-6  pr-sm-10 pb-sm-20" width="117" style="{% if loop.first %}padding-right: 12px;{% elseif loop.last %}padding-left: 12px;{% else %}padding:0 12px;{% endif %}" align="left">
-                  {% if good.image and good.image.image %}
+                  {% if good.image and (good.image.image or good.image.absolutePath) %}
                   <a href="{{ good.link ? good.link : '#' }}" style="text-decoration: none;">
                     {% include 'emails/content/shared/image.html.twig' with {'image': good.image, 'style': 'width: 118px; max-width: 100%;'} %}
                   </a>

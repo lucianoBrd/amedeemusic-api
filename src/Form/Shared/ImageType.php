@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
@@ -30,6 +31,12 @@ class ImageType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'required' => false,
+            ])
+            ->add('absolutePath', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'maxlength' => 255
+                ]
             ])
         ;
         $builder->get('image')->addModelTransformer(new CallbackTransformer(

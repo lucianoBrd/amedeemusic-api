@@ -96,7 +96,7 @@
                 <!-- Book 1 -->
                 {% for book in booksGrouped %}
                 <td class="col col-sm-6  pr-sm-10 pb-sm-20" width="117" style="{% if loop.first %}padding-right: 12px;{% elseif loop.last %}padding-left: 12px;{% else %}padding:0 12px;{% endif %}" align="left">
-                  {% if book.image and book.image.image %}
+                  {% if book.image and (book.image.image or book.image.absolutePath) %}
                   <a href="{{ book.button ? (book.button.link ? book.button.link : '#') : '#' }}" style="text-decoration: none;">
                     {% include 'emails/content/shared/image.html.twig' with {'image': book.image, 'style': 'width: 118px; max-width: 100%;'} %}
                   </a>

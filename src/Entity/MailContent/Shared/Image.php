@@ -20,13 +20,8 @@ class Image
     #[Assert\File(mimeTypes: ["image/png", "image/jpeg", "image/jpg" ])]
     private string|UploadedFile|null $image = null;
 
-    #[ORM\Column]
-    private ?bool $absolutePath = null;
-
-    public function __construct()
-    {
-		$this->absolutePath = false;
-    }
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $absolutePath = null;
 
     public function getId(): ?int
     {
@@ -45,12 +40,12 @@ class Image
         return $this;
     }
 
-    public function isAbsolutePath(): ?bool
+    public function getAbsolutePath(): ?string
     {
         return $this->absolutePath;
     }
 
-    public function setAbsolutePath(bool $absolutePath): self
+    public function setAbsolutePath(?string $absolutePath): self
     {
         $this->absolutePath = $absolutePath;
 

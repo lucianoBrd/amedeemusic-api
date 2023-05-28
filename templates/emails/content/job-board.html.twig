@@ -19,17 +19,17 @@
                   <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
                     {% if job.title or job.compagny or job.image %}
                     <tr>
-                      <td {% if job.image and job.image.image %}colspan="2"{% endif %} class="spacer py-sm-20" height="30"></td>
+                      <td {% if job.image and (job.image.image or job.image.absolutePath) %}colspan="2"{% endif %} class="spacer py-sm-20" height="30"></td>
                     </tr>
                     <tr>
-                      {% if job.image and job.image.image %}
+                      {% if job.image and (job.image.image or job.image.absolutePath) %}
                       <td class="col col-sm-2" width="40">
                         <a href="{{ job.link ? job.link : '#' }}" style="text-decoration: none;">
                           {% include 'emails/content/shared/image.html.twig' with {'image': job.image, 'style': 'width: 40px;'} %}
                         </a>
                       </td>
                       {% endif %}
-                      <td class="col col-sm-10 pl-sm-10" width="{% if job.image and job.image.image %}350{% else %}400{% endif %}" style="{% if job.image and job.image.image %}padding-left: 20px;{% endif %} vertical-align: middle;">
+                      <td class="col col-sm-10 pl-sm-10" width="{% if job.image and (job.image.image or job.image.absolutePath) %}350{% else %}400{% endif %}" style="{% if job.image and (job.image.image or job.image.absolutePath) %}padding-left: 20px;{% endif %} vertical-align: middle;">
                         {% if job.title %}
                         <a href="{{ job.link ? job.link : '#' }}" class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px; text-decoration: none;">
                           {{ job.title }}
@@ -45,10 +45,10 @@
                     {% endif %}
                     {% if job.infos|length > 0 or job.paragraph %}
                     <tr>
-                      <td {% if job.image and job.image.image %}colspan="2"{% endif %} class="spacer py-sm-10" height="20"></td>
+                      <td {% if job.image and (job.image.image or job.image.absolutePath) %}colspan="2"{% endif %} class="spacer py-sm-10" height="20"></td>
                     </tr>
                     <tr>
-                      <td {% if job.image and job.image.image %}colspan="2"{% endif %} class="col">
+                      <td {% if job.image and (job.image.image or job.image.absolutePath) %}colspan="2"{% endif %} class="col">
                         {% if job.paragraph %}
                         <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
                           {{ job.paragraph }}
@@ -59,7 +59,7 @@
                         {% for info in job.infos %}
                         {% if info.image or info.title %}
                         <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0 0 0 {% if loop.first %}0{% else %}4px{% endif %}; padding: 5px 5px; background-color: #FAFAFA;">
-                          {% if info.image and info.image.image %}
+                          {% if info.image and (info.image.image or info.image.absolutePath) %}
                           {% include 'emails/content/shared/image.html.twig' with {'image': job.image, 'style': 'height: 11px; margin-right: 5px;'} %}
                           {% endif %}
                           {{ info.title ? info.title : '' }}

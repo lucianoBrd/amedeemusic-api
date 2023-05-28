@@ -17,9 +17,9 @@
             <div>
                 <div class="mb-3">
                     {{ form_row(text) }}
-                    {% if text.vars.data.image|default and text.vars.data.image.image|default %}
+                    {% if text.vars.data.image|default and (text.vars.data.image.image|default or text.vars.data.image.absolutePath|default) %}
                     {% if text.vars.data.image.absolutePath %}
-                    <img src="{{ text.vars.data.image.image }}">
+                    <img src="{{ text.vars.data.image.absolutePath }}">
                     {% else %}
                     <img src="{{ imagesPath }}/{{ text.vars.data.image.image }}">
                     {% endif %}
