@@ -17,11 +17,11 @@
             <div>
                 <div class="mb-3">
                     {{ form_row(text) }}
-                    {% if text.image.vars.data.image|default %}
-                    {% if text.image.vars.data.absolutePath %}
-                    <img src="{{ text.image.vars.data.image }}">
+                    {% if text.vars.data.image|default and text.vars.data.image.image|default %}
+                    {% if text.vars.data.image.absolutePath %}
+                    <img src="{{ text.vars.data.image.image }}">
                     {% else %}
-                    <img src="{{ imagesPath }}/{{ text.image.vars.data.image }}">
+                    <img src="{{ imagesPath }}/{{ text.vars.data.image.image }}">
                     {% endif %}
                     {% endif %}
                 </div>

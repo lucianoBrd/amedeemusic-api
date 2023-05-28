@@ -7,6 +7,8 @@ parameters:
     assets_path_directory: '%kernel.project_dir%/public/assets/'
     images_path_directory: '%kernel.project_dir%/public/uploads/images/'
     assets_directory: 'public/assets/'
+    images_email_path_directory: '%kernel.project_dir%/public/assets/email/images/'
+    images_email_base_directory: 'assets/email/images/'
     images_directory: 'public/uploads/images/'
     assets_base_directory: 'assets/'
     images_base_directory: 'uploads/images/'
@@ -41,6 +43,11 @@ services:
     app.mailcontent.service:
         alias: App\Service\MailContentService
         public: true
+    
+    App\EventListener\ImageUploadListener:
+        tags:
+            - name: 'doctrine.event_subscriber'
+              priority: 500
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

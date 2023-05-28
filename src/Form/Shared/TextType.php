@@ -15,11 +15,13 @@ class TextType extends AbstractType
     {
         $builder
             ->add('title', FormTextType::class, [
+                'required' => false,
                 'attr' => [
                     'maxlength' => 255
                 ]
             ])
             ->add('paragraph', FormTextType::class, [
+                'required' => false,
                 'attr' => [
                     'maxlength' => 600
                 ]
