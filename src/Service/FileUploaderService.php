@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Exception;
+use App\Entity\Data;
 use App\Entity\MailContent\Shared\Image;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -41,7 +42,7 @@ class FileUploaderService
             $imageToRemove = $changeSet['image'][0];
         }
 
-        if ($imageToRemove) {
+        if ($imageToRemove && !in_array($imageToRemove, Data::MAIL_IMAGES)) {
             try {
                 $this->filesystem->remove([
                     $this->params->get('images_email_path_directory') . $imageToRemove
