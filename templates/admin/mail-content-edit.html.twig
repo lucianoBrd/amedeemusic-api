@@ -6,32 +6,30 @@
 {{ form_row(form.titleBold) }}
 {{ form_row(form.color) }}
 
-<fieldset class="mb-3">
-    <legend class="col-form-label">Texts</legend>
-    <ul class="texts collection"
-        data-index="{{ form.texts|length > 0 ? form.texts|last.vars.name + 1 : 0 }}"
-        data-prototype="{{ form_widget(form.texts.vars.prototype)|e('html_attr') }}"
-    >
-        {% for text in form.texts %}
-        <li>
-            <div>
-                <div class="mb-3">
-                    {{ form_row(text) }}
-                    
-                        {% if text.vars.data.image|default and (text.vars.data.image.image|default or text.vars.data.image.absolutePath|default) %}
-                        {% if text.vars.data.image.absolutePath %}
-                        <img class="img-thumbnail" style="max-height: 200px;" src="{{ text.vars.data.image.absolutePath }}">
-                        {% else %}
-                        <img class="img-thumbnail" style="max-height: 200px;" src="{{ imagesPath }}/{{ text.vars.data.image.image }}">
-                        {% endif %}
-                        {% endif %}
-                </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    <button type="button" class="add_item_link btn btn-outline-primary btn" data-collection-holder-class="texts">+ Add a text</button>
-</fieldset>
+{% include 'admin/form-collection/collection.html.twig' with {
+    'title': 'Texts', 
+    'items': form.texts,
+    'collectionHolderClass': 'texts',
+} %}
+
+{% set mailContentClass = getClass(form.vars.data|default) %}
+{% if mailContentClass == constant('App\\Entity\\Data::BLOG_ARTICLES') %}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'Articles', 
+        'items': form.articles,
+        'collectionHolderClass': 'articles',
+    } %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::BOOK_SUGGESTION') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::EVENT_PLAN') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::EVENT_SUGGESTION') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::FREE_GOODS') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::JOB_BOARD') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::MONTH_STATS') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::PLAYLIST_SUGGESTION') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::PRICING_TABLE') %}
+{% elseif mailContentClass == constant('App\\Entity\\Data::USER_WELCOMING') %}
+
+{% endif %}
 
 {{ form_row(form.save) }}
 {{ form_end(form) }}

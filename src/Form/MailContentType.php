@@ -26,13 +26,19 @@ class MailContentType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'maxlength' => 255
-                ]
+                ],
+                'row_attr' => [
+                    'class' => 'col-12',
+                ],
             ])
             ->add('titleBold', TextType::class, [
                 'required' => false,
                 'attr' => [
                     'maxlength' => 255
-                ]
+                ],
+                'row_attr' => [
+                    'class' => 'col-12',
+                ],
             ])
             ->add('color', ColorType::class)
             ->add('texts', CollectionType::class, [

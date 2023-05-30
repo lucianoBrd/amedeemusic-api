@@ -2,10 +2,11 @@
 
 namespace App\Entity\MailContent\BlogArticles;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\MailContent\BlogArticles;
 use App\Entity\MailContent\Shared\Image;
+use App\Entity\MailContent\BlogArticles\Color;
 use App\Repository\MailContent\BlogArticles\ArticleRepository;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -38,6 +39,11 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles', cascade: ['persist'])]
     private ?BlogArticles $blogArticles = null;
+
+    public function __construct()
+    {
+        $this->color = Color::COLORS[array_rand(Color::COLORS)];
+    }
 
     public function getId(): ?int
     {

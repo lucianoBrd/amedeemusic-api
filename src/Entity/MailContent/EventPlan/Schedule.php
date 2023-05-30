@@ -2,10 +2,11 @@
 
 namespace App\Entity\MailContent\EventPlan;
 
-use App\Entity\MailContent\EventPlan;
-use App\Repository\MailContent\EventPlan\ScheduleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\MailContent\EventPlan;
+use App\Entity\MailContent\EventPlan\Color;
+use App\Repository\MailContent\EventPlan\ScheduleRepository;
 
 #[ORM\Entity(repositoryClass: ScheduleRepository::class)]
 class Schedule
@@ -26,6 +27,11 @@ class Schedule
 
     #[ORM\ManyToOne(inversedBy: 'schedules', cascade: ['persist'])]
     private ?EventPlan $eventPlan = null;
+
+    public function __construct()
+    {
+        $this->color = Color::COLORS[array_rand(Color::COLORS)];
+    }
 
     public function getId(): ?int
     {
@@ -67,6 +73,13 @@ class Schedule
 
         return $this;
     }
+
+    public function addParagraph(string $paragraph): self 
+    {
+        $this->paragraphs[] = $paragraph;
+
+        return $this;
+    } 
 
     public function getEventPlan(): ?EventPlan
     {

@@ -2,11 +2,12 @@
 
 namespace App\Entity\MailContent\EventSuggestion;
 
-use App\Entity\MailContent\EventSuggestion;
-use App\Entity\MailContent\Shared\Button;
-use App\Entity\MailContent\Shared\Image;
-use App\Repository\MailContent\EventSuggestion\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\MailContent\Shared\Image;
+use App\Entity\MailContent\Shared\Button;
+use App\Entity\MailContent\EventSuggestion;
+use App\Entity\MailContent\EventSuggestion\Color;
+use App\Repository\MailContent\EventSuggestion\EventRepository;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ORM\Table(name: "mail_event")]
@@ -44,6 +45,11 @@ class Event
     #[ORM\ManyToOne(inversedBy: 'events', cascade: ['persist'])]
     private ?EventSuggestion $eventSuggestion = null;
 
+    public function __construct()
+    {
+        $this->color = Color::COLORS[array_rand(Color::COLORS)];
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

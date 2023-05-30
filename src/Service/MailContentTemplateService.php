@@ -71,8 +71,7 @@ class MailContentTemplateService
 
         $image = new Image();
         $image
-            ->setImage('https://dummyimage.com/120x112/D6DAE3/000')
-            ->setAbsolutePath(true)
+            ->setAbsolutePath('https://dummyimage.com/120x112/D6DAE3/000')
         ;
 
         // Article3
@@ -397,15 +396,13 @@ class MailContentTemplateService
         $mailContent->setFeaturedButton($button);
         $image = new Image();
         $image
-            ->setImage('https://dummyimage.com/150x230/D6DAE3/000')
-            ->setAbsolutePath(true)
+            ->setAbsolutePath('https://dummyimage.com/150x230/D6DAE3/000')
         ;
         $mailContent->setFeaturedImage($image);
 
         $image = new Image();
         $image
-            ->setImage('https://dummyimage.com/117x178/D6DAE3/000')
-            ->setAbsolutePath(true)
+            ->setAbsolutePath('https://dummyimage.com/117x178/D6DAE3/000')
         ;
         // Book1
         $book = new Book();
@@ -452,8 +449,7 @@ class MailContentTemplateService
         $mailContent->setPlaylistButton($button);
         $image = new Image();
         $image
-            ->setImage('https://dummyimage.com/240x240/D6DAE3/000')
-            ->setAbsolutePath(true)
+            ->setAbsolutePath('https://dummyimage.com/240x240/D6DAE3/000')
         ;
         $mailContent->setPlaylistImage($image);
         
@@ -469,8 +465,7 @@ class MailContentTemplateService
         
         $image = new Image();
         $image
-            ->setImage('https://dummyimage.com/188x134/D6DAE3/000')
-            ->setAbsolutePath(true)
+            ->setAbsolutePath('https://dummyimage.com/188x134/D6DAE3/000')
         ;
         // Good1
         $good = new Good();
@@ -495,8 +490,7 @@ class MailContentTemplateService
 
         $image = new Image();
         $image
-            ->setImage('https://dummyimage.com/117x134/D6DAE3/000')
-            ->setAbsolutePath(true)
+            ->setAbsolutePath('https://dummyimage.com/117x134/D6DAE3/000')
         ;
         // Good1
         $good = new Good();
@@ -667,8 +661,7 @@ class MailContentTemplateService
 
         $image = new Image();
         $image
-            ->setImage('https://dummyimage.com/117x117/D6DAE3/000')
-            ->setAbsolutePath(true)
+            ->setAbsolutePath('https://dummyimage.com/117x117/D6DAE3/000')
         ;
 
         // Speaker1
