@@ -26,8 +26,7 @@ class TextType extends AbstractType
                     'maxlength' => 600
                 ]
             ])
-            ->add('image', ImageType::class, [
-            ])
+            ->add('image', ImageType::class)
         ;
     }
 

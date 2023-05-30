@@ -91,7 +91,7 @@ class MailController extends AbstractDashboardController
 
             $this->manager->persist($mailContent);
             $this->manager->flush();
-
+            return $this->redirectToRoute('edit_mail_content', ['mail' => $mail->getId()]);
         }
 
         return $this->render('admin/mail-content-edit.html.twig', [

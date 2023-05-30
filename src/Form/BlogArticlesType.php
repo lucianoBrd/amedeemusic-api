@@ -12,9 +12,13 @@ class BlogArticlesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('titleBold')
-            ->add('color')
+            ->add('articles', CollectionType::class, [
+                'entry_type' => MailTextType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+            ])
         ;
     }
 

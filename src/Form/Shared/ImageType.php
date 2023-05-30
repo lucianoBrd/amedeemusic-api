@@ -56,7 +56,7 @@ class ImageType extends AbstractType
             $image = $event->getData();
             $form = $event->getForm();
 
-            if ($image instanceof Image && $image) {
+            if ($image instanceof Image && $image && $image->getImage()) {
                 $form
                     ->add('keepImage', CheckboxType::class, [
                         'required' => false,
@@ -76,9 +76,6 @@ class ImageType extends AbstractType
                 
                 $event->setData($image);
             }
-        });
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            dump($event);
         });
     }
 
