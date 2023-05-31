@@ -10,6 +10,7 @@
     'title': 'Texts', 
     'items': form.texts,
     'collectionHolderClass': 'texts',
+    'subItems': null,
 } %}
 
 {% set mailContentClass = getClass(form.vars.data|default) %}
@@ -18,17 +19,102 @@
         'title': 'Articles', 
         'items': form.articles,
         'collectionHolderClass': 'articles',
+        'subItems': null,
     } %}
 {% elseif mailContentClass == constant('App\\Entity\\Data::BOOK_SUGGESTION') %}
+    {{ form_row(form.featuredTitle) }}
+    {{ form_row(form.featuredAuthor) }}
+    {{ form_row(form.featuredCategory) }}
+    {{ form_row(form.sectionFeaturedTitle) }}
+    {{ form_row(form.sectionBestTitle) }}
+    {{ form_row(form.featuredButton) }}
+    {{ form_row(form.featuredImage) }}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'Books', 
+        'items': form.books,
+        'collectionHolderClass': 'books',
+        'subItems': null,
+    } %}
 {% elseif mailContentClass == constant('App\\Entity\\Data::EVENT_PLAN') %}
+    {{ form_row(form.sectionSpeakerTitle) }}
+    {{ form_row(form.sectionScheduleTitle) }}
+    {{ form_row(form.scheduleParagraph) }}
+    {{ form_row(form.firstScheduleButton) }}
+    {{ form_row(form.secondScheduleButton) }}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'Speakers', 
+        'items': form.speakers,
+        'collectionHolderClass': 'speakers',
+        'subItems': null,
+    } %}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'Schedules', 
+        'items': form.schedules,
+        'collectionHolderClass': 'schedules',
+        'subItems': null,
+    } %}
 {% elseif mailContentClass == constant('App\\Entity\\Data::EVENT_SUGGESTION') %}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'Events', 
+        'items': form.events,
+        'collectionHolderClass': 'events',
+        'subItems': null,
+    } %}
 {% elseif mailContentClass == constant('App\\Entity\\Data::FREE_GOODS') %}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'TwoColGoods', 
+        'items': form.twoColGoods,
+        'collectionHolderClass': 'twoColGoods',
+        'subItems': null,
+    } %}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'ThreeColGoods', 
+        'items': form.threeColGoods,
+        'collectionHolderClass': 'threeColGoods',
+        'subItems': null,
+    } %}
 {% elseif mailContentClass == constant('App\\Entity\\Data::JOB_BOARD') %}
+    {{ form_row(form.button) }}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'Jobs', 
+        'items': form.jobs,
+        'collectionHolderClass': 'jobs',
+        'subItemsTitle': 'Infos',
+        'subItems': 'infos',
+        'collectionHolderClass': 'infos',
+    } %}
 {% elseif mailContentClass == constant('App\\Entity\\Data::MONTH_STATS') %}
+    {{ form_row(form.button) }}
+    {% include 'admin/form-collection/collection.html.twig' with {
+        'title': 'Stats', 
+        'items': form.stats,
+        'collectionHolderClass': 'stats',
+        'subItems': null,
+    } %}
 {% elseif mailContentClass == constant('App\\Entity\\Data::PLAYLIST_SUGGESTION') %}
+    {{ form_row(form.playlistTitle) }}
+    {{ form_row(form.playlistParagraph) }}
+    {{ form_row(form.playlistButton) }}
+    {{ form_row(form.playlistImage) }}
 {% elseif mailContentClass == constant('App\\Entity\\Data::PRICING_TABLE') %}
+    {{ form_row(form.starterTitle) }}
+    {{ form_row(form.advancedTitle) }}
+    {{ form_row(form.starterSubTitle) }}
+    {{ form_row(form.advancedSubTitle) }}
+    {{ form_row(form.starterPrice) }}
+    {{ form_row(form.advancedPrice) }}
+    {{ form_row(form.starterDate) }}
+    {{ form_row(form.advancedDate) }}
+    {{ form_row(form.starterParagraph) }}
+    {{ form_row(form.advancedParagraph) }}
+    {{ form_row(form.starterButton) }}
+    {{ form_row(form.advancedButton) }}
 {% elseif mailContentClass == constant('App\\Entity\\Data::USER_WELCOMING') %}
-
+    {{ form_row(form.lLabel) }}
+    {{ form_row(form.rLabel) }}
+    {{ form_row(form.lInfo) }}
+    {{ form_row(form.rInfo) }}
+    {{ form_row(form.button) }}
 {% endif %}
 
 {{ form_row(form.save) }}

@@ -8,7 +8,16 @@
         <li>
             <div>
                 <div class="mb-3">
-                    {{ form_row(item) }}
+                        {{ form_row(item) }}
+
+                        {% if subItems %}
+                            {% include 'admin/form-collection/collection.html.twig' with {
+                                'title': subItemsTitle, 
+                                'items': item.subItems,
+                                'collectionHolderClass': subItemsCollectionHolderClass,
+                                'subItems': null,
+                            } %}
+                        {% endif %}
                     
                         {% if item.vars.data.image|default and (item.vars.data.image.image|default or item.vars.data.image.absolutePath|default) %}
                         {% if item.vars.data.image.absolutePath %}

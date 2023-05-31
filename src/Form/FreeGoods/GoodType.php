@@ -1,52 +1,39 @@
 <?php
 
-namespace App\Form\BlogArticles;
+namespace App\Form\FreeGoods;
 
 use App\Form\Shared\ImageType;
 use Symfony\Component\Form\AbstractType;
-use App\Entity\MailContent\BlogArticles\Article;
+use App\Entity\MailContent\FreeGoods\Good;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class ArticleType extends AbstractType
+class GoodType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('category', TextType::class, [
-                'required' => false,
-                'attr' => [
-                    'maxlength' => 255
-                ]
-            ])
             ->add('color', ColorType::class)
             ->add('title', TextType::class, [
                 'required' => false,
                 'attr' => [
                     'maxlength' => 255
-                ]
+                ],
             ])
             ->add('link', UrlType::class, [
                 'required' => false,
                 'attr' => [
                     'maxlength' => 255
-                ]
+                ],
             ])
-            ->add('paragraph', TextareaType::class, [
-                'required' => false,
-                'attr' => [
-                    'maxlength' => 600
-                ]
-            ])
-            ->add('paragraphBold', TextType::class, [
+            ->add('author', TextType::class, [
                 'required' => false,
                 'attr' => [
                     'maxlength' => 255
-                ]
+                ],
             ])
             ->add('image', ImageType::class)
         ;
@@ -55,7 +42,7 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Article::class,
+            'data_class' => Good::class,
         ]);
     }
 }

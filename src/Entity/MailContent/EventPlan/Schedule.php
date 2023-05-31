@@ -76,7 +76,17 @@ class Schedule
 
     public function addParagraph(string $paragraph): self 
     {
-        $this->paragraphs[] = $paragraph;
+        if (!in_array($paragraph, $this->paragraphs)) {
+            $this->paragraphs[] = $paragraph;
+        }
+        return $this;
+    }
+
+    public function removeParagraph(string $paragraph): self 
+    {
+        if (($key = array_search($paragraph, $this->paragraphs)) !== false) {
+            unset($this->paragraphs[$key]);
+        }
 
         return $this;
     } 
