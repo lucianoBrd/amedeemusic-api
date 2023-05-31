@@ -39,8 +39,17 @@ class MailCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $sentAction = Action::new('Sent')
+            ->linkToCrudAction('sentAction')
+            ->displayIf(static function (Mail $mail) {
+                return !$mail->isSent();
+            })
+        ;
+
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_INDEX, $sentAction)
+            ->add(Crud::PAGE_DETAIL, $sentAction)
             ->update(Crud::PAGE_INDEX, Action::DELETE, static function(Action $action) {
                 $action->displayIf(static function (Mail $mail) {
                     return !$mail->isSent();
@@ -77,6 +86,29 @@ class MailCrudController extends AbstractCrudController
             throw new \Exception('Deleting sent mail is forbidden!');
         }
         parent::deleteEntity($entityManager, $entityInstance);
+    }
+
+    public function sentAction(AdminContext $context)
+    {
+        $mail = $context->getEntity()->getInstance();
+        
+        //Sent mail
+        $error = true;
+
+        if (!$error) {
+            $mail->setSent(true);
+            $this->manager->persist($mail);
+            $this->manager->flush();
+            $this->addFlash('success', 'Mail sent');
+        } else {
+            $this->addFlash('danger', 'An error occurred while sending mail');
+        }
+
+        $url = $this->container->get(AdminUrlGenerator::class)
+            ->setAction(Action::INDEX)
+            ->generateUrl();
+
+        return $this->redirect($url);
     }
 
     public function new(AdminContext $context) {
