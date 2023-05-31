@@ -1,14 +1,22 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
 {% block main %}
+{{ form_start(form) }}
+<section class="content-header">
+    <div class="content-header-title">
+        <h1 class="title">Edit Mail</h1>
+    </div>
+    <div class="page-actions">
+        {{ form_row(form.save) }}
+    </div>
+</section>
 <div class="container">
     <div class="row">
-        <div class="{% if displayMail %}col-lg-6 col-sm-12{% else %}col-12{% endif %}" id="editMail">
-
-            {{ form_start(form) }}
-
+        <div class="col-12">
             {{ form_row(form.title) }}
             {{ form_row(form.mailContentChoice) }}
+        </div>
+        <div class="{% if displayMail %}col-lg-6 col-sm-12{% else %}col-12{% endif %} overflow-auto" id="editMail">
 
             {% if form.vars.data.mailContent|default %}
             {{ form_row(form.mailContent.title) }}
@@ -128,8 +136,6 @@
             {% endif %}
 
             {% endif %}
-            {{ form_row(form.save) }}
-            {{ form_end(form) }}
 
         </div>
         {% if displayMail %}
@@ -139,6 +145,7 @@
         {% endif %}
     </div>
 </div>
+{{ form_end(form) }}
 {% endblock %}
 {% block body_javascript %}
 {{ parent() }}

@@ -58,9 +58,10 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToUrl('Back to the website', 'fa-solid fa-window-maximize', $this->params->get('app.client.url'));
 
-        yield MenuItem::section('Mail');        
-        yield MenuItem::linkToDashboard('Mail sender', 'fa-solid fa-envelopes-bulk');
-        yield MenuItem::linkToCrud('Mail', 'fas fa-envelope-open-text', Mail::class);
+        yield MenuItem::linkToDashboard('Home', 'fa-solid fa-home');
+
+        yield MenuItem::section('Mail');
+        yield MenuItem::linkToCrud('Mail sender', 'fas fa-envelope-open-text', Mail::class);
         yield MenuItem::linkToUrl('Mail signature', 'fa-solid fa-envelope-circle-check', $this->params->get('assets_base_directory') . 'email/mail.html');
 
         yield MenuItem::section('Project');

@@ -5,9 +5,10 @@ use App\Entity\Data;
 use App\Entity\Mail;
 use App\Entity\Banner;
 use App\Service\MailService;
+use App\Entity\MailContent\MailContent;
 use App\Service\MailContentTemplateService;
-use App\Entity\MailContent\MailContentInterface;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\MailContent\MailContentInterface;
 
 class MailContentService
 {
@@ -52,8 +53,13 @@ class MailContentService
             return null;
         }
 
-        $mailContentClassName = get_class($mailContent);
         $title = $mail->getTitle();
+
+        return $this->getContextByMailContent($mailContent, $title ? $title : '');
+    }
+
+    public function getContextByMailContent(MailContent $mailContent, string $title = ''): ?array {
+        $mailContentClassName = get_class($mailContent);
         return $this->mailService->getMessageContext(
             title: $title ? $title : '',
             local: 'fr',
