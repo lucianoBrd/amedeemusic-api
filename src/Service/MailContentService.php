@@ -3,6 +3,7 @@
 namespace App\Service;
 use App\Entity\Data;
 use App\Entity\Mail;
+use App\Entity\User;
 use App\Entity\Banner;
 use App\Service\MailService;
 use App\Entity\MailContent\MailContent;
@@ -58,15 +59,37 @@ class MailContentService
         return $this->getContextByMailContent($mailContent, $title ? $title : '');
     }
 
-    public function getContextByMailContent(MailContent $mailContent, string $title = ''): ?array {
+    public function getContextByMailContent(MailContent $mailContent, string $title = '', ?User $user = null): ?array {
         $mailContentClassName = get_class($mailContent);
         return $this->mailService->getMessageContext(
             title: $title ? $title : '',
             local: 'fr',
             banner: $this->getBannerByClassName($mailContentClassName),
             content: $mailContent,
-            user: null
+            user: $user
         );
+    }
+
+    public function sendMessagesByMail(Mail $mail): bool {
+        $mailContent = $mail->getMailContent();
+
+        if (!$mailContent) {
+            return true;
+        }
+
+        $messages = [];
+        $title = $mail->getTitle();
+        $recipients = $mail->getRecipients();
+        foreach ($recipients as $recipient) {
+            $messages[] = [
+                'to' => $recipient->getMail(),
+                'title' => $title,
+                'context' => $this->getContextByMailContent($mailContent, $title, $recipient),
+                'template' => $this->getTemplateByClassName(get_class($mailContent))
+            ];
+        }
+
+        return $this->mailService->sendMessages($messages);
     }
 
     public function getBannerByClassName(?string $className): ?string {

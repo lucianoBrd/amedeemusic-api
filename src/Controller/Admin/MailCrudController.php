@@ -93,7 +93,7 @@ class MailCrudController extends AbstractCrudController
         $mail = $context->getEntity()->getInstance();
         
         //Sent mail
-        $error = true;
+        $error = $this->mailContentService->sendMessagesByMail($mail);
 
         if (!$error) {
             $mail->setSent(true);
