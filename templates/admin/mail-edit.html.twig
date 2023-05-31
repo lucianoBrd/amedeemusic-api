@@ -68,7 +68,10 @@
                     'title': 'Schedules', 
                     'items': form.mailContent.schedules,
                     'collectionHolderClass': 'schedules',
-                    'subItems': null,
+                    'subItemsTitle': 'Paragraphs',
+                    'subItems': 'paragraphs',
+                    'subItemsCollectionHolderClass': 'paragraphs',
+                    'rowSubItems': ['color', 'hour']
                 } %}
             {% elseif mailContentClass == constant('App\\Entity\\Data::EVENT_SUGGESTION') %}
                 {% include 'admin/form-collection/collection.html.twig' with {
