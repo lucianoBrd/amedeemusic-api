@@ -3,7 +3,7 @@
 namespace App\Form\BookSuggestion;
 
 use App\Form\Shared\ImageType;
-use App\Form\Shared\ButtonType;
+use App\Form\Shared\MailButtonType;
 use Symfony\Component\Form\AbstractType;
 use App\Entity\MailContent\BookSuggestion\Book;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +21,7 @@ class BookType extends AbstractType
                     'maxlength' => 255
                 ],
             ])
-            ->add('button', ButtonType::class)
+            ->add('button', MailButtonType::class)
             ->add('image', ImageType::class)
         ;
     }

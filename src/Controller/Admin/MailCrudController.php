@@ -289,7 +289,7 @@ class MailCrudController extends AbstractCrudController
 
             return $this->redirect($url);
         }
-
+        
         return $this->render('admin/mail-edit.html.twig', [
             'form' => $form,
             'displayMail' => $mailContent ? true : false,

@@ -32,7 +32,10 @@ class Good
     private ?Image $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'twoColGoods', cascade: ['persist'])]
-    private ?FreeGoods $freeGoods = null;
+    private ?FreeGoods $twoColFreeGoods = null;
+
+    #[ORM\ManyToOne(inversedBy: 'threeColGoods', cascade: ['persist'])]
+    private ?FreeGoods $threeColFreeGoods = null;
 
     public function __construct()
     {
@@ -104,14 +107,26 @@ class Good
         return $this;
     }
 
-    public function getFreeGoods(): ?FreeGoods
+    public function getTwoColFreeGoods(): ?FreeGoods
     {
-        return $this->freeGoods;
+        return $this->twoColFreeGoods;
     }
 
-    public function setFreeGoods(?FreeGoods $freeGoods): self
+    public function setTwoColFreeGoods(?FreeGoods $twoColFreeGoods): self
     {
-        $this->freeGoods = $freeGoods;
+        $this->twoColFreeGoods = $twoColFreeGoods;
+
+        return $this;
+    }
+
+    public function getThreeColFreeGoods(): ?FreeGoods
+    {
+        return $this->threeColFreeGoods;
+    }
+
+    public function setThreeColFreeGoods(?FreeGoods $threeColFreeGoods): self
+    {
+        $this->threeColFreeGoods = $threeColFreeGoods;
 
         return $this;
     }

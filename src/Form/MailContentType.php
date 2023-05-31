@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Entity\Data;
 use App\Form\JobBoard\JobType;
 use App\Form\Shared\ImageType;
-use App\Form\Shared\ButtonType;
+use App\Form\Shared\MailButtonType;
 use App\Form\FreeGoods\GoodType;
 use App\Form\MonthStats\StatType;
 use App\Form\EventPlan\SpeakerType;
@@ -106,7 +106,7 @@ class MailContentType extends AbstractType
                                 'maxlength' => 255
                             ],
                         ])
-                        ->add('featuredButton', ButtonType::class)
+                        ->add('featuredButton', MailButtonType::class)
                         ->add('featuredImage', ImageType::class)
                         ->add('books', CollectionType::class, [
                             'entry_type' => BookType::class,
@@ -137,8 +137,8 @@ class MailContentType extends AbstractType
                                 'maxlength' => 600
                             ],
                         ])
-                        ->add('firstScheduleButton', ButtonType::class)
-                        ->add('secondScheduleButton', ButtonType::class)
+                        ->add('firstScheduleButton', MailButtonType::class)
+                        ->add('secondScheduleButton', MailButtonType::class)
                         ->add('speakers', CollectionType::class, [
                             'entry_type' => SpeakerType::class,
                             'entry_options' => ['label' => false],
@@ -186,7 +186,7 @@ class MailContentType extends AbstractType
                     break;
                 case Data::JOB_BOARD:
                     $form
-                        ->add('button', ButtonType::class)
+                        ->add('button', MailButtonType::class)
                         ->add('jobs', CollectionType::class, [
                             'entry_type' => JobType::class,
                             'entry_options' => ['label' => false],
@@ -198,7 +198,7 @@ class MailContentType extends AbstractType
                     break;
                 case Data::MONTH_STATS:
                     $form
-                        ->add('button', ButtonType::class)
+                        ->add('button', MailButtonType::class)
                         ->add('stats', CollectionType::class, [
                             'entry_type' => StatType::class,
                             'entry_options' => ['label' => false],
@@ -222,7 +222,7 @@ class MailContentType extends AbstractType
                                 'maxlength' => 600
                             ],
                         ])
-                        ->add('playlistButton', ButtonType::class)
+                        ->add('playlistButton', MailButtonType::class)
                         ->add('playlistImage', ImageType::class)
                     ;
                     break;
@@ -288,8 +288,8 @@ class MailContentType extends AbstractType
                                 'maxlength' => 600
                             ],
                         ])
-                        ->add('starterButton', ButtonType::class)
-                        ->add('advancedButton', ButtonType::class)
+                        ->add('starterButton', MailButtonType::class)
+                        ->add('advancedButton', MailButtonType::class)
                     ;
                     break;
                 case Data::USER_WELCOMING:
@@ -318,7 +318,7 @@ class MailContentType extends AbstractType
                                 'maxlength' => 600
                             ],
                         ])
-                        ->add('button', ButtonType::class)
+                        ->add('button', MailButtonType::class)
                     ;
                     break;
             }

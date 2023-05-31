@@ -3,7 +3,7 @@
 namespace App\Form\EventSuggestion;
 
 use App\Form\Shared\ImageType;
-use App\Form\Shared\ButtonType;
+use App\Form\Shared\MailButtonType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Entity\MailContent\EventSuggestion\Event;
@@ -49,7 +49,7 @@ class EventType extends AbstractType
                 ],
             ])
             ->add('image', ImageType::class)
-            ->add('button', ButtonType::class)
+            ->add('button', MailButtonType::class)
         ;
     }
 

@@ -44,7 +44,7 @@ services:
         alias: App\Service\MailContentService
         public: true
     
-    App\EventListener\ImageUploadListener:
+    App\EventSubscriber\ImageUploadSubscriber:
         tags:
             - name: 'doctrine.event_subscriber'
               priority: 500

@@ -14,10 +14,10 @@ use App\Repository\MailContent\FreeGoodsRepository;
 #[ORM\Entity(repositoryClass: FreeGoodsRepository::class)]
 class FreeGoods extends MailContent implements MailContentInterface
 {
-    #[ORM\OneToMany(mappedBy: 'freeGoods', targetEntity: Good::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'twoColFreeGoods', targetEntity: Good::class, cascade: ['persist', 'remove'])]
     private Collection $twoColGoods;
 
-    #[ORM\OneToMany(mappedBy: 'freeGoods', targetEntity: Good::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'threeColFreeGoods', targetEntity: Good::class, cascade: ['persist', 'remove'])]
     private Collection $threeColGoods;
 
     public function __construct()

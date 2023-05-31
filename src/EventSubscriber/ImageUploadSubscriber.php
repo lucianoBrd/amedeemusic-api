@@ -1,18 +1,16 @@
 <?php 
 
-namespace App\EventListener;
+namespace App\EventSubscriber;
 
 use Doctrine\ORM\Events;
 use App\Service\FileUploaderService;
 use App\Entity\MailContent\Shared\Image;
-use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 
-class ImageUploadListener implements EventSubscriberInterface
+class ImageUploadSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private FileUploaderService $fileUploaderService,
