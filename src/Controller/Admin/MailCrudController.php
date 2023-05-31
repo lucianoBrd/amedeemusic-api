@@ -41,7 +41,12 @@ class MailCrudController extends AbstractCrudController
     {
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            //->disable(Action::NEW, Action::EDIT, Action::DELETE)
+            ->update(Crud::PAGE_INDEX, Action::DELETE, static function(Action $action) {
+                $action->displayIf(static function (Mail $mail) {
+                    return !$mail->isSent();
+                });
+                return $action;
+            })
         ;
     }
 
@@ -64,6 +69,14 @@ class MailCrudController extends AbstractCrudController
         yield AssociationField::new('mailContent')
             ->setTemplatePath('admin/field/mail-content.html.twig')
         ;
+    }
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if ($entityInstance->isSent()) {
+            throw new \Exception('Deleting sent mail is forbidden!');
+        }
+        parent::deleteEntity($entityManager, $entityInstance);
     }
 
     public function new(AdminContext $context) {
