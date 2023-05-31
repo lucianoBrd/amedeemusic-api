@@ -8,15 +8,19 @@
         <li>
             <div>
                 <div class="mb-3">
-                        {{ form_row(item) }}
 
                         {% if subItems %}
+                            {% for rowSubItem in rowSubItems %}
+                            {{ form_row(item[rowSubItem]) }}
+                            {% endfor %}
                             {% include 'admin/form-collection/collection.html.twig' with {
                                 'title': subItemsTitle, 
-                                'items': item.subItems,
+                                'items': item[subItems],
                                 'collectionHolderClass': subItemsCollectionHolderClass,
                                 'subItems': null,
                             } %}
+                        {% else %}
+                            {{ form_row(item) }}
                         {% endif %}
                     
                         {% if item.vars.data.image|default and (item.vars.data.image.image|default or item.vars.data.image.absolutePath|default) %}
@@ -31,5 +35,8 @@
         </li>
         {% endfor %}
     </ul>
+    {% if items|length == 0 %}
+    <div class="d-none">{{ form_row(items) }}</div>
+    {% endif %}
     <button type="button" class="add_item_link btn btn-outline-primary btn" data-collection-holder-class="{{ collectionHolderClass }}">+ Add a {{ title|lower }}</button>
 </fieldset>

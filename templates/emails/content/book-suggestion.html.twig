@@ -13,7 +13,7 @@
             <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
               {% if content.sectionFeaturedTitle %}
               <tr>
-                <td {% if content.featuredImage and content.featuredImage.image %}colspan="2"{% endif %} class="col" width="100%">
+                <td {% if content.featuredImage and (content.featuredImage.image or content.featuredImage.absolutePath) %}colspan="2"{% endif %} class="col" width="100%">
                   <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 0px;">
                     {{ content.sectionFeaturedTitle }}
                   </h3>
@@ -23,7 +23,7 @@
               {% endif %}
               {% if content.featuredTitle or content.featuredAuthor or content.featuredCategory or content.featuredButton or content.featuredImage %}
               <tr>
-                {% if content.featuredImage and content.featuredImage.image %}
+                {% if content.featuredImage and (content.featuredImage.image or content.featuredImage.absolutePath) %}
                 <td class="col pb-sm-20" width="150">
                   <a href="{{ content.featuredButton ? (content.featuredButton.link ? content.featuredButton.link : '#') : '#' }}" style="text-decoration: none;">
                     {% include 'emails/content/shared/image.html.twig' with {'image': content.featuredImage, 'style': 'width: 150px; max-width: 100%;'} %}

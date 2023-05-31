@@ -44,57 +44,155 @@ class MailController extends AbstractDashboardController
     #[Route('/edit/{mail}', name: 'edit')]
     public function edit(Request $request, Mail $mail): Response
     {
+        $mailContent = $mail->getMailContent();
+
+        if ($mailContent) {
+            $originalTexts = new ArrayCollection();
+            foreach ($mailContent->getTexts() as $text) {
+                $originalTexts->add($text);
+            }
+
+            switch (get_class($mailContent)) {
+                case Data::BLOG_ARTICLES:
+                    $originalArticles = new ArrayCollection();
+                    foreach ($mailContent->getArticles() as $article) {
+                        $originalArticles->add($article);
+                    }
+                    break;
+                case Data::BOOK_SUGGESTION:
+                    $originalBooks = new ArrayCollection();
+                    foreach ($mailContent->getBooks() as $book) {
+                        $originalBooks->add($book);
+                    }
+                    break;
+                case Data::EVENT_PLAN:
+                    $originalSpeakers = new ArrayCollection();
+                    foreach ($mailContent->getSpeakers() as $speaker) {
+                        $originalSpeakers->add($speaker);
+                    }
+                    $originalSchedules = new ArrayCollection();
+                    foreach ($mailContent->getSchedules() as $schedule) {
+                        $originalSchedules->add($schedule);
+                    }
+                    break;
+                case Data::EVENT_SUGGESTION:
+                    $originalEvents = new ArrayCollection();
+                    foreach ($mailContent->getEvents() as $event) {
+                        $originalEvents->add($event);
+                    }
+                    break;
+                case Data::FREE_GOODS:
+                    $originalTwoColGoods = new ArrayCollection();
+                    foreach ($mailContent->getTwoColGoods() as $good) {
+                        $originalTwoColGoods->add($good);
+                    }
+                    $originalThreeColGoods = new ArrayCollection();
+                    foreach ($mailContent->getThreeColGoods() as $good) {
+                        $originalThreeColGoods->add($good);
+                    }
+                    break;
+                case Data::JOB_BOARD:
+                    $originalJobs = new ArrayCollection();
+                    foreach ($mailContent->getJobs() as $job) {
+                        $originalJobs->add($job);
+                    }
+                    break;
+                case Data::MONTH_STATS:
+                    $originalStats = new ArrayCollection();
+                    foreach ($mailContent->getStats() as $stat) {
+                        $originalStats->add($stat);
+                    }
+                    break;
+            }
+        }
+
         $form = $this->createForm(MailType::class, $mail);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $oldMailContent = $mail->getMailContent();
-            
-            $mailContent = $form->get('mailContent')->getData();
-            $mail->setMailContent($this->mailContentService->getMailContentByClassName($mailContent));
-
-            if ($oldMailContent) {
-                $this->manager->remove($oldMailContent);
+            if ($mailContent) {
+                foreach ($originalTexts as $text) {
+                    if (false === $mailContent->getTexts()->contains($text)) {
+                        $this->manager->remove($text);
+                    }
+                }
+    
+                switch (get_class($mailContent)) {
+                    case Data::BLOG_ARTICLES:
+                        foreach ($originalArticles as $article) {
+                            if (false === $mailContent->getArticles()->contains($article)) {
+                                $this->manager->remove($article);
+                            }
+                        }
+                        break;
+                    case Data::BOOK_SUGGESTION:
+                        foreach ($originalBooks as $book) {
+                            if (false === $mailContent->getBooks()->contains($book)) {
+                                $this->manager->remove($book);
+                            }
+                        }
+                        break;
+                    case Data::EVENT_PLAN:
+                        foreach ($originalSpeakers as $speaker) {
+                            if (false === $mailContent->getSpeakers()->contains($speaker)) {
+                                $this->manager->remove($speaker);
+                            }
+                        }
+                        foreach ($originalSchedules as $schedule) {
+                            if (false === $mailContent->getSchedules()->contains($schedule)) {
+                                $this->manager->remove($schedule);
+                            }
+                        }
+                        break;
+                    case Data::EVENT_SUGGESTION:
+                        foreach ($originalEvents as $event) {
+                            if (false === $mailContent->getEvents()->contains($event)) {
+                                $this->manager->remove($event);
+                            }
+                        }
+                        break;
+                    case Data::FREE_GOODS:
+                        foreach ($originalTwoColGoods as $good) {
+                            if (false === $mailContent->getTwoColGoods()->contains($good)) {
+                                $this->manager->remove($good);
+                            }
+                        }
+                        foreach ($originalThreeColGoods as $good) {
+                            if (false === $mailContent->getThreeColGoods()->contains($good)) {
+                                $this->manager->remove($good);
+                            }
+                        }
+                        break;
+                    case Data::JOB_BOARD:
+                        foreach ($originalJobs as $job) {
+                            if (false === $mailContent->getJobs()->contains($job)) {
+                                $this->manager->remove($job);
+                            }
+                        }
+                        break;
+                    case Data::MONTH_STATS:
+                        foreach ($originalStats as $stat) {
+                            if (false === $mailContent->getStats()->contains($stat)) {
+                                $this->manager->remove($stat);
+                            }
+                        }
+                        break;
+                }
             }
+            
+            $newMailContent = $form->get('mailContentChoice')->getData();
+
+            if ($newMailContent != get_class($mailContent)) {
+                $mail->setMailContent($this->mailContentService->getMailContentByClassName($newMailContent));
+                $this->manager->remove($mailContent);
+            }
+
             $this->manager->persist($mail);
             $this->manager->flush();
+            return $this->redirectToRoute('mail_edit', ['mail' => $mail->getId()]);
         }
 
         return $this->render('admin/mail-edit.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/edit/mail-content/{mail}', name: 'edit_mail_content')]
-    public function editMailContent(Request $request, Mail $mail): Response
-    {
-        $mailContent = $mail->getMailContent();
-
-        if (!$mailContent) {
-            throw $this->createNotFoundException();
-        }
-
-        $originalTexts = new ArrayCollection();
-        foreach ($mailContent->getTexts() as $text) {
-            $originalTexts->add($text);
-        }
-
-        $form = $this->createForm(MailContentType::class, $mailContent);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($originalTexts as $text) {
-                if (false === $mailContent->getTexts()->contains($text)) {
-                    $this->manager->remove($text);
-                }
-            }
-
-            $this->manager->persist($mailContent);
-            $this->manager->flush();
-            return $this->redirectToRoute('mail_edit_mail_content', ['mail' => $mail->getId()]);
-        }
-
-        return $this->render('admin/mail-content-edit.html.twig', [
             'form' => $form,
         ]);
     }

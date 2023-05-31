@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Data;
-use App\Form\BlogArticlesType;
 use App\Form\JobBoard\JobType;
 use App\Form\Shared\ImageType;
 use App\Form\Shared\ButtonType;
@@ -23,7 +22,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -58,7 +56,6 @@ class MailContentType extends AbstractType
                 'by_reference' => false,
                 'allow_delete' => true,
             ])
-            ->add('save', SubmitType::class)
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
