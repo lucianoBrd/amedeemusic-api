@@ -6,15 +6,12 @@ use App\Entity\Data;
 use App\Entity\Mail;
 use App\Form\MailType;
 use App\Service\MailService;
-use App\Form\MailContentType;
 use App\Service\MailContentService;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Service\MailContentTemplateService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
@@ -46,13 +43,15 @@ class MailController extends AbstractDashboardController
     {
         $mailContent = $mail->getMailContent();
 
+        $mailContentClassName = get_class($mailContent);
+
         if ($mailContent) {
             $originalTexts = new ArrayCollection();
             foreach ($mailContent->getTexts() as $text) {
                 $originalTexts->add($text);
             }
 
-            switch (get_class($mailContent)) {
+            switch ($mailContentClassName) {
                 case Data::BLOG_ARTICLES:
                     $originalArticles = new ArrayCollection();
                     foreach ($mailContent->getArticles() as $article) {
@@ -117,7 +116,7 @@ class MailController extends AbstractDashboardController
                     }
                 }
     
-                switch (get_class($mailContent)) {
+                switch ($mailContentClassName) {
                     case Data::BLOG_ARTICLES:
                         foreach ($originalArticles as $article) {
                             if (false === $mailContent->getArticles()->contains($article)) {
@@ -182,9 +181,12 @@ class MailController extends AbstractDashboardController
             
             $newMailContent = $form->get('mailContentChoice')->getData();
 
-            if ($newMailContent != get_class($mailContent)) {
+            if ($newMailContent != $mailContentClassName) {
                 $mail->setMailContent($this->mailContentService->getMailContentByClassName($newMailContent));
-                $this->manager->remove($mailContent);
+
+                if ($mailContent) {
+                    $this->manager->remove($mailContent);
+                }
             }
 
             $this->manager->persist($mail);
@@ -194,6 +196,8 @@ class MailController extends AbstractDashboardController
 
         return $this->render('admin/mail-edit.html.twig', [
             'form' => $form,
+            'displayMail' => $mailContent ? true : false,
+            'mail' => $mail,
         ]);
     }
 
