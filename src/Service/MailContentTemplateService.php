@@ -87,6 +87,11 @@ class MailContentTemplateService
         ;
         $mailContent->addArticle($article);
 
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/120x112/D6DAE3/000')
+        ;
+
         // Article4
         $article = new Article();
         $article
@@ -400,11 +405,17 @@ class MailContentTemplateService
         ;
         $mailContent->setFeaturedImage($image);
 
+        // Book1
         $image = new Image();
         $image
             ->setAbsolutePath('https://dummyimage.com/117x178/D6DAE3/000')
         ;
-        // Book1
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Read Now')
+        ;
         $book = new Book();
         $book
             ->setTitle('Dear Edward: A Novel')
@@ -413,6 +424,16 @@ class MailContentTemplateService
         ;
         $mailContent->addBook($book);
         // Book2
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/117x178/D6DAE3/000')
+        ;
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Read Now')
+        ;
         $book = new Book();
         $book
             ->setTitle('American Dirt (Oprah\'s Book Club): A Novel')
@@ -421,6 +442,16 @@ class MailContentTemplateService
         ;
         $mailContent->addBook($book);
         // Book3
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/117x178/D6DAE3/000')
+        ;
+        $button = new Button();
+        $button
+            ->setColor($mailContent->getColor())
+            ->setLink('#')
+            ->setName('Read Now')
+        ;
         $book = new Book();
         $book
             ->setTitle('Habits of Purpose for an Age of Distraction')
@@ -463,11 +494,11 @@ class MailContentTemplateService
             ->setTitleBold('Free Goods')
         ;
         
+        // Good1
         $image = new Image();
         $image
             ->setAbsolutePath('https://dummyimage.com/188x134/D6DAE3/000')
         ;
-        // Good1
         $good = new Good();
         $good
             ->setColor($mailContent->getColor())
@@ -478,6 +509,10 @@ class MailContentTemplateService
         $good->setImage($image);
         $mailContent->addTwoColGood($good);
         // Good2
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/188x134/D6DAE3/000')
+        ;
         $good = new Good();
         $good
             ->setColor($mailContent->getColor())
@@ -488,11 +523,11 @@ class MailContentTemplateService
         $good->setImage($image);
         $mailContent->addTwoColGood($good);
 
+        // Good1
         $image = new Image();
         $image
             ->setAbsolutePath('https://dummyimage.com/117x134/D6DAE3/000')
         ;
-        // Good1
         $good = new Good();
         $good
             ->setColor($mailContent->getColor())
@@ -503,6 +538,10 @@ class MailContentTemplateService
         $good->setImage($image);
         $mailContent->addThreeColGood($good);
         // Good2
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/117x134/D6DAE3/000')
+        ;
         $good = new Good();
         $good
             ->setColor($mailContent->getColor())
@@ -513,6 +552,10 @@ class MailContentTemplateService
         $good->setImage($image);
         $mailContent->addThreeColGood($good);
         // Good3
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/117x134/D6DAE3/000')
+        ;
         $good = new Good();
         $good
             ->setColor($mailContent->getColor())
@@ -537,12 +580,11 @@ class MailContentTemplateService
         $text->setParagraph('Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…');
         $mailContent->addText($text);
 
+        // Event1
         $image = new Image();
         $image
             ->setImage('pin.png')
         ;
-
-        // Event1
         $event = new Event();
         $event
             ->setCategory('UX/UI Design')
@@ -562,6 +604,10 @@ class MailContentTemplateService
         $event->setButton($button);
         $mailContent->addEvent($event);
         // Event2
+        $image = new Image();
+        $image
+            ->setImage('pin.png')
+        ;
         $event = new Event();
         $event
             ->setCategory('UX/UI Design')
@@ -581,6 +627,10 @@ class MailContentTemplateService
         $event->setButton($button);
         $mailContent->addEvent($event);
         // Event3
+        $image = new Image();
+        $image
+            ->setImage('pin.png')
+        ;
         $event = new Event();
         $event
             ->setCategory('UX/UI Design')
@@ -600,6 +650,10 @@ class MailContentTemplateService
         $event->setButton($button);
         $mailContent->addEvent($event);
         // Event4
+        $image = new Image();
+        $image
+            ->setImage('pin.png')
+        ;
         $event = new Event();
         $event
             ->setCategory('UX/UI Design')
@@ -659,12 +713,11 @@ class MailContentTemplateService
         ;
         $mailContent->setSecondScheduleButton($button);
 
+        // Speaker1
         $image = new Image();
         $image
             ->setAbsolutePath('https://dummyimage.com/117x117/D6DAE3/000')
         ;
-
-        // Speaker1
         $speaker = new Speaker();
         $speaker
             ->setImage($image)
@@ -674,6 +727,10 @@ class MailContentTemplateService
         ;
         $mailContent->addSpeaker($speaker);
         // Speaker2
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/117x117/D6DAE3/000')
+        ;
         $speaker = new Speaker();
         $speaker
             ->setImage($image)
@@ -683,6 +740,10 @@ class MailContentTemplateService
         ;
         $mailContent->addSpeaker($speaker);
         // Speaker3
+        $image = new Image();
+        $image
+            ->setAbsolutePath('https://dummyimage.com/117x117/D6DAE3/000')
+        ;
         $speaker = new Speaker();
         $speaker
             ->setImage($image)

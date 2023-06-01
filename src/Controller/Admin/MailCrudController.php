@@ -53,6 +53,12 @@ class MailCrudController extends AbstractCrudController
                 });
                 return $action;
             })
+            ->update(Crud::PAGE_INDEX, Action::EDIT, static function(Action $action) {
+                $action->displayIf(static function (Mail $mail) {
+                    return !$mail->isSent();
+                });
+                return $action;
+            })
         ;
     }
 
@@ -124,6 +130,10 @@ class MailCrudController extends AbstractCrudController
 
     public function edit(AdminContext $context) {
         $mail = $context->getEntity()->getInstance();
+
+        if ($mail->isSent()) {
+            throw new \Exception('Editing sent mail is forbidden!');
+        }
 
         $mailContent = $mail->getMailContent();
 

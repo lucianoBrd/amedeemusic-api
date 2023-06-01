@@ -33,7 +33,12 @@ class FileUploaderService
 
             $image->setImage('uploads/' . $filename);
         } else if ($file instanceof File) {
-            $image->setImage('uploads/' . $file->getFilename());
+            $filename = $file->getFilename();
+            if (!in_array($filename, Data::MAIL_IMAGES)) {
+                $image->setImage('uploads/' . $filename);
+            } else {
+                $image->setImage($filename);
+            }
         }
 
         $imageToRemove = null;
