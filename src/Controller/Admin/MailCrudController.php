@@ -41,9 +41,6 @@ class MailCrudController extends AbstractCrudController
     {
         $sentAction = Action::new('Sent')
             ->linkToCrudAction('sentAction')
-            ->displayIf(static function (Mail $mail) {
-                return !$mail->isSent();
-            })
         ;
 
         return $actions
@@ -72,7 +69,6 @@ class MailCrudController extends AbstractCrudController
     {
         yield TextField::new('title');
         yield DateTimeField::new('date');
-        yield TextField::new('recipientsString');
         yield AssociationField::new('recipients');
         yield BooleanField::new('sent')->renderAsSwitch(false);
         yield AssociationField::new('mailContent')

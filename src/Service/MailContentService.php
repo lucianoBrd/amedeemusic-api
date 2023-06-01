@@ -6,6 +6,7 @@ use App\Entity\Mail;
 use App\Entity\User;
 use App\Entity\Banner;
 use App\Service\MailService;
+use App\Service\UserService;
 use App\Entity\MailContent\MailContent;
 use App\Service\MailContentTemplateService;
 use Doctrine\Common\Collections\Collection;
@@ -16,6 +17,7 @@ class MailContentService
     public function __construct(
         private MailContentTemplateService $mailContentTemplateService,
         private MailService $mailService,
+        private UserService $userService,
     )
     {
     }
@@ -77,16 +79,32 @@ class MailContentService
             return true;
         }
 
+        $users = $this->userService->getAllSubscribeUser();
+
         $messages = [];
         $title = $mail->getTitle();
-        $recipients = $mail->getRecipients();
-        foreach ($recipients as $recipient) {
-            $messages[] = [
-                'to' => $recipient->getMail(),
-                'title' => $title,
-                'context' => $this->getContextByMailContent($mailContent, $title, $recipient),
-                'template' => $this->getTemplateByClassName(get_class($mailContent))
-            ];
+        $mailRecipients = $mail->getRecipients();
+        if (!$mail->isSent()) {
+            foreach ($mailRecipients as $mailRecipient) {
+                $messages[] = [
+                    'to' => $mailRecipient->getMail(),
+                    'title' => $title,
+                    'context' => $this->getContextByMailContent($mailContent, $title, $mailRecipient),
+                    'template' => $this->getTemplateByClassName(get_class($mailContent))
+                ];
+            }
+        } else {
+            foreach ($users as $user) {
+                if (!$mailRecipients->contains($user)) {
+                    $messages[] = [
+                        'to' => $user->getMail(),
+                        'title' => $title,
+                        'context' => $this->getContextByMailContent($mailContent, $title, $user),
+                        'template' => $this->getTemplateByClassName(get_class($mailContent))
+                    ];
+                    $mail->addRecipient($user);
+                }
+            }
         }
 
         return $this->mailService->sendMessages($messages);

@@ -29,20 +29,9 @@ class MailService
     public function addRecipientsToMail(Mail $mail): Mail {
         $users = $this->userService->getAllSubscribeUser();
         
-        $recipientsString = '';
-
-        $first = true;
         foreach ($users as $user) {
             $mail->addRecipient($user);
-
-            if ($first) {
-                $first = false;
-            } else {
-                $recipientsString .= ',';
-            }
-            $recipientsString .= $user->getMail();
         }
-        $mail->setRecipientsString($recipientsString);
         return $mail;
     }
 

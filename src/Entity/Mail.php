@@ -27,9 +27,6 @@ class Mail
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'mails')]
     private Collection $recipients;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $recipientsString = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -86,18 +83,6 @@ class Mail
     public function removeRecipient(User $recipient): self
     {
         $this->recipients->removeElement($recipient);
-
-        return $this;
-    }
-
-    public function getRecipientsString(): ?string
-    {
-        return $this->recipientsString;
-    }
-
-    public function setRecipientsString(?string $recipientsString): self
-    {
-        $this->recipientsString = $recipientsString;
 
         return $this;
     }
