@@ -53,6 +53,8 @@ class LocalGenerator
                 ->setLatestNovelty('Dernière Nouveauté')
                 ->setComeListenTo('Hey, venez écouter ma')
                 ->setListen('Écouter')
+                ->setLatestPosts('Derniers Articles')
+                ->setComeRead('Hey, venez lire mes')
             ;
         } else {
             $language
@@ -78,6 +80,8 @@ class LocalGenerator
                 ->setLatestNovelty('Latest Novelty')
                 ->setComeListenTo('Hey, come listen to my')
                 ->setListen('Listen')
+                ->setLatestPosts('Latest Posts')
+                ->setComeRead('Hey, come read my')
             ;
         }
         return $language;

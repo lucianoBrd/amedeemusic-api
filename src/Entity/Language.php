@@ -27,6 +27,8 @@ class Language
     private ?string $latestNovelty = null;
     private ?string $comeListenTo = null;
     private ?string $listen = null;
+    private ?string $latestPosts = null;
+    private ?string $comeRead = null;
 
     public function getUnsubscribe(): ?string
     {
@@ -373,6 +375,38 @@ class Language
 	 */
 	public function setListen(?string $listen): self {
 		$this->listen = $listen;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getComeRead(): ?string {
+		return $this->comeRead;
+	}
+	
+	/**
+	 * @param  $comeRead 
+	 * @return self
+	 */
+	public function setComeRead(?string $comeRead): self {
+		$this->comeRead = $comeRead;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getLatestPosts(): ?string {
+		return $this->latestPosts;
+	}
+	
+	/**
+	 * @param  $latestPosts 
+	 * @return self
+	 */
+	public function setLatestPosts(?string $latestPosts): self {
+		$this->latestPosts = $latestPosts;
 		return $this;
 	}
 }

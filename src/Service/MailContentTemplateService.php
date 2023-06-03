@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Service;
+use App\Entity\Blog;
+use App\Entity\Data;
+use App\Entity\Local;
 use App\Entity\Locals;
 use App\Entity\Project;
 use App\Entity\Language;
@@ -48,74 +51,105 @@ class MailContentTemplateService
     }
 
     public function getBlogArticles(): BlogArticles {
-        $mailContent = new BlogArticles();
-        $mailContent
-            ->setTitle('Hey, This is your Weekly')
-            ->setTitleBold('Blog Articles')
-        ;
-        $text = new Text();
-        $text->setParagraph('Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…');
-        $mailContent->addText($text);
+        $local = $this->manager->getRepository(Local::class)->findOneBy(['local' => Locals::FR]);
 
-        // Article1
-        $article = new Article();
-        $article
-            ->setCategory('UX/UI Design')
-            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
-            ->setTitle('Tiny Habits: The Small Changes That Change Everything.')
-            ->setLink('#')
-            ->setParagraph('WIRED, by')
-            ->setParagraphBold('Luciano Brd')
-        ;
-        $mailContent->addArticle($article);
+        $blogs = $this->manager->getRepository(Blog::class)->findBy(['local' => $local], ['date' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE_LASTS);
 
-        // Article2
-        $article = new Article();
-        $article
-            ->setCategory('iOS Development')
-            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
-            ->setTitle('Apple TV Login + Android - Behance Tech.')
-            ->setLink('#')
-            ->setParagraph('WIRED, by')
-            ->setParagraphBold('Luciano Brd')
-        ;
-        $mailContent->addArticle($article);
+        if (count($blogs) > 0) {
+            $mailContent = new BlogArticles();
+            $mailContent
+                ->setTitle($this->language->getComeRead())
+                ->setTitleBold($this->language->getLatestPosts())
+            ;
+            
+            foreach ($blogs as $blog) {
+                $image = new Image();
+                $image
+                    ->setAbsolutePath($this->params->get('app.url') . '/' . $this->params->get('images_base_directory') . 'blog/' . $blog->getImage())
+                ;
+    
+                // Article4
+                $article = new Article();
+                $article
+                    ->setCategory($blog->getDate()->format('d/m/Y'))
+                    ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
+                    ->setTitle($blog->getTitle())
+                    ->setLink($this->params->get('app.client.url') . '/blog/detail/' . $blog->getSlug())
+                    ->setParagraph($blog->getPlainText())
+                    ->setImage($image)
+                ;
+                $mailContent->addArticle($article);
+            }
+        } else {
+            $mailContent = new BlogArticles();
+            $mailContent
+                ->setTitle('Hey, This is your Weekly')
+                ->setTitleBold('Blog Articles')
+            ;
+            $text = new Text();
+            $text->setParagraph('Hi Matthew! We have top posts for you from UI/UX Design, Farming for Tomorrow, Sustainable Urban Planning& more…');
+            $mailContent->addText($text);
 
-        $image = new Image();
-        $image
-            ->setAbsolutePath('https://dummyimage.com/120x112/D6DAE3/000')
-        ;
+            // Article1
+            $article = new Article();
+            $article
+                ->setCategory('UX/UI Design')
+                ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
+                ->setTitle('Tiny Habits: The Small Changes That Change Everything.')
+                ->setLink('#')
+                ->setParagraph('WIRED, by')
+                ->setParagraphBold('Luciano Brd')
+            ;
+            $mailContent->addArticle($article);
 
-        // Article3
-        $article = new Article();
-        $article
-            ->setCategory('Farming for Tomorrow')
-            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
-            ->setTitle('New law in Italy would force supermarkets to donate unsold food to those in need.')
-            ->setLink('#')
-            ->setParagraph('WIRED, by')
-            ->setParagraphBold('Luciano Brd')
-            ->setImage($image)
-        ;
-        $mailContent->addArticle($article);
+            // Article2
+            $article = new Article();
+            $article
+                ->setCategory('iOS Development')
+                ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
+                ->setTitle('Apple TV Login + Android - Behance Tech.')
+                ->setLink('#')
+                ->setParagraph('WIRED, by')
+                ->setParagraphBold('Luciano Brd')
+            ;
+            $mailContent->addArticle($article);
 
-        $image = new Image();
-        $image
-            ->setAbsolutePath('https://dummyimage.com/120x112/D6DAE3/000')
-        ;
+            $image = new Image();
+            $image
+                ->setAbsolutePath('https://dummyimage.com/120x112/D6DAE3/000')
+            ;
 
-        // Article4
-        $article = new Article();
-        $article
-            ->setCategory('Personal Developpment')
-            ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
-            ->setTitle('Whether Your Goals Are Big or Small, It\'s Important to Measure Your Progress.')
-            ->setLink('#')
-            ->setParagraph('WIRED, by')
-            ->setParagraphBold('Luciano Brd')
-            ->setImage($image)
-        ;
-        $mailContent->addArticle($article);
+            // Article3
+            $article = new Article();
+            $article
+                ->setCategory('Farming for Tomorrow')
+                ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
+                ->setTitle('New law in Italy would force supermarkets to donate unsold food to those in need.')
+                ->setLink('#')
+                ->setParagraph('WIRED, by')
+                ->setParagraphBold('Luciano Brd')
+                ->setImage($image)
+            ;
+            $mailContent->addArticle($article);
+
+            $image = new Image();
+            $image
+                ->setAbsolutePath('https://dummyimage.com/120x112/D6DAE3/000')
+            ;
+
+            // Article4
+            $article = new Article();
+            $article
+                ->setCategory('Personal Developpment')
+                ->setColor(BlogArticlesColor::COLORS[array_rand(BlogArticlesColor::COLORS)])
+                ->setTitle('Whether Your Goals Are Big or Small, It\'s Important to Measure Your Progress.')
+                ->setLink('#')
+                ->setParagraph('WIRED, by')
+                ->setParagraphBold('Luciano Brd')
+                ->setImage($image)
+            ;
+            $mailContent->addArticle($article);
+        }
 
         return $mailContent;
     }
