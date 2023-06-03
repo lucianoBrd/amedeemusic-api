@@ -1,0 +1,63 @@
+{% extends "emails/base.html.twig" %}
+{% block content %}
+<!-- Section : Content -->
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              <tr>
+                <td class="col" width="400"" align="left">
+                  {% if content.lLabel or content.rLabel or content.lInfo or content.rInfo %}
+                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                    <tr>
+                      {% if content.lLabel or content.lInfo %}
+                      <td class="col" width="200"  style="padding: 20px 0px 20px 30px;" bgcolor="#FAFAFA">
+                        {% if content.lLabel %}
+                        <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 14px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
+                         {{ content.lLabel }}
+                        </h3>
+                        {% endif %}
+                        {% if content.lInfo %}
+                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                          {{ content.lInfo }}
+                        </p>
+                        {% endif %}
+                      </td>
+                      {% endif %}
+                      {% if content.rLabel or content.rInfo %}
+                      <td class="col pl-sm-30 pr-sm-0" width="200" style="padding: 20px 30px 20px 0px;" bgcolor="#FAFAFA"> 
+                        {% if content.rLabel %}
+                        <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 14px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
+                          {{ content.rLabel }}
+                         </h3>
+                         {% endif %}
+                         {% if content.rInfo %}
+                         <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                          {{ content.rInfo }}
+                         </p>
+                         {% endif %}
+                      </td>
+                      {% endif %}
+                    </tr>
+                  </table>
+                  {% endif %}
+                  
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.button, 'color': content.color, 'size': 'md', 'spacer': true} %}
+                </td>
+              </tr>
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+<!-- end Section : Content -->
+{% endblock %}

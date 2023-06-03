@@ -1,0 +1,93 @@
+{% extends "emails/base.html.twig" %}
+{% block content %}
+<!-- Section : Job -->
+{% if content.jobs|length > 0 or content.button %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              <tr>
+                <td class="col" width="400"" align="left">                 
+
+                  <!-- Job 1 -->
+                  {% for job in content.jobs %}
+                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                    {% if job.title or job.compagny or job.image %}
+                    <tr>
+                      <td {% if job.image and (job.image.image or job.image.absolutePath) %}colspan="2"{% endif %} class="spacer py-sm-20" height="30"></td>
+                    </tr>
+                    <tr>
+                      {% if job.image and (job.image.image or job.image.absolutePath) %}
+                      <td class="col col-sm-2" width="40">
+                        <a href="{{ job.link ? job.link : '#' }}" style="text-decoration: none;">
+                          {% include 'emails/content/shared/image.html.twig' with {'image': job.image, 'style': 'width: 40px;'} %}
+                        </a>
+                      </td>
+                      {% endif %}
+                      <td class="col col-sm-10 pl-sm-10" width="{% if job.image and (job.image.image or job.image.absolutePath) %}350{% else %}400{% endif %}" style="{% if job.image and (job.image.image or job.image.absolutePath) %}padding-left: 20px;{% endif %} vertical-align: middle;">
+                        {% if job.title %}
+                        <a href="{{ job.link ? job.link : '#' }}" class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 20px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px; text-decoration: none;">
+                          {{ job.title }}
+                        </a>
+                        {% endif %}
+                        {% if job.compagny %}
+                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                          {{ job.compagny }}
+                        </p>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endif %}
+                    {% if job.infos|length > 0 or job.paragraph %}
+                    <tr>
+                      <td {% if job.image and (job.image.image or job.image.absolutePath) %}colspan="2"{% endif %} class="spacer py-sm-10" height="20"></td>
+                    </tr>
+                    <tr>
+                      <td {% if job.image and (job.image.image or job.image.absolutePath) %}colspan="2"{% endif %} class="col">
+                        {% if job.paragraph %}
+                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                          {{ job.paragraph }}
+                        </p>
+                        {% endif %}
+                        {% if job.infos|length > 0 %}
+                        <div class="spacer pb-sm-10" style="line-height: 5px;">‌</div>
+                        {% for info in job.infos %}
+                        {% if info.image or info.title %}
+                        <span style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0 0 0 {% if loop.first %}0{% else %}4px{% endif %}; padding: 5px 5px; background-color: #FAFAFA;">
+                          {% if info.image and (info.image.image or info.image.absolutePath) %}
+                          {% include 'emails/content/shared/image.html.twig' with {'image': info.image, 'style': 'height: 11px; margin-right: 5px;'} %}
+                          {% endif %}
+                          {{ info.title ? info.title : '' }}
+                        </span>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                      <td colspan="2" class="spacer py-sm-10" height="20" style="border-bottom: 1px solid #F0F0F0;"></td>
+                    </tr>
+                  </table>
+                  {% endfor %}
+
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.button, 'color': content.color, 'size': 'md', 'spacer': true} %}
+                </td>
+              </tr>
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : Job -->
+{% endblock %}

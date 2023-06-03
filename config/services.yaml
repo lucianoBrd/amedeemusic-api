@@ -7,6 +7,8 @@ parameters:
     assets_path_directory: '%kernel.project_dir%/public/assets/'
     images_path_directory: '%kernel.project_dir%/public/uploads/images/'
     assets_directory: 'public/assets/'
+    images_email_path_directory: '%kernel.project_dir%/public/assets/email/images/'
+    images_email_base_directory: 'assets/email/images/'
     images_directory: 'public/uploads/images/'
     assets_base_directory: 'assets/'
     images_base_directory: 'uploads/images/'
@@ -17,9 +19,11 @@ parameters:
 
     secret_salt: '%env(APP_SECRET)%'
 
-    app.client.url: 'https://amedeemusic.com'
-    app.url: 'https://api.amedeemusic.com'
-    app.name: 'AmédéeMusicApi'
+    app.client.url: '%env(APP_CLIENT_URL)%'
+    app.url: '%env(APP_URL)%'
+    app.name: 'AmédéeMusic'
+
+    mail_debug: 'lucien.burdet@gmail.com'
 
 services:
     # default configuration for services in *this* file
@@ -35,6 +39,15 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    app.mailcontent.service:
+        alias: App\Service\MailContentService
+        public: true
+    
+    App\EventSubscriber\ImageUploadSubscriber:
+        tags:
+            - name: 'doctrine.event_subscriber'
+              priority: 500
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

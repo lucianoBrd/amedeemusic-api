@@ -1,0 +1,58 @@
+{% extends "emails/base.html.twig" %}
+{% block content %}
+<!-- Section : Articles -->
+{% if content.articles|length > 0 %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 pb-sm-30" width="400" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;border-bottom-right-radius: 6px; border-bottom-left-radius: 6px;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+
+              <!-- Article 1 -->
+              {% for article in content.articles %}
+              <tr>
+                <td class="col " {% if article.image and (article.image.image or article.image.absolutePath) %}width="270"{% else %}width="100%" colspan="2"{% endif %} style="padding: 20px 0;">
+                  {% if article.category %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:{{ article.color ? article.color : random(constant('App\\Entity\\MailContent\\BlogArticles\\Color::COLORS')) }}; margin: 0; margin-bottom: 5px ;">
+                    {{ article.category }}
+                  </p>
+                  {% endif %}
+                  {% if article.title %}
+                  <a href="{{ article.link ? article.link : '#' }}" style="text-decoration: none;">
+                    <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
+                      {{ article.title }}
+                    </h3>
+                  </a>
+                  {% endif %}
+                  {% if article.paragraph or article.paragraphBold %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                    {{ article.paragraph ? article.paragraph : '' }} {% if article.paragraphBold %}<span style="color: #292929;">{{ article.paragraphBold }}</span>{% endif %}
+                  </p>
+                  {% endif %}
+                </td>
+                {% if article.image and (article.image.image or article.image.absolutePath) %}
+                <td class="col hide-sm" width="120" style="padding: 20px 0 20px 10px;">
+                  <a href="{{ article.link ? article.link : '#' }}" style="text-decoration: none;">
+                    {% include 'emails/content/shared/image.html.twig' with {'image': article.image, 'style': 'width: 120px; max-width: 100%;'} %}
+                  </a>
+                </td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : Articles->
+{% endblock %}

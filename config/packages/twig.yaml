@@ -1,6 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
-
+    form_themes: [
+        'bootstrap_5_layout.html.twig',
+    ]
     globals:
         client_path: '%app.client.url%'
         mailer_email: '%mailer_email%'
@@ -8,6 +10,7 @@ twig:
         imagesPath: '/assets/email/images'
         app_name: '%app.name%'
         assets_base_directory: '%assets_base_directory%'
+        mailContentService: '@app.mailcontent.service'
 
     paths:
         '%kernel.project_dir%/public/assets/email/images': images

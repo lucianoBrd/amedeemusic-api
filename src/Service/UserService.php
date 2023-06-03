@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Mail;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -14,6 +15,13 @@ class UserService
         private ContainerBagInterface $params,
     )
     {
+    }
+
+    public function getAllSubscribeUser(): array
+    {
+        $repository = $this->manager->getRepository(User::class);
+
+        return $repository->findBy(['subscribe' => true], ['id' => 'ASC']);
     }
 
     public function getUserName(User $user): string

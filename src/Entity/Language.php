@@ -10,6 +10,7 @@ class Language
     private ?string $unsubscribeSuccess = null;
     private ?string $unsubscribeError = null;
     private ?string $subscribeError = null;
+	private ?string $unsubscribeText = null;
     private ?string $hello = null;
     private ?string $anyQuestionsContactMe = null;
     private ?string $haveAQuestion = null;
@@ -20,6 +21,17 @@ class Language
     private ?string $message = null;
     private ?string $website = null;
     private ?string $errorHelp = null;
+    private ?string $by = null;
+    private ?string $respond = null;
+    private ?string $messageFrom = null;
+    private ?string $latestNovelty = null;
+    private ?string $comeListenTo = null;
+    private ?string $listen = null;
+    private ?string $latestPosts = null;
+    private ?string $comeRead = null;
+    private ?string $access = null;
+    private ?string $events = null;
+    private ?string $comeSeeMeAt = null;
 
     public function getUnsubscribe(): ?string
     {
@@ -254,6 +266,198 @@ class Language
 	 */
 	public function setSubscribeError(?string $subscribeError): self {
 		$this->subscribeError = $subscribeError;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getUnsubscribeText(): ?string {
+		return $this->unsubscribeText;
+	}
+	
+	/**
+	 * @param  $unsubscribeText 
+	 * @return self
+	 */
+	public function setUnsubscribeText(?string $unsubscribeText): self {
+		$this->unsubscribeText = $unsubscribeText;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getBy(): ?string {
+		return $this->by;
+	}
+	
+	/**
+	 * @param  $by 
+	 * @return self
+	 */
+	public function setBy(?string $by): self {
+		$this->by = $by;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getRespond(): ?string {
+		return $this->respond;
+	}
+	
+	/**
+	 * @param  $respond 
+	 * @return self
+	 */
+	public function setRespond(?string $respond): self {
+		$this->respond = $respond;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getMessageFrom(): ?string {
+		return $this->messageFrom;
+	}
+	
+	/**
+	 * @param  $messageFrom 
+	 * @return self
+	 */
+	public function setMessageFrom(?string $messageFrom): self {
+		$this->messageFrom = $messageFrom;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getComeListenTo(): ?string {
+		return $this->comeListenTo;
+	}
+	
+	/**
+	 * @param  $comeListenTo 
+	 * @return self
+	 */
+	public function setComeListenTo(?string $comeListenTo): self {
+		$this->comeListenTo = $comeListenTo;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getLatestNovelty(): ?string {
+		return $this->latestNovelty;
+	}
+	
+	/**
+	 * @param  $latestNovelty 
+	 * @return self
+	 */
+	public function setLatestNovelty(?string $latestNovelty): self {
+		$this->latestNovelty = $latestNovelty;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getListen(): ?string {
+		return $this->listen;
+	}
+	
+	/**
+	 * @param  $listen 
+	 * @return self
+	 */
+	public function setListen(?string $listen): self {
+		$this->listen = $listen;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getComeRead(): ?string {
+		return $this->comeRead;
+	}
+	
+	/**
+	 * @param  $comeRead 
+	 * @return self
+	 */
+	public function setComeRead(?string $comeRead): self {
+		$this->comeRead = $comeRead;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getLatestPosts(): ?string {
+		return $this->latestPosts;
+	}
+	
+	/**
+	 * @param  $latestPosts 
+	 * @return self
+	 */
+	public function setLatestPosts(?string $latestPosts): self {
+		$this->latestPosts = $latestPosts;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getAccess(): ?string {
+		return $this->access;
+	}
+	
+	/**
+	 * @param  $access 
+	 * @return self
+	 */
+	public function setAccess(?string $access): self {
+		$this->access = $access;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getComeSeeMeAt(): ?string {
+		return $this->comeSeeMeAt;
+	}
+	
+	/**
+	 * @param  $comeSeeMeAt 
+	 * @return self
+	 */
+	public function setComeSeeMeAt(?string $comeSeeMeAt): self {
+		$this->comeSeeMeAt = $comeSeeMeAt;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getEvents(): ?string {
+		return $this->events;
+	}
+	
+	/**
+	 * @param  $events 
+	 * @return self
+	 */
+	public function setEvents(?string $events): self {
+		$this->events = $events;
 		return $this;
 	}
 }

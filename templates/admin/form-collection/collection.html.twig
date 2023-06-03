@@ -1,0 +1,42 @@
+<fieldset class="mb-3">
+    <legend class="col-form-label">{{ title|capitalize }}</legend>
+    <ul class="{{ collectionHolderClass }} collection"
+        data-index="{{ items|length > 0 ? items|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(items.vars.prototype)|e('html_attr') }}"
+    >
+        {% for item in items %}
+        <li>
+            <div>
+                <div class="mb-3">
+
+                        {% if subItems %}
+                            {% for rowSubItem in rowSubItems %}
+                            {{ form_row(item[rowSubItem]) }}
+                            {% endfor %}
+                            {% include 'admin/form-collection/collection.html.twig' with {
+                                'title': subItemsTitle, 
+                                'items': item[subItems],
+                                'collectionHolderClass': subItemsCollectionHolderClass,
+                                'subItems': null,
+                            } %}
+                        {% else %}
+                            {{ form_row(item) }}
+                        {% endif %}
+                    
+                        {% if item.vars.data.image|default and (item.vars.data.image.image|default or item.vars.data.image.absolutePath|default) %}
+                        {% if item.vars.data.image.absolutePath %}
+                        <img class="img-thumbnail" style="max-height: 200px;" src="{{ item.vars.data.image.absolutePath }}">
+                        {% else %}
+                        <img class="img-thumbnail" style="max-height: 200px;" src="{{ imagesPath }}/{{ item.vars.data.image.image }}">
+                        {% endif %}
+                        {% endif %}
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% if items|length == 0 %}
+    <div class="d-none">{{ form_row(items) }}</div>
+    {% endif %}
+    <button type="button" class="add_item_link btn btn-outline-primary btn" data-collection-holder-class="{{ collectionHolderClass }}">+ Add a {{ title|lower }}</button>
+</fieldset>

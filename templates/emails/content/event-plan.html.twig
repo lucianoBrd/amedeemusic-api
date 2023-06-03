@@ -1,0 +1,157 @@
+{% extends "emails/base.html.twig" %}
+{% block content %}
+<!-- Section : Speakers -->
+{% if content.speakers|length > 0 %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 pb-sm-30" width="400" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;border-bottom-right-radius: 6px; border-bottom-left-radius: 6px;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              {% if content.sectionSpeakerTitle %}
+              <tr>
+                <td colspan="3" class="col">
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 15px;">
+                    {{ content.sectionSpeakerTitle }}
+                  </h3>
+                </h1>
+                <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                </td>
+              </tr>
+              {% endif %}
+              {% set speakersGroupedBy3 = mailContentService.getGroupedBy(content.speakers, 3) %}
+              {% for speakersGrouped in speakersGroupedBy3 %}
+              <tr>
+                <!-- Speaker 1 -->
+                {% for speaker in speakersGrouped %}
+                <td class="col col-sm-6  pr-sm-10 pb-sm-20" width="117" style="{% if loop.first %}padding-right: 12px;{% elseif loop.last %}padding-left: 12px;{% else %}padding:0 12px;{% endif %}" align="center">
+                  {% if speaker.image and (speaker.image.image or speaker.image.absolutePath) %}
+                  <a href="{{ speaker.link ? speaker.link : '#' }}" style="text-decoration: none;">
+                    {% include 'emails/content/shared/image.html.twig' with {'image': speaker.image, 'style': 'width: 118px; max-width: 100%;'} %}
+                  </a>
+                  {% endif %}
+                  {% if speaker.title %}
+                  <div class="spacer py-sm-10" style="line-height: 15px;">‌</div>
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 14px;line-height: 18px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
+                    {{ speaker.title }}
+                  </h3>
+                  {% endif %}
+                  {% if speaker.paragraph %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 14px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                    {{ speaker.paragraph }}
+                  </p>
+                  {% endif %}
+                  {% if not loop.last %}
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                  {% endif %}
+                </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : Speakers -->
+
+
+<!-- Section : Schedule -->
+{% if content.schedules|length > 0 or content.scheduleParagraph or content.firstScheduleButton or content.secondScheduleButton %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 py-sm-20" width="400" align="left"Book Now bgcolor="#FFFFFF" style="padding:15px 50px ;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              {% if content.sectionScheduleTitle %}
+              <tr>
+                <td class="col">
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 15px;">
+                    {{ content.sectionScheduleTitle }}
+                  </h3>
+                </h1>
+                <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                </td>
+              </tr>
+              {% endif %}
+              {% if content.schedules|length > 0 %}
+              <tr>
+                <td class="col" width="380" style="padding-left: 20px; border-left: 2px solid #D4D4D4;" width="100%">
+                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                    <tr>
+                      <td class="col" style="padding-bottom: 10px; ">
+                        {% for schedule in content.schedules %}
+                        {% if schedule.hour %}
+                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 500; color:{{ schedule.color ? schedule.color : random(constant('App\\Entity\\MailContent\\EventPlan\\Color::COLORS')) }}; margin: 0; margin-bottom: 0px ;">
+                          {{ schedule.hour }}
+                        </p>
+                        {% endif %}
+                        {% for paragraph in schedule.paragraphs %}
+                        <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 16px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 5px ;">
+                          {{ paragraph }}
+                        </p>
+                        {% endfor %}
+                        {% if not loop.last %}
+                        <div class="spacer py-sm-10" style="line-height: 10px;">‌</div>
+                        {% endif %}
+                        {% endfor %}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              {% endif %}
+              {% if content.scheduleParagraph or content.firstScheduleButton or content.secondScheduleButton %}
+              <tr>
+                <td class="col">
+                {% if content.scheduleParagraph %}
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-style: italic;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 5px ;">
+                    {{ content.scheduleParagraph }}
+                  </p>
+                {% endif %}
+                {% if content.firstScheduleButton or content.secondScheduleButton %}
+                <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                <table>
+                  <tr>
+                    {% if content.firstScheduleButton %}
+                    <td class="col pb-sm-10 pr-sm-0" width="190" style="padding-right: 10px;">
+                      {% include 'emails/content/shared/button.html.twig' with {'button': content.firstScheduleButton, 'color': constant('App\\Entity\\MailContent\\EventPlan\\Color::COLOR'), 'size': 'md', 'spacer': false} %}
+                    </td>
+                    {% endif %}
+                    {% if content.secondScheduleButton %}
+                    <td class="col pl-sm-0" width="190" style="padding-left: 10px;">
+                      {% include 'emails/content/shared/button.html.twig' with {'button': content.secondScheduleButton, 'color': constant('App\\Entity\\MailContent\\EventPlan\\Color::COLOR'), 'size': 'md', 'spacer': false} %}
+                    </td>
+                    {% endif %}
+                  </tr>
+                </table>
+                {% endif %}
+                </td>
+              </tr>
+              {% endif %}
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : Schedule-->
+{% endblock %}

@@ -1,0 +1,58 @@
+  <!-- Section : Footer -->
+  <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+    <tr>
+      <td align="center" bgcolor="#F5F5F5">
+        <!-- 500px Box -->
+        <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+          <tr>
+            <td class="col px-sm-30 py-sm-30" align="left" style="padding:30px 50px;">
+              <!-- Content -->
+              <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                <tr>
+                  <td class="col" width="400"" align="left">
+                    <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+                      <tr>
+                        <td class="" width="17"  style="padding-right: 10px;">
+                          <a target="_blank" href="https://www.facebook.com/people/Am%C3%A9d%C3%A9e/100067543488097/"  style="text-decoration: none;padding-right: 10px;">
+                            <img src="{{ htmlView ? asset(imagesPath ~ '/facebook.png') : email.image('@images/facebook.png') }}" alt="facebook" style="width: 17px;">
+                          </a>
+                          <a target="_blank" href="https://www.instagram.com/amedee.art/"  style="text-decoration: none;padding:0 10px;">
+                            <img src="{{ htmlView ? asset(imagesPath ~ '/instagram.png') : email.image('@images/instagram.png') }}" alt="instagram" style="width: 17px;">
+                          </a>
+                          <a target="_blank" href="https://www.tiktok.com/@amedee.art"  style="text-decoration: none;padding-left: 10px;">
+                            <img src="{{ htmlView ? asset(imagesPath ~ '/tiktok.png') : email.image('@images/tiktok.png') }}" alt="tiktok" style="width: 17px;">
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                    {% if unsubscribePath %}
+                    <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                    <p style="font-family: 'Karla', Arial, sans-serif;font-size: 13px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                        {{ language.unsubscribeText }}
+                    </p>
+                    <a href='{{ unsubscribePath }}' style="font-family: 'Karla', Arial, sans-serif;font-size: 13px;line-height: 22px;font-weight: 600; color:#292929; margin: 0; margin-bottom: 0px; text-decoration: none;">
+                        {{ language.unsubscribe }}
+                    </a>
+                    <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                    <div style="background: #d0d8de; height: 1px; line-height: 1px;">‌</div>
+                    <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                    {% endif %}
+                    <a target="_blank" href='{{ client_path }}' style=" text-decoration: none;">
+                      <img src="{{ htmlView ? asset(imagesPath ~ '/logo.png') : email.image('@images/logo.png') }}" alt="logo Footer" style="width: 80px;">
+                    </a>
+                    <div class="spacer py-sm-10" style="line-height: 10px;">‌</div>
+                    <p style="font-family: 'Karla', Arial, sans-serif;font-size: 13px;line-height: 22px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                        Copyright &copy;{{ "now"|date("Y") }} <span style="color: #292929; font-weight: 600;">{{ app_name }}</span>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+              <!-- end Content -->
+            </td>
+          </tr>
+        </table>
+        <!-- end 500px box -->       
+      </td>
+    </tr>
+  </table>
+  <!-- end Section : Footer -->

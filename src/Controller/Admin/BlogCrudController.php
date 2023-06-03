@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Blog;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -18,6 +20,13 @@ class BlogCrudController extends AbstractCrudController
     public function __construct(
         private ContainerBagInterface $params,
     ) {
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        ;
     }
     
     public static function getEntityFqcn(): string
@@ -65,6 +74,7 @@ class BlogCrudController extends AbstractCrudController
                 ],
             ])
             ->setColumns(12)
+            ->setTemplatePath('admin/field/html.html.twig')
         ;
         yield TextField::new('slug')->hideOnForm();
     }

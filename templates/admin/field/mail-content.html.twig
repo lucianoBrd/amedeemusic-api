@@ -1,0 +1,20 @@
+{% if field.value %}
+<a href="#" data-bs-toggle="modal" data-bs-target="#ea-text-editor-{{ field.uniqueId }}">
+    <i class="far fa-file-alt"></i> View content
+</a>
+
+<div class="modal fade" id="ea-text-editor-{{ field.uniqueId }}" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ field.label.message | capitalize }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe class="overflow-auto" frameborder="0" src="{{ path('mail_display_mail_content', {'mailContent': field.value.id} ) }}" style="width: 100%; height: 100vh;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

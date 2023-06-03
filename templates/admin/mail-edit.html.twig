@@ -1,0 +1,157 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block main %}
+{{ form_start(form) }}
+<section class="content-header">
+    <div class="content-header-title">
+        <h1 class="title">Edit Mail</h1>
+    </div>
+    <div class="page-actions">
+        {{ form_row(form.save) }}
+    </div>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {{ form_row(form.title) }}
+            {{ form_row(form.mailContentChoice) }}
+        </div>
+        <div class="{% if displayMail %}col-lg-6 col-sm-12{% else %}col-12{% endif %} overflow-auto" id="editMail">
+
+            {% if form.vars.data.mailContent|default %}
+            {{ form_row(form.mailContent.title) }}
+            {{ form_row(form.mailContent.titleBold) }}
+            {{ form_row(form.mailContent.color) }}
+
+            {% include 'admin/form-collection/collection.html.twig' with {
+                'title': 'Texts', 
+                'items': form.mailContent.texts,
+                'collectionHolderClass': 'texts',
+                'subItems': null,
+            } %}
+
+            {% set mailContentClass = getClass(form.mailContent.vars.data|default) %}
+            {% if mailContentClass == constant('App\\Entity\\Data::BLOG_ARTICLES') %}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'Articles', 
+                    'items': form.mailContent.articles,
+                    'collectionHolderClass': 'articles',
+                    'subItems': null,
+                } %}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::BOOK_SUGGESTION') %}
+                {{ form_row(form.mailContent.featuredTitle) }}
+                {{ form_row(form.mailContent.featuredAuthor) }}
+                {{ form_row(form.mailContent.featuredCategory) }}
+                {{ form_row(form.mailContent.sectionFeaturedTitle) }}
+                {{ form_row(form.mailContent.sectionBestTitle) }}
+                {{ form_row(form.mailContent.featuredButton) }}
+                {{ form_row(form.mailContent.featuredImage) }}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'Books', 
+                    'items': form.mailContent.books,
+                    'collectionHolderClass': 'books',
+                    'subItems': null,
+                } %}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::EVENT_PLAN') %}
+                {{ form_row(form.mailContent.sectionSpeakerTitle) }}
+                {{ form_row(form.mailContent.sectionScheduleTitle) }}
+                {{ form_row(form.mailContent.scheduleParagraph) }}
+                {{ form_row(form.mailContent.firstScheduleButton) }}
+                {{ form_row(form.mailContent.secondScheduleButton) }}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'Speakers', 
+                    'items': form.mailContent.speakers,
+                    'collectionHolderClass': 'speakers',
+                    'subItems': null,
+                } %}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'Schedules', 
+                    'items': form.mailContent.schedules,
+                    'collectionHolderClass': 'schedules',
+                    'subItemsTitle': 'Paragraphs',
+                    'subItems': 'paragraphs',
+                    'subItemsCollectionHolderClass': 'paragraphs',
+                    'rowSubItems': ['color', 'hour']
+                } %}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::EVENT_SUGGESTION') %}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'Events', 
+                    'items': form.mailContent.events,
+                    'collectionHolderClass': 'events',
+                    'subItems': null,
+                } %}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::FREE_GOODS') %}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'TwoColGoods', 
+                    'items': form.mailContent.twoColGoods,
+                    'collectionHolderClass': 'twoColGoods',
+                    'subItems': null,
+                } %}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'ThreeColGoods', 
+                    'items': form.mailContent.threeColGoods,
+                    'collectionHolderClass': 'threeColGoods',
+                    'subItems': null,
+                } %}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::JOB_BOARD') %}
+                {{ form_row(form.mailContent.button) }}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'Jobs', 
+                    'items': form.mailContent.jobs,
+                    'collectionHolderClass': 'jobs',
+                    'subItemsTitle': 'Infos',
+                    'subItems': 'infos',
+                    'subItemsCollectionHolderClass': 'infos',
+                    'rowSubItems': ['compagny', 'title', 'link', 'paragraph', 'image']
+                } %}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::MONTH_STATS') %}
+                {{ form_row(form.mailContent.button) }}
+                {% include 'admin/form-collection/collection.html.twig' with {
+                    'title': 'Stats', 
+                    'items': form.mailContent.stats,
+                    'collectionHolderClass': 'stats',
+                    'subItems': null,
+                } %}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::PLAYLIST_SUGGESTION') %}
+                {{ form_row(form.mailContent.playlistTitle) }}
+                {{ form_row(form.mailContent.playlistParagraph) }}
+                {{ form_row(form.mailContent.playlistButton) }}
+                {{ form_row(form.mailContent.playlistImage) }}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::PRICING_TABLE') %}
+                {{ form_row(form.mailContent.starterTitle) }}
+                {{ form_row(form.mailContent.advancedTitle) }}
+                {{ form_row(form.mailContent.starterSubTitle) }}
+                {{ form_row(form.mailContent.advancedSubTitle) }}
+                {{ form_row(form.mailContent.starterPrice) }}
+                {{ form_row(form.mailContent.advancedPrice) }}
+                {{ form_row(form.mailContent.starterDate) }}
+                {{ form_row(form.mailContent.advancedDate) }}
+                {{ form_row(form.mailContent.starterParagraph) }}
+                {{ form_row(form.mailContent.advancedParagraph) }}
+                {{ form_row(form.mailContent.starterButton) }}
+                {{ form_row(form.mailContent.advancedButton) }}
+            {% elseif mailContentClass == constant('App\\Entity\\Data::USER_WELCOMING') %}
+                {{ form_row(form.mailContent.lLabel) }}
+                {{ form_row(form.mailContent.rLabel) }}
+                {{ form_row(form.mailContent.lInfo) }}
+                {{ form_row(form.mailContent.rInfo) }}
+                {{ form_row(form.mailContent.button) }}
+            {% endif %}
+
+            {% endif %}
+
+        </div>
+        {% if displayMail %}
+        <div class="col-lg-6 col-sm-12">
+            <iframe frameborder="0" scrolling="no" src="{{ path('mail_display', {'mail': mail.id} ) }}" id="displayMail" style="width: 100%;"></iframe>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}
+{% block body_javascript %}
+{{ parent() }}
+<script type="text/javascript" src="/assets/js/collection.js"></script>
+<script type="text/javascript" src="/assets/js/iframe.js"></script>
+{% endblock body_javascript %}

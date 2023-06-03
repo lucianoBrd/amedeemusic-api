@@ -30,15 +30,19 @@ class User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
+    #[ORM\ManyToMany(targetEntity: Mail::class, mappedBy: 'recipients')]
+    private Collection $mails;
+
     public function __construct()
     {
         $this->subscribe = true;
         $this->messages = new ArrayCollection();
+        $this->mails = new ArrayCollection();
     }
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->mail;
     }
 
     public function getId(): ?int
@@ -127,6 +131,33 @@ class User
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mail>
+     */
+    public function getMails(): Collection
+    {
+        return $this->mails;
+    }
+
+    public function addMail(Mail $mail): self
+    {
+        if (!$this->mails->contains($mail)) {
+            $this->mails->add($mail);
+            $mail->addRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMail(Mail $mail): self
+    {
+        if ($this->mails->removeElement($mail)) {
+            $mail->removeRecipient($this);
+        }
 
         return $this;
     }

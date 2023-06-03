@@ -100,6 +100,11 @@ class Blog
         return $this->slug . ' - ' . $this->local->__toString();
     }
 
+    public function getPlainText(): ?string
+    {
+        return (substr(strip_tags($this->content), 0, 100) . '...');
+    }
+
     public function getId(): ?int
     {
         return $this->id;

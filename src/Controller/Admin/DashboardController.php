@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Blog;
+use App\Entity\Mail;
 use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\Event;
@@ -55,9 +56,13 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToUrl('Back to the website', 'fa-solid fa-window-maximize', $this->params->get('app.client.url'));
-        yield MenuItem::linkToUrl('Mail signature', 'fas fa-envelope-open-text', $this->params->get('assets_base_directory') . 'email/mail.html');
+
+        yield MenuItem::linkToDashboard('Home', 'fa-solid fa-home');
+
+        yield MenuItem::section('Mail');
+        yield MenuItem::linkToCrud('Mail sender', 'fas fa-envelope-open-text', Mail::class);
+        yield MenuItem::linkToUrl('Mail signature', 'fa-solid fa-envelope-circle-check', $this->params->get('assets_base_directory') . 'email/mail.html');
 
         yield MenuItem::section('Project');
         yield MenuItem::subMenu('Project', 'fa-solid fa-radio')->setSubItems([

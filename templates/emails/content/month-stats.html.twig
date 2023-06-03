@@ -1,0 +1,112 @@
+{% extends "emails/base.html.twig" %}
+{% block content %}
+<!-- Section : Stat -->
+{% if content.stats|length > 0 or content.button %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:0px 50px 30px 50px;">
+            <!-- Content -->
+            {% if content.stats|length > 0 %}
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              <tr>
+                <td class="col" width="400"" align="left">
+                  <table cellpadding="0" cellspacing="0" role="presentation" width="100%" bgcolor="#FAFAFA">
+                    <tr>
+                      <td class="col" width="360" style="padding:30px 20px">
+                        <!-- Stat -->
+                        {% for stat in content.stats %}
+                        <table cellpadding="0" cellspacing="0" role="presentation">
+                          {% if not loop.first %}
+                          <tr>
+                            <td class="spacer py-sm-10" height="20"></td>
+                          </tr>
+                          {% endif %}
+                          <tr>
+                            {% if stat.image and (stat.image.image or stat.image.absolutePath) %}
+                            <td class="col pb-sm-20" width="30">
+                              {% include 'emails/content/shared/image.html.twig' with {'image': stat.image, 'style': 'width: 25px; max-width: 25px;'} %}
+                            </td>
+                            {% endif %}
+                            {% if stat.title or stat.number or stat.subTitle or stat.paragraph or stat.evolution or stat.date %}
+                            <td class="col pl-sm-0" width="310" style="padding-left: 20px;">
+                              {% if stat.title or stat.number or stat.evolution or stat.date %}
+                              <table cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                  {% if stat.title or stat.number %}
+                                  <td class="col pb-sm-10" width="180">
+                                    {% if stat.title %}
+                                    <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#7E7E7E;margin: 0; margin-bottom: 10px;">
+                                      {{ stat.title }}
+                                    </h3>
+                                    {% endif %}
+                                    {% if stat.number %}
+                                    <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 0px;">
+                                      {{ stat.number }}
+                                    </h1>
+                                    {% endif %}
+                                  </td>
+                                  {% endif %}
+                                  {% if stat.evolution or stat.date %}
+                                  <td class="col text-sm-left" width="130" style="vertical-align: bottom;" align="right">
+                                    {% if stat.evolution %}
+                                    <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#292929; margin: 0; margin-bottom: 0px ; ">
+                                      {{ stat.evolution }}
+                                    </p>
+                                    {% endif %}
+                                    {% if stat.date %}
+                                    <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ; ">
+                                      {{ stat.date }}
+                                    </p>
+                                    {% endif %}
+                                  </td>
+                                  {% endif %}
+                                </tr>
+                              </table>
+                              {% endif %}
+                              {% if stat.subTitle or stat.paragraph %}
+                              <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                              {% if stat.subTitle %}
+                              <h3 class="sm-hero-text" style="font-family: 'karla', Helvetica, sans-serif ;font-size: 14px;line-height: 14px;font-weight: 600; color:#292929;margin: 0; margin-bottom: 5px;">
+                                {{ stat.subTitle }}
+                              </h3>
+                              {% endif %}
+                              {% if stat.paragraph %}
+                              <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 18px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                                {{ stat.paragraph }}
+                              </p>
+                              {% endif %}
+                              {% endif %}
+                              <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                              {% if not loop.last %}
+                              <div style="background: #E6E6E6; height: 1px; line-height: 1px;">‌</div>
+                              {% endif %}
+                            </td>
+                            {% endif %}
+                          </tr>
+                        </table>
+                        {% endfor %}
+                        <!-- end Stat -->
+                      </td>
+                    </tr>
+                  </table>
+                  {% endif %}
+                  
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.button, 'color': content.color, 'size': 'md', 'spacer': true} %}
+                </td>
+              </tr>
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : Stat -->
+{% endblock %}

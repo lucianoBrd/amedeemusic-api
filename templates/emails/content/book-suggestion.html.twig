@@ -1,0 +1,131 @@
+{% extends "emails/base.html.twig" %}
+{% block content %}
+<!-- Section : Featured Book -->
+{% if content.featuredAuthor or content.featuredCategory or content.featuredButton or content.featuredImage or content.sectionFeaturedTitle %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:0px 50px;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              {% if content.sectionFeaturedTitle %}
+              <tr>
+                <td {% if content.featuredImage and (content.featuredImage.image or content.featuredImage.absolutePath) %}colspan="2"{% endif %} class="col" width="100%">
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 0px;">
+                    {{ content.sectionFeaturedTitle }}
+                  </h3>
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                </td>
+              </tr>
+              {% endif %}
+              {% if content.featuredTitle or content.featuredAuthor or content.featuredCategory or content.featuredButton or content.featuredImage %}
+              <tr>
+                {% if content.featuredImage and (content.featuredImage.image or content.featuredImage.absolutePath) %}
+                <td class="col pb-sm-20" width="150">
+                  <a href="{{ content.featuredButton ? (content.featuredButton.link ? content.featuredButton.link : '#') : '#' }}" style="text-decoration: none;">
+                    {% include 'emails/content/shared/image.html.twig' with {'image': content.featuredImage, 'style': 'width: 150px; max-width: 100%;'} %}
+                  </a>
+                </td>
+                {% endif %}
+                {% if content.featuredTitle or content.featuredAuthor or content.featuredCategory or content.featuredButton %}
+                <td class="col pl-sm-0" width="220" style="padding-left: 30px; vertical-align: middle;" >
+                  {% if content.featuredCategory %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 12px;font-weight: 400; color:{{ content.color }}; margin: 0; margin-bottom: 5px ;">
+                    {{ content.featuredCategory }}
+                  </p>
+                  {% endif %}
+                  {% if content.featuredTitle %}
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 24px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 5px;">
+                    {{ content.featuredTitle }}
+                  </h3>
+                  {% endif %}
+                  {% if content.featuredAuthor %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 0px ;">
+                    {{ content.featuredAuthor }}
+                  </p>
+                  {% endif %}
+
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.featuredButton, 'color': content.color, 'size': 'md', 'spacer': true} %}
+                </td>
+                {% endif %}
+              </tr>
+              {% endif %}
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : Featured Book -->
+
+
+
+<!-- Section : best Selling Books -->
+{% set booksLength = content.books|length %}
+{% if booksLength > 0 %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:30px 50px;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              {% if content.sectionBestTitle %}
+              <tr>
+                <td colspan="{{ booksLength > 3 ? '3' : booksLength }}" class="col" width="100%">
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 400; color:#292929;margin: 0; margin-bottom: 0px;">
+                    {{ content.sectionBestTitle }}
+                  </h3>
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                </td>
+              </tr>
+              {% endif %}
+              {% if booksLength > 0 %}
+              {% set booksGroupedBy3 = mailContentService.getGroupedBy(content.books, 3) %}
+              {% for booksGrouped in booksGroupedBy3 %}
+              <tr>
+                <!-- Book 1 -->
+                {% for book in booksGrouped %}
+                <td class="col col-sm-6  pr-sm-10 pb-sm-20" width="117" style="{% if loop.first %}padding-right: 12px;{% elseif loop.last %}padding-left: 12px;{% else %}padding:0 12px;{% endif %}" align="left">
+                  {% if book.image and (book.image.image or book.image.absolutePath) %}
+                  <a href="{{ book.button ? (book.button.link ? book.button.link : '#') : '#' }}" style="text-decoration: none;">
+                    {% include 'emails/content/shared/image.html.twig' with {'image': book.image, 'style': 'width: 118px; max-width: 100%;'} %}
+                  </a>
+                  {% endif %}
+                  {% if book.title %}
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                  <h3 style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 12px;line-height: 16px;font-weight: 500; color:#686868;margin: 0; margin-bottom: 5px;">
+                    {{ book.title }}
+                  </h3>
+                  {% endif %}
+                  {% if book.button %}
+                  <a href="{{ book.button.link ? book.button.link : '#' }}" style="font-family: 'Karla', Arial, sans-serif;font-size: 12px;line-height: 12px;font-weight: 400; color:{{ book.button.color ? book.button.color : content.color }}; margin: 0; margin-bottom: 5px ;text-decoration: none;">
+                    {{ book.button.name ? book.button.name : '' }}
+                  </a>
+                  {% endif %}
+                </td>
+              {% endfor %}
+              </tr>
+              {% endfor %}
+              {% endif %}
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : best Selling Books -->
+{% endblock %}

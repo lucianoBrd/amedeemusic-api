@@ -1,0 +1,87 @@
+{% extends "emails/base.html.twig" %}
+{% block content %}
+<!-- Section : Pricing Table -->
+{% if content.starterTitle or content.starterSubTitle or content.starterPrice or content.starterParagraph or content.starterButton or content.starterDate or content.advancedTitle or content.advancedSubTitle or content.advancedPrice or content.advancedParagraph or content.advancedButton or content.advancedDate %}
+<table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td align="center" bgcolor="#F5F5F5">
+      <!-- 500px Box -->
+      <table class="container" cellpadding="0" cellspacing="0" role="presentation" width="500">
+        <tr>
+          <td class="col px-sm-30 py-sm-30" align="left" bgcolor="#FFFFFF" style="padding:00px 0px;">
+            <!-- Content -->
+            <table cellpadding="0" cellspacing="0" role="presentation" width="100%" >
+              <tr>
+                <!-- First Plan -->
+                {% if content.starterTitle or content.starterSubTitle or content.starterPrice or content.starterParagraph or content.starterButton or content.starterDate %}
+                <td class="col px-sm-30" width="150" style="padding:30px 20px 30px 50px; border-top:3px solid #A1C9FB">
+                  {% if content.starterTitle %}
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 500; color:#A1C9FB;margin: 0; margin-bottom: 5px;">
+                    {{ content.starterTitle }}
+                  </h3>
+                  {% endif %}
+                  {% if content.starterSubTitle %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 15px ;">
+                    {{ content.starterSubTitle }}
+                  </p>
+                  {% endif %}
+                  {% if content.starterPrice or content.starterDate %}
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 0px;">
+                    {{ content.starterPrice ? content.starterPrice : '' }} {% if content.starterDate %}<span style="font-size: 20px;line-height: 20px; color:#7E7E7E;">{{ content.starterDate }}</span>{% endif %}
+                  </h1>
+                  {% endif %}
+
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.starterButton, 'color': constant('App\\Entity\\MailContent\\PricingTable\\Color::STARTER_COLOR'), 'size': 'md', 'spacer': true} %}
+
+                  {% if content.starterParagraph %}
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 15px ;">
+                    {{ content.starterParagraph }}
+                  </p>
+                  {% endif %}
+                </td>
+                {% endif %}
+                <!-- Second Plan -->
+                {% if content.advancedTitle or content.advancedSubTitle or content.advancedPrice or content.advancedParagraph or content.advancedButton or content.advancedDate %}
+                <td class="col px-sm-30" width="150" style="padding:30px 50px 30px 30px; border-top:3px solid #006CF5" bgcolor="#F9F9F9">
+                  {% if content.advancedTitle %}
+                  <h3 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 18px;line-height: 18px;font-weight: 500; color:#006CF5;margin: 0; margin-bottom: 5px;">
+                    {{ content.advancedTitle }}
+                  </h3>
+                  {% endif %}
+                  {% if content.advancedSubTitle %}
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 15px ;">
+                    {{ content.advancedSubTitle }}
+                  </p>
+                  {% endif %}
+                  {% if content.advancedPrice or content.advancedDate %}
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                  <h1 class="sm-hero-text" style="font-family: 'Quicksand', Helvetica, sans-serif ;font-size: 44px;line-height: 44px;font-weight: 500; color:#292929;margin: 0; margin-bottom: 0px;">
+                    {{ content.advancedPrice ? content.advancedPrice : '' }} {% if content.advancedDate %}<span style="font-size: 20px;line-height: 20px; color:#7E7E7E;">{{ content.advancedDate }}</span>{% endif %}
+                  </h1>
+                  {% endif %}
+
+                  {% include 'emails/content/shared/button.html.twig' with {'button': content.advancedButton, 'color': content.color, 'size': 'md', 'spacer': true} %}
+
+                  {% if content.advancedParagraph %}
+                  <div class="spacer py-sm-10" style="line-height: 20px;">‌</div>
+                  <p style="font-family: 'Karla', Arial, sans-serif;font-size: 14px;line-height: 21px;font-weight: 400; color:#7E7E7E; margin: 0; margin-bottom: 15px ;">
+                    {{ content.advancedParagraph }}
+                  </p>
+                  {% endif %}
+                </td>
+                {% endif %}
+              </tr>
+            </table>
+            <!-- end Content -->
+          </td>
+        </tr>
+      </table>
+      <!-- end 500px box -->       
+    </td>
+  </tr>
+</table>
+{% endif %}
+<!-- end Section : Pricing Table -->
+{% endblock %}

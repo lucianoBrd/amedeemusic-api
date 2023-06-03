@@ -2,11 +2,14 @@
 
 namespace App\Service;
 
+use App\Entity\Mail;
 use App\Entity\User;
+use App\Service\UserService;
 use App\Service\LocalGenerator;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Entity\MailContent\MailContentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -18,8 +21,18 @@ class MailService
         private MailerInterface $mailer,
         private ContainerBagInterface $params,
         private UrlGeneratorInterface $router,
+        private UserService $userService,
     )
     {
+    }
+
+    public function addRecipientsToMail(Mail $mail): Mail {
+        $users = $this->userService->getAllSubscribeUser();
+        
+        foreach ($users as $user) {
+            $mail->addRecipient($user);
+        }
+        return $mail;
     }
 
     public function sendMessages(array $messages): bool {
@@ -28,7 +41,8 @@ class MailService
             $error = $error || $this->sendMessage(
                 $message['to'],
                 $message['title'],
-                $message['context']
+                $message['context'],
+                $message['template']
             );
         }
         return $error;
@@ -37,7 +51,8 @@ class MailService
     public function sendMessage(
         string $to,
         string $title,
-        array $context
+        array $context,
+        string $template = 'emails/base.html.twig'
     ): bool 
     {
         $error = true;
@@ -46,7 +61,7 @@ class MailService
             ->from(Address::create($this->params->get('artist_name') . ' <' . $this->params->get('mailer_email') . '>'))
             ->to($to)
             ->subject($title)
-            ->htmlTemplate('emails/base.html.twig')
+            ->htmlTemplate($template)
             ->context($context)
         ;
         try {
@@ -62,13 +77,9 @@ class MailService
         string $title,
         string $local,
         string $banner,
-        string $name,
-        array $paragraphs,
-        ?string $buttonPath = null,
-        ?string $buttonAbsolutePath = null,
-        ?string $buttonName = null,
+        MailContentInterface $content,
         ?User $user = null,
-        ?bool $debug = false
+        ?bool $htmlView = false
     ): array
     {
         $language = $this->localGenerator->getLanguageByLocal($local);
@@ -82,15 +93,10 @@ class MailService
             'local' => $local,
             'title' => $title,
             'banner' => $banner,
-            'h1' => $name,
-            'h3' => $title,
-            'paragraphs' => $paragraphs,
-            'buttonPath' => $buttonPath,
-            'buttonAbsolutePath' => $buttonAbsolutePath,
-            'buttonName' => $buttonName,
+            'content' => $content,
             'language' => $language,
             'unsubscribePath' => $unsubscribePath,
-            'debug' => $debug,
+            'htmlView' => $htmlView,
         ];
     }
 }

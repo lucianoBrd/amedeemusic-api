@@ -46,6 +46,18 @@ class LocalGenerator
                 ->setErrorHelp('Si le problème persiste, n\'hésitez pas à me contacter.')
                 ->setErrorHelp('Si le problème persiste, n\'hésitez pas à me contacter.')
                 ->setSubscribeError('Impossible d\'effectuer l\'abonnement')
+                ->setUnsubscribeText('Vous recevez ce courriel parce que vous êtes abonné à la Newsletter d\'Amédée')
+                ->setBy('par')
+                ->setRespond('Répondre')
+                ->setMessageFrom('Message de')
+                ->setLatestNovelty('Dernière Nouveauté')
+                ->setComeListenTo('Hey, venez écouter ma')
+                ->setListen('Écouter')
+                ->setLatestPosts('Derniers Articles')
+                ->setComeRead('Hey, venez lire mes')
+                ->setAccess('Accéder')
+                ->setEvents('D\'évènements')
+                ->setComeSeeMeAt('Hey, venez me voir lors')
             ;
         } else {
             $language
@@ -64,6 +76,18 @@ class LocalGenerator
                 ->setUnsubscribeError('Unable to unsubscribe')
                 ->setErrorHelp('If the problem persists, please contact me.')
                 ->setSubscribeError('Unable to subscribe')
+                ->setUnsubscribeText('You\'re receiving this email because you are subscribed to The Newsletter from Amédée')
+                ->setBy('by')
+                ->setRespond('Respond')
+                ->setMessageFrom('Message from')
+                ->setLatestNovelty('Latest Novelty')
+                ->setComeListenTo('Hey, come listen to my')
+                ->setListen('Listen')
+                ->setLatestPosts('Latest Posts')
+                ->setComeRead('Hey, come read my')
+                ->setAccess('Access')
+                ->setEvents('Events')
+                ->setComeSeeMeAt('Hey, come see me at')
             ;
         }
         return $language;
