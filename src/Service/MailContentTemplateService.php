@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Service;
+use App\Entity\Locals;
+use App\Entity\Project;
+use App\Entity\Language;
+use App\Service\LocalGenerator;
 use App\Entity\MailContent\JobBoard;
 use App\Entity\MailContent\EventPlan;
 use App\Entity\MailContent\FreeGoods;
@@ -10,6 +14,7 @@ use App\Entity\MailContent\BlogArticles;
 use App\Entity\MailContent\JobBoard\Job;
 use App\Entity\MailContent\PricingTable;
 use App\Entity\MailContent\Shared\Image;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\MailContent\JobBoard\Info;
 use App\Entity\MailContent\Shared\Button;
 use App\Entity\MailContent\UserWelcoming;
@@ -27,12 +32,19 @@ use App\Entity\MailContent\EventPlan\Color as EventPlanColor;
 use App\Entity\MailContent\BlogArticles\Color as BlogArticlesColor;
 use App\Entity\MailContent\PricingTable\Color as PricingTableColor;
 use App\Entity\MailContent\EventSuggestion\Color as EventSuggestionColor;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class MailContentTemplateService
 {
+    private Language $language;
+
     public function __construct(
+        private EntityManagerInterface $manager,
+        private LocalGenerator $localGenerator, 
+        private ContainerBagInterface $params,
     )
     {
+        $this->language = $this->localGenerator->getLanguageByLocal(Locals::FR);
     }
 
     public function getBlogArticles(): BlogArticles {
@@ -464,25 +476,53 @@ class MailContentTemplateService
     }
 
     public function getPlaylistSuggestion(): PlaylistSuggestion {
-        $mailContent = new PlaylistSuggestion();
-        $mailContent
-            ->setTitle('Hey, This is your Weekly')
-            ->setTitleBold('Playlist Suggestion')
-            ->setPlaylistTitle('Happy Friday Commute')
-            ->setPlaylistParagraph('Almost through the Week, Enjoy your last commute')
-        ;
-        $button = new Button();
-        $button
-            ->setColor($mailContent->getColor())
-            ->setLink('#')
-            ->setName('Play Now')
-        ;
-        $mailContent->setPlaylistButton($button);
-        $image = new Image();
-        $image
-            ->setAbsolutePath('https://dummyimage.com/240x240/D6DAE3/000')
-        ;
-        $mailContent->setPlaylistImage($image);
+        $repository = $this->manager->getRepository(Project::class);
+
+        $projects = $repository->findBy([], ['date' => 'DESC'], 1);
+
+        if (count($projects) > 0) {
+            $project = $projects[0];
+
+            $mailContent = new PlaylistSuggestion();
+            $mailContent
+                ->setTitle($this->language->getComeListenTo())
+                ->setTitleBold($this->language->getLatestNovelty())
+                ->setPlaylistTitle($project->getName())
+                ->setPlaylistParagraph($project->getType()->getName() . ' • ' . $project->getDate()->format('d/m/Y'))
+            ;
+            $button = new Button();
+            $button
+                ->setColor($mailContent->getColor())
+                ->setLink($this->params->get('app.client.url') . '/page/project/' . $project->getId())
+                ->setName($this->language->getListen())
+            ;
+            $mailContent->setPlaylistButton($button);
+            $image = new Image();
+            $image
+                ->setAbsolutePath($this->params->get('app.url') . '/' . $this->params->get('images_base_directory') . 'project/' . $project->getImage())
+            ;
+            $mailContent->setPlaylistImage($image);
+        } else {
+            $mailContent = new PlaylistSuggestion();
+            $mailContent
+                ->setTitle('Hey, This is your Weekly')
+                ->setTitleBold('Playlist Suggestion')
+                ->setPlaylistTitle('Happy Friday Commute')
+                ->setPlaylistParagraph('Almost through the Week, Enjoy your last commute')
+            ;
+            $button = new Button();
+            $button
+                ->setColor($mailContent->getColor())
+                ->setLink('#')
+                ->setName('Play Now')
+            ;
+            $mailContent->setPlaylistButton($button);
+            $image = new Image();
+            $image
+                ->setAbsolutePath('https://dummyimage.com/240x240/D6DAE3/000')
+            ;
+            $mailContent->setPlaylistImage($image);
+        }
         
         return $mailContent;
     }

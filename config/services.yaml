@@ -19,8 +19,8 @@ parameters:
 
     secret_salt: '%env(APP_SECRET)%'
 
-    app.client.url: 'https://amedeemusic.com'
-    app.url: 'https://api.amedeemusic.com'
+    app.client.url: '%env(APP_CLIENT_URL)%'
+    app.url: '%env(APP_URL)%'
     app.name: 'AmédéeMusic'
 
     mail_debug: 'lucien.burdet@gmail.com'

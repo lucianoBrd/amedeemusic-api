@@ -50,6 +50,9 @@ class LocalGenerator
                 ->setBy('par')
                 ->setRespond('Répondre')
                 ->setMessageFrom('Message de')
+                ->setLatestNovelty('Dernière Nouveauté')
+                ->setComeListenTo('Hey, venez écouter ma')
+                ->setListen('Écouter')
             ;
         } else {
             $language
@@ -72,6 +75,9 @@ class LocalGenerator
                 ->setBy('by')
                 ->setRespond('Respond')
                 ->setMessageFrom('Message from')
+                ->setLatestNovelty('Latest Novelty')
+                ->setComeListenTo('Hey, come listen to my')
+                ->setListen('Listen')
             ;
         }
         return $language;
