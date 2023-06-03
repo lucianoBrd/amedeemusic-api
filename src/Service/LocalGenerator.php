@@ -55,6 +55,9 @@ class LocalGenerator
                 ->setListen('Écouter')
                 ->setLatestPosts('Derniers Articles')
                 ->setComeRead('Hey, venez lire mes')
+                ->setAccess('Accéder')
+                ->setEvents('D\'évènements')
+                ->setComeSeeMeAt('Hey, venez me voir lors')
             ;
         } else {
             $language
@@ -82,6 +85,9 @@ class LocalGenerator
                 ->setListen('Listen')
                 ->setLatestPosts('Latest Posts')
                 ->setComeRead('Hey, come read my')
+                ->setAccess('Access')
+                ->setEvents('Events')
+                ->setComeSeeMeAt('Hey, come see me at')
             ;
         }
         return $language;

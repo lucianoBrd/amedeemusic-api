@@ -40,7 +40,7 @@ class FreeGoods extends MailContent implements MailContentInterface
     {
         if (!$this->twoColGoods->contains($twoColGood)) {
             $this->twoColGoods->add($twoColGood);
-            $twoColGood->setFreeGoods($this);
+            $twoColGood->setTwoColFreeGoods($this);
         }
 
         return $this;
@@ -50,8 +50,8 @@ class FreeGoods extends MailContent implements MailContentInterface
     {
         if ($this->twoColGoods->removeElement($twoColGood)) {
             // set the owning side to null (unless already changed)
-            if ($twoColGood->getFreeGoods() === $this) {
-                $twoColGood->setFreeGoods(null);
+            if ($twoColGood->getTwoColFreeGoods() === $this) {
+                $twoColGood->setTwoColFreeGoods(null);
             }
         }
 
@@ -70,7 +70,7 @@ class FreeGoods extends MailContent implements MailContentInterface
     {
         if (!$this->threeColGoods->contains($threeColGood)) {
             $this->threeColGoods->add($threeColGood);
-            $threeColGood->setFreeGoods($this);
+            $threeColGood->setThreeColFreeGoods($this);
         }
 
         return $this;
@@ -80,8 +80,8 @@ class FreeGoods extends MailContent implements MailContentInterface
     {
         if ($this->threeColGoods->removeElement($threeColGood)) {
             // set the owning side to null (unless already changed)
-            if ($threeColGood->getFreeGoods() === $this) {
-                $threeColGood->setFreeGoods(null);
+            if ($threeColGood->getThreeColFreeGoods() === $this) {
+                $threeColGood->setThreeColFreeGoods(null);
             }
         }
 

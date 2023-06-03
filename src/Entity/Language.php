@@ -29,6 +29,9 @@ class Language
     private ?string $listen = null;
     private ?string $latestPosts = null;
     private ?string $comeRead = null;
+    private ?string $access = null;
+    private ?string $events = null;
+    private ?string $comeSeeMeAt = null;
 
     public function getUnsubscribe(): ?string
     {
@@ -407,6 +410,54 @@ class Language
 	 */
 	public function setLatestPosts(?string $latestPosts): self {
 		$this->latestPosts = $latestPosts;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getAccess(): ?string {
+		return $this->access;
+	}
+	
+	/**
+	 * @param  $access 
+	 * @return self
+	 */
+	public function setAccess(?string $access): self {
+		$this->access = $access;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getComeSeeMeAt(): ?string {
+		return $this->comeSeeMeAt;
+	}
+	
+	/**
+	 * @param  $comeSeeMeAt 
+	 * @return self
+	 */
+	public function setComeSeeMeAt(?string $comeSeeMeAt): self {
+		$this->comeSeeMeAt = $comeSeeMeAt;
+		return $this;
+	}
+
+	/**
+	 * @return 
+	 */
+	public function getEvents(): ?string {
+		return $this->events;
+	}
+	
+	/**
+	 * @param  $events 
+	 * @return self
+	 */
+	public function setEvents(?string $events): self {
+		$this->events = $events;
 		return $this;
 	}
 }
