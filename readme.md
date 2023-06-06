@@ -41,6 +41,7 @@ touch .env.local
 nano .env.local
     APP_ENV=prod
     APP_SECRET=1cb2df40a8863fc2b3f538ca9ca88ee2
+    #MAILER_DSN=gmail://USERNAME:PASSWORD@default
     MAILER_DSN=gmail://USERNAME:PASSWORD@default
     RECAPTCHA_PRIVATE_KEY='6LfeQhwmAAAAAGr3-kAmtNJioxzF4GHdxrpiajJY'
     DATABASE_URL=mysql://amedeeapi:@amedeenapi.mysql.db:3306/amedeeapi?serverVersion=5.7

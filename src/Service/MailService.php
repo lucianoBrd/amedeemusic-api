@@ -58,7 +58,7 @@ class MailService
         $error = true;
 
         $message = (new TemplatedEmail())
-            ->from(Address::create($this->params->get('artist_name') . ' <' . $this->params->get('mailer_email') . '>'))
+            ->from(Address::create($this->params->get('artist_name') . ' <' . $this->params->get('mailer_email_from') . '>'))
             ->to($to)
             ->subject($title)
             ->htmlTemplate($template)
