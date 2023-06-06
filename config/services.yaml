@@ -15,6 +15,7 @@ parameters:
 
     artist_name: 'Amédée'
     mailer_email: '%env(MAILER_EMAIL)%'
+    mailer_email_from: '%env(MAILER_EMAIL_FROM)%'
     recaptcha_private_key: '%env(RECAPTCHA_PRIVATE_KEY)%'
 
     secret_salt: '%env(APP_SECRET)%'
