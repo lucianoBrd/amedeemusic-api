@@ -11,6 +11,7 @@ twig:
         app_name: '%app.name%'
         assets_base_directory: '%assets_base_directory%'
         mailContentService: '@app.mailcontent.service'
+        fileService: '@App\Service\FileService'
 
     paths:
         '%kernel.project_dir%/public/assets/email/images': images
