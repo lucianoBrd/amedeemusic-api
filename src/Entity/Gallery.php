@@ -28,6 +28,7 @@ use App\Controller\Api\GetLastsGalleryController;
 )]
 class Gallery
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -35,6 +36,15 @@ class Gallery
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $extension = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $type = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $mimeType = null;
 
     public function getId(): ?int
     {
@@ -49,6 +59,42 @@ class Gallery
     public function setImage(string $image): self
     {
         $this->image = $image;
+        
+        return $this;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(string $extension): self
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(string $mimeType): self
+    {
+        $this->mimeType = $mimeType;
 
         return $this;
     }

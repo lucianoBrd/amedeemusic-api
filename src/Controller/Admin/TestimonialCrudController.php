@@ -9,12 +9,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class TestimonialCrudController extends AbstractCrudController
 {
+    public function __construct(
+        private ContainerBagInterface $params,
+    ) {
+    }
+    
     public static function getEntityFqcn(): string
     {
         return Testimonial::class;
@@ -72,6 +79,13 @@ class TestimonialCrudController extends AbstractCrudController
                     'maxlength' => 255
                 ]
             ])
+        ;
+        yield ImageField::new('image')
+            ->setBasePath($this->params->get('images_base_directory') . 'testimonial/')
+            ->setUploadDir($this->params->get('images_directory') . 'testimonial/')
+            ->setUploadedFileNamePattern('[year]-[month]-[day]-[slug]-[randomhash].[extension]')
+            ->setColumns(12)
+            ->setRequired(false)
         ;
     }
 }

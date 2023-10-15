@@ -29,7 +29,6 @@ class GalleryCrudController extends AbstractCrudController
         return Gallery::class;
     }
 
-    
     public function configureFields(string $pageName): iterable
     {
         yield ImageField::new('image')
@@ -40,6 +39,7 @@ class GalleryCrudController extends AbstractCrudController
             ->setHelp('Recommended 384x309')
             ->setRequired($pageName !== Crud::PAGE_EDIT)
             ->setFormTypeOptions($pageName == Crud::PAGE_EDIT ? ['allow_delete' => false] : [])
+            ->setTemplatePath('admin/field/file.html.twig')
         ;
 
     }
