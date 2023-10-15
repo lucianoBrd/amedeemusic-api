@@ -43,6 +43,9 @@ class Gallery
     #[ORM\Column(length: 50)]
     private ?string $type = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $mimeType = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +83,18 @@ class Gallery
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(string $mimeType): self
+    {
+        $this->mimeType = $mimeType;
 
         return $this;
     }

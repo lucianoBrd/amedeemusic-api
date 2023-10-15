@@ -61,6 +61,9 @@ class EasyAdminGallerySubscriber implements EventSubscriberInterface
         // Set extension
         $entity->setExtension($this->fileService->getExtension($image));
 
+        // Set mime type
+        $entity->setMimeType($this->fileService->getMimeType($image));
+
         // Set type
         $entity->setType($this->fileService->getType($image));
     }
