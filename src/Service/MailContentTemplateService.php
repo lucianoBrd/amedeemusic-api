@@ -645,7 +645,7 @@ class MailContentTemplateService
     }
 
     public function getEventSuggestion(): EventSuggestion {
-        $events = $this->manager->getRepository(AppEvent::class)->findBy([], ['date' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE);
+        $events = $this->manager->getRepository(AppEvent::class)->findEventsToCome();
 
         if (count($events) > 0) {
             $mailContent = new EventSuggestion();
