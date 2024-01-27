@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use DateTime;
 use App\Entity\Data;
 use App\Entity\Event;
 use App\Service\SearchService;
@@ -97,13 +98,19 @@ class EventRepository extends ServiceEntityRepository
         return $paginator;
     }
 
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @return Event[] Returns an array of Event objects
+     */
+    public function findEventsToCome(): array
+    {
+        $currentDate = new DateTime();
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.date > :currentDate')
+            ->setParameter('currentDate', $currentDate->format('Y-m-d'))
+            ->orderBy('e.date', 'DESC')
+            ->setMaxResults(Data::PAGINATION_ITEMS_PER_PAGE)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
