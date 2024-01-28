@@ -41,6 +41,7 @@ class ProjectCrudController extends AbstractCrudController
             ->add('date')
             ->add('titles')
             ->add('projectPlatforms')
+            ->add('slug')
         ;
     }
 
@@ -67,5 +68,6 @@ class ProjectCrudController extends AbstractCrudController
         ;
         yield AssociationField::new('titles')->hideOnForm();
         yield AssociationField::new('projectPlatforms')->hideOnForm();
+        yield TextField::new('slug')->hideOnForm();
     }
 }

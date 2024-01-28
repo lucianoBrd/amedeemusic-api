@@ -528,7 +528,7 @@ class MailContentTemplateService
             $button = new Button();
             $button
                 ->setColor($mailContent->getColor())
-                ->setLink($this->params->get('app.client.url') . '/page/project/' . $project->getId())
+                ->setLink($this->params->get('app.client.url') . '/page/project/' . $project->getSlug())
                 ->setName($this->language->getListen())
             ;
             $mailContent->setPlaylistButton($button);
