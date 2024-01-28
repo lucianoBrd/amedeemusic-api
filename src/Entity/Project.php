@@ -6,6 +6,7 @@ use App\Entity\Data;
 use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProjectRepository;
 use ApiPlatform\Metadata\GetCollection;
@@ -57,6 +58,7 @@ class Project
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(['project:read', 'project:read:light', 'project:read:collection'])]
+    #[ApiProperty(identifier: false)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -83,6 +85,11 @@ class Project
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['project:read', 'project:read:collection'])]
     private ?Type $type = null;
+
+    #[ORM\Column(length: 350, unique: true)]
+    #[Groups(['project:read', 'project:read:light', 'project:read:collection'])]
+    #[ApiProperty(identifier: true)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -204,6 +211,18 @@ class Project
     public function setType(?Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
