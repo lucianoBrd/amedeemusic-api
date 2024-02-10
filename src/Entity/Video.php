@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\VideoRepository;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,6 +14,7 @@ use App\Controller\Api\GetLastVideoController;
 use App\Controller\Api\GetLastsVideoController;
 use App\Controller\Api\GetFilterVideoController;
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -47,7 +49,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         )
     ],
     order: ['id' => 'ASC'],
-    paginationEnabled: false
+    paginationEnabled: true,
+    paginationItemsPerPage: Data::PAGINATION_ITEMS_PER_PAGE
 )]
 class Video
 {

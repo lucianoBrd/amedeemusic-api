@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Data;
 use App\Entity\Video;
+use App\Service\SearchService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use ApiPlatform\Doctrine\Orm\Paginator as ApiPlatformPaginator;
@@ -19,7 +20,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class VideoRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private SearchService $searchService,
+    )
     {
         parent::__construct($registry, Video::class);
     }
@@ -45,7 +49,7 @@ class VideoRepository extends ServiceEntityRepository
     /**
      * @return Video[] Returns an array of Video objects
      */
-    public function findBySearch(string $local, ?string $search = '', ?int $page = 1, ?int $limit = Data::PAGINATION_ITEMS_PER_PAGE): ApiPlatformPaginator
+    public function findBySearch(?string $search = '', ?int $page = 1, ?int $limit = Data::PAGINATION_ITEMS_PER_PAGE): ApiPlatformPaginator
     {
         if ($search == null) {
             $search = '';
@@ -62,7 +66,6 @@ class VideoRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('v')
             ->leftJoin('v.videoDescriptions', 'vd')
-            ->leftJoin('vd.local', 'local')
         ;
 
         $searchWhere = '';
@@ -78,7 +81,6 @@ class VideoRepository extends ServiceEntityRepository
 
         $query
             ->andWhere($searchWhere)
-            ->andWhere('local.local = :localVal')
         ;
 
         foreach ($searchs as $key => $s) {
@@ -86,7 +88,6 @@ class VideoRepository extends ServiceEntityRepository
         }
 
         $query = $query
-            ->setParameter('localVal', $local)
             ->orderBy('v.id', 'DESC')
             ->getQuery()
             ->setFirstResult($firstResult)
