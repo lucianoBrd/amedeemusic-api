@@ -48,7 +48,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => 'video:read']
         )
     ],
-    order: ['id' => 'ASC'],
+    order: ['id' => 'DESC'],
     paginationEnabled: true,
     paginationItemsPerPage: Data::PAGINATION_ITEMS_PER_PAGE
 )]
