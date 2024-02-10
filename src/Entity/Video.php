@@ -7,21 +7,44 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\VideoRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\GetLastVideoController;
+use App\Controller\Api\GetLastsVideoController;
+use App\Controller\Api\GetFilterVideoController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(
-            name: 'lastVideo', 
-            uriTemplate: '/videos/last', 
-            controller: GetLastVideoController::class,
+        new GetCollection(
+            name: 'lastsVideo', 
+            uriTemplate: '/videos/lasts', 
+            controller: GetLastsVideoController::class,
             read: false,
             normalizationContext: ['groups' => 'video:read']
         ),
+        new GetCollection(
+            name: 'filterVideo', 
+            uriTemplate: '/videos/filter', 
+            controller: GetFilterVideoController::class,
+            read: false,
+            normalizationContext: ['groups' => 'video:read']
+        ),
+        new Get(
+            name: 'lastVideoLight', 
+            uriTemplate: '/videos/last/light', 
+            controller: GetLastVideoController::class,
+            read: false,
+            normalizationContext: ['groups' => 'video:read:light']
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => 'video:read']
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'video:read']
+        )
     ],
     order: ['id' => 'ASC'],
     paginationEnabled: false
@@ -31,23 +54,23 @@ class Video
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['video:read'])]
+    #[Groups(['video:read', 'video:read:light'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['video:read'])]
+    #[Groups(['video:read', 'video:read:light'])]
     private ?string $image = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['video:read'])]
+    #[Groups(['video:read', 'video:read:light'])]
     private ?string $link = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['video:read'])]
+    #[Groups(['video:read', 'video:read:light'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['video:read'])]
+    #[Groups(['video:read', 'video:read:light'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\OneToMany(mappedBy: 'video', targetEntity: VideoDescription::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
