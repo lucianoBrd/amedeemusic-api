@@ -2,14 +2,15 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Event;
+use App\Entity\Video;
+use App\Service\LocalGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[AsController]
-class GetFilterEventController extends AbstractController
+class GetFilterVideoController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -19,8 +20,8 @@ class GetFilterEventController extends AbstractController
     {
         $search = $request->query->get('search');
         $page = $request->query->get('page');
-        $events = $this->entityManager->getRepository(Event::class)->findBySearch($search, $page);
+        $videos = $this->entityManager->getRepository(Video::class)->findBySearch($search, $page);
 
-        return $events;
+        return $videos;
     }
 }

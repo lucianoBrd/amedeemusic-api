@@ -2,14 +2,15 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Event;
+use App\Entity\Data;
+use App\Entity\Video;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[AsController]
-class GetFilterEventController extends AbstractController
+class GetLastsVideoController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -17,10 +18,8 @@ class GetFilterEventController extends AbstractController
 
     public function __invoke(Request $request)
     {
-        $search = $request->query->get('search');
-        $page = $request->query->get('page');
-        $events = $this->entityManager->getRepository(Event::class)->findBySearch($search, $page);
+        $videos = $this->entityManager->getRepository(Video::class)->findBy([], ['id' => 'DESC'], Data::PAGINATION_ITEMS_PER_PAGE / 2);
 
-        return $events;
+        return $videos;
     }
 }
